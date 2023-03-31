@@ -1,13 +1,18 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import FetchTest from "./FetschTest";
+import { UserProvider } from "./UserContext";
 
 const App = () => {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<FetchTest />} />
-      </Routes>
+      {/* <GlobalStyles /> */}
+      {/* <Sidebar /> */}
+      <UserProvider>
+        <Routes>
+          <Route path="/" element={<FetchTest />} />
+        </Routes>
+      </UserProvider>
     </BrowserRouter>
   );
 };
