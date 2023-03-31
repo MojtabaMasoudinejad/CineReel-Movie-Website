@@ -10,22 +10,50 @@ const API_KEY = process.env.REACT_APP_API_KEY;
 export const UserContext = createContext(null);
 
 export const UserProvider = ({ children }) => {
-  const [data, setData] = useState(null);
-  console.log(data);
+  const [trendingDay, setTrendingDay] = useState(null);
+  const [trendingWeek, setTrendingWeek] = useState(null);
+  const [topRated, setTopRated] = useState(null);
+  const [popularPeople, setPopularPeople] = useState(null);
+
+  //   console.log("toprated", topRated);
+  //   console.log("PPeople", popularPeople);
+
   const SpinnerIcon = withBaseIcon({ size: 50 });
 
   useEffect(() => {
-    fetch(`https://api.themoviedb.org/3/trending/all/week?api_key=${API_KEY}`)
-      .then((res) => res.json())
-      .then((resData) => {
-        setData(resData.results);
-        // console.log(resData.results);
+    Promise.all([
+      fetch(
+        `https://api.themoviedb.org/3/trending/all/week?api_key=${API_KEY}`
+      ),
+      fetch(
+        `https://api.themoviedb.org/3/trending/all/week?api_key=${API_KEY}`
+      ),
+      fetch(
+        `https://api.themoviedb.org/3/movie/top_rated?api_key=${API_KEY}&language=en-US&page=1`
+      ),
+      fetch(
+        `https://api.themoviedb.org/3/person/popular?api_key=${API_KEY}&language=en-US&page=1`
+      ),
+    ])
+      .then(([response1, response2, response3, response4]) => {
+        return Promise.all([
+          response1.json(),
+          response2.json(),
+          response3.json(),
+          response4.json(),
+        ]);
+      })
+      .then(([data1, data2, data3, data4]) => {
+        setTrendingDay(data1.results);
+        setTrendingWeek(data2.results);
+        setTopRated(data3.results);
+        setPopularPeople(data4.results);
       })
       .catch((err) => {
         console.log("Error", err);
       });
   }, []);
-  if (!data) {
+  if (!trendingDay) {
     return (
       <div>
         <Spinner>
@@ -36,7 +64,10 @@ export const UserProvider = ({ children }) => {
   }
 
   const contextValue = {
-    data,
+    trendingDay,
+    trendingWeek,
+    topRated,
+    popularPeople,
   };
 
   return (

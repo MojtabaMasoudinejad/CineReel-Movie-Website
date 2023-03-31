@@ -4,14 +4,15 @@ import { useContext } from "react";
 import { UserContext } from "./UserContext";
 
 const HomePage = () => {
-  const { data } = useContext(UserContext);
+  const { trendingDay } = useContext(UserContext);
 
   return (
     <>
       <div>
-        {data.map((item, index) => {
+        Home Page
+        {/* {trendingDay.map((item, index) => {
           return <div key={index}>{item.title}</div>;
-        })}
+        })} */}
       </div>
     </>
   );
