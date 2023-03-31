@@ -1,16 +1,18 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import FetchTest from "./FetschTest";
 import { UserProvider } from "./UserContext";
+import GlobalStyles from "./GlobalStyles";
+
+import HomePage from "./HomePage";
 
 const App = () => {
   return (
     <BrowserRouter>
-      {/* <GlobalStyles /> */}
-      {/* <Sidebar /> */}
+      <GlobalStyles />
+      {/* <Header /> */}
       <UserProvider>
         <Routes>
-          <Route path="/" element={<FetchTest />} />
+          <Route path="/" element={<HomePage />} />
         </Routes>
       </UserProvider>
     </BrowserRouter>
