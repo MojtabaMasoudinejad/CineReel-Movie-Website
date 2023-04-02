@@ -7,7 +7,7 @@ const Header = () => {
   return (
     <MainDIv>
       <NavContainer>
-        <div>IMDB</div>
+        <StyledNav to={"/"}>IMDB </StyledNav>
         <StyledNav>All Movies</StyledNav>
         <StyledNav to={"/trending"}>Trending</StyledNav>
         <StyledNav to={"/top-rated"}>Top Rated</StyledNav>

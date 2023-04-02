@@ -1,20 +1,16 @@
-import { useContext, useState } from "react";
-import styled from "styled-components";
+import { useState, useContext } from "react";
 
-import { UserContext } from "../UserContext";
-// import SliderPoster from "./SliderPoster";
 import MovieCard from "./MovieCard";
+import { UserContext } from "../UserContext";
 
-const HomePage = () => {
+export const Trending = () => {
   const { trendingDay, trendingWeek } = useContext(UserContext);
 
   const [trDay, setTrDay] = useState(true);
   const [trWeek, setTrWeek] = useState(false);
 
   return (
-    <MainDiv>
-      {/* <SliderPoster /> */}
-
+    <div>
       <div>
         <button
           onClick={() => {
@@ -41,12 +37,8 @@ const HomePage = () => {
         trendingWeek.map((specificMovie, index) => {
           return <MovieCard key={index} specificMovie={specificMovie} />;
         })}
-    </MainDiv>
+    </div>
   );
 };
 
-export default HomePage;
-
-const MainDiv = styled.div`
-  margin: 20px 20px;
-`;
+export default Trending;

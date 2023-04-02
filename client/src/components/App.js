@@ -5,6 +5,7 @@ import GlobalStyles from "../GlobalStyles";
 
 import Header from "./Header";
 import HomePage from "./HomePage";
+import Trending from "./Trending";
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
       <UserProvider>
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/trending" element={<Trending />} />
         </Routes>
       </UserProvider>
     </BrowserRouter>
