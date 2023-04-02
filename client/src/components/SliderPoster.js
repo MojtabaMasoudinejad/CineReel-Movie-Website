@@ -6,9 +6,9 @@ import { UserContext } from "../UserContext";
 import { SlArrowRight, SlArrowLeft } from "react-icons/sl";
 
 const SliderPoster = () => {
-  const { trendingDay } = useContext(UserContext);
+  const { topRated } = useContext(UserContext);
   const [currentSlide, setCurrentSlide] = useState(0);
-  const slideLength = trendingDay.length;
+  const slideLength = topRated.length;
 
   const nextSlide = () => {
     setCurrentSlide(currentSlide === slideLength - 1 ? 0 : currentSlide + 1);
@@ -24,7 +24,7 @@ const SliderPoster = () => {
         <SlArrowLeft
           size={100}
           color="red"
-          onClick={(e) => prevSlide()}
+          onClick={() => prevSlide()}
           style={{
             cursor: "pointer",
             position: "absolute",
@@ -37,7 +37,7 @@ const SliderPoster = () => {
         <SlArrowRight
           size={100}
           color="red"
-          onClick={(e) => nextSlide()}
+          onClick={() => nextSlide()}
           style={{
             cursor: "pointer",
             position: "absolute",
@@ -47,7 +47,7 @@ const SliderPoster = () => {
             userSelect: "none",
           }}
         />
-        {trendingDay.map((item, index) => {
+        {topRated.map((item, index) => {
           return (
             <div key={index}>
               {index === currentSlide && (

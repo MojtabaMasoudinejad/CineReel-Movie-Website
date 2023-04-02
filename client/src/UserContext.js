@@ -22,9 +22,7 @@ export const UserProvider = ({ children }) => {
 
   useEffect(() => {
     Promise.all([
-      fetch(
-        `https://api.themoviedb.org/3/trending/all/week?api_key=${API_KEY}`
-      ),
+      fetch(`https://api.themoviedb.org/3/trending/all/day?api_key=${API_KEY}`),
       fetch(
         `https://api.themoviedb.org/3/trending/all/week?api_key=${API_KEY}`
       ),

@@ -8,7 +8,7 @@ const Header = () => {
     <MainDIv>
       <NavContainer>
         <div>IMDB</div>
-
+        <StyledNav>All Movies</StyledNav>
         <StyledNav to={"/trending"}>Trending</StyledNav>
         <StyledNav to={"/top-rated"}>Top Rated</StyledNav>
         <StyledNav to={"/people"}>People</StyledNav>
