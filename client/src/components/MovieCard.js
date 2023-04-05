@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 function MovieCard({ specificMovie }) {
   const [isLoading, setIsLoading] = useState(true);
@@ -21,38 +22,43 @@ function MovieCard({ specificMovie }) {
           </SkeletonTheme>
         </MainDiv>
       ) : (
-        <MainDiv>
-          <img
-            style={{ height: "300px" }}
-            src={`http://image.tmdb.org/t/p/w500${specificMovie.poster_path}`}
-            alt="Movie POster"
-          />
-          <DivMovie>
-            <CardTitle>
-              {specificMovie.title ? specificMovie.title : specificMovie.name}
-            </CardTitle>
-            <div
-              style={{
-                fontSize: "0.75rem",
-                marginBottom: "0.25rem",
-                color: "white",
-              }}
-            >
-              {specificMovie.release_date
-                ? specificMovie.release_date
-                : specificMovie.first_air_date}
-              <span style={{ float: "right", color: "white" }}>
-                {specificMovie ? specificMovie.vote_average : ""}
-                <i />
-              </span>
-            </div>
-            <CardDescription>
-              {specificMovie
-                ? specificMovie.overview.slice(0, 118) + "..."
-                : ""}
-            </CardDescription>
-          </DivMovie>
-        </MainDiv>
+        <Link
+          to={`/movie/${specificMovie.id}`}
+          style={{ textDecoration: "none", color: "white" }}
+        >
+          <MainDiv>
+            <img
+              style={{ height: "300px" }}
+              src={`http://image.tmdb.org/t/p/w500${specificMovie.poster_path}`}
+              alt="Movie POster"
+            />
+            <DivMovie>
+              <CardTitle>
+                {specificMovie.title ? specificMovie.title : specificMovie.name}
+              </CardTitle>
+              <div
+                style={{
+                  fontSize: "0.75rem",
+                  marginBottom: "0.25rem",
+                  color: "white",
+                }}
+              >
+                {specificMovie.release_date
+                  ? specificMovie.release_date
+                  : specificMovie.first_air_date}
+                <span style={{ float: "right", color: "white" }}>
+                  {specificMovie ? specificMovie.vote_average : ""}
+                  <i />
+                </span>
+              </div>
+              <CardDescription>
+                {specificMovie
+                  ? specificMovie.overview.slice(0, 118) + "..."
+                  : ""}
+              </CardDescription>
+            </DivMovie>
+          </MainDiv>
+        </Link>
       )}
     </>
   );

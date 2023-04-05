@@ -6,6 +6,7 @@ import GlobalStyles from "../GlobalStyles";
 import Header from "./Header";
 import HomePage from "./HomePage";
 import Trending from "./Trending";
+import MovieDetails from "./MovieDetails";
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/trending" element={<Trending />} />
+          <Route path="/movie/:movie_id" element={<MovieDetails />} />
         </Routes>
       </UserProvider>
     </BrowserRouter>

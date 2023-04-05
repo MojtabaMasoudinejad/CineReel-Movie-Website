@@ -3,6 +3,9 @@ import styled from "styled-components";
 import { FaUser } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 
+import LogInButton from "./LogInButton";
+import LogOutButton from "./LogOutButton";
+
 const Header = () => {
   return (
     <MainDIv>
@@ -15,6 +18,8 @@ const Header = () => {
       </NavContainer>
       <UserContainer>
         <FaUser size={35} />
+        <LogInButton />
+        <LogOutButton />
       </UserContainer>
     </MainDIv>
   );

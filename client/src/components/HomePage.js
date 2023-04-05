@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { UserContext } from "../UserContext";
 // import SliderPoster from "./SliderPoster";
 import MovieCard from "./MovieCard";
+import Profile from "./Profile";
 
 const HomePage = () => {
   const { trendingDay, trendingWeek } = useContext(UserContext);
@@ -13,9 +14,10 @@ const HomePage = () => {
 
   return (
     <MainDiv>
+      <Profile />
       {/* <SliderPoster /> */}
 
-      <div>
+      {/* <div>
         <button
           onClick={() => {
             setTrDay(true);
@@ -40,7 +42,7 @@ const HomePage = () => {
       {trWeek &&
         trendingWeek.map((specificMovie, index) => {
           return <MovieCard key={index} specificMovie={specificMovie} />;
-        })}
+        })} */}
     </MainDiv>
   );
 };
