@@ -12,15 +12,14 @@ const options = {
 // use this package to generate unique ids: https://www.npmjs.com/package/uuid
 const { v4: uuidv4 } = require("uuid");
 
-// returns an array of all companies
-const getCompanies = async (req, res) => {
+const addUserDataToMongoDb = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
   const companyNames = [];
   try {
     await client.connect();
-    const db = client.db("Ecommerce");
+    const db = client.db("Final_Project");
 
-    const result = await db.collection("companies").find().toArray();
+    const result = await db.collection("users").find().toArray();
 
     if (result) {
       result.forEach((item) => {
@@ -41,32 +40,24 @@ const getCompanies = async (req, res) => {
   client.close();
 };
 
-// returns an array of specific  company Items
-const getSpecificCompanyItems = async (req, res) => {
+// returns an array of all Comments
+const getComments = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
-  const { company } = req.params;
-
-  const specificCompanyitems = [];
+  const commentsList = [];
   try {
     await client.connect();
-    const db = client.db("Ecommerce");
-    const allCompanyNames = await db.collection("companies").find().toArray();
-    const allProductNames = await db.collection("products").find().toArray();
+    const db = client.db("Final_Project");
 
-    if (allCompanyNames && allProductNames) {
-      allCompanyNames.map((item) => {
-        if (item.name.toLowerCase() === company.toLowerCase()) {
-          allProductNames.map((product) => {
-            if (product.companyId === item._id) {
-              specificCompanyitems.push(product);
-            }
-          });
-          res.status(200).json({
-            status: 200,
-            data: specificCompanyitems,
-            message: "All The product for Specific Company",
-          });
-        }
+    const result = await db.collection("comments").find().toArray();
+
+    if (result) {
+      result.forEach((item) => {
+        commentsList.push(item);
+      });
+      res.status(200).json({
+        status: 200,
+        data: commentsList,
+        message: "All The Comments",
       });
     } else {
       res.status(404).json({ status: 404, data: "The Data Is Not Found" });
@@ -78,7 +69,113 @@ const getSpecificCompanyItems = async (req, res) => {
   client.close();
 };
 
+// Add Comment to MongoDB
+
+const addComments = async (req, res) => {
+  const comment = req.body;
+  const client = new MongoClient(MONGO_URI, options);
+
+  try {
+    await client.connect();
+    const db = client.db("Final_Project");
+
+    const newCommnetToCollection = await db.collection("comments").insertOne({
+      // _id: uuidv4(),
+      _id: comment._id,
+      body: comment.body,
+      filmId: comment.filmId,
+      parentId: comment.parentId,
+      userId: comment.userId,
+      username: comment.username,
+      createdAt: comment.createdAt,
+    });
+
+    if (newCommnetToCollection.acknowledged) {
+      res.status(200).json({
+        status: 200,
+        data: newCommnetToCollection,
+        message: "The New Comment is Added to Comments Collection",
+      });
+    } else {
+      res
+        .status(404)
+        .json({ status: 404, data: "The Comment is Not Added to Collection" });
+    }
+  } catch (err) {
+    console.log(err.stack);
+  }
+
+  client.close();
+};
+
+// deletes a specified Comment from Collection
+const deleteComment = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+
+  const { _id } = req.params;
+
+  console.log(_id);
+  try {
+    await client.connect();
+    const db = client.db("Final_Project");
+
+    const deleteItem = await db.collection("comments").deleteOne({ _id: _id });
+
+    if (deleteItem.acknowledged) {
+      res.status(200).json({
+        status: 200,
+        message: "The Comment Is Deleted Successfully",
+      });
+    } else {
+      res
+        .status(404)
+        .json({ status: 404, data: "The Operation Is Not Completed" });
+    }
+  } catch (err) {
+    console.log(err.stack);
+  }
+
+  client.close();
+};
+
+// Update The Commenst
+const updateComment = async (req, res) => {
+  const { updatedComment } = req.body;
+  const { _id } = req.params;
+  const client = new MongoClient(MONGO_URI, options);
+  try {
+    await client.connect();
+    const db = client.db("Final_Project");
+    const updateComment = await db.collection("comments").updateOne(
+      { _id: _id },
+      {
+        $set: {
+          body: updatedComment,
+        },
+      }
+    );
+
+    if (updateComment.acknowledged) {
+      res.status(200).json({
+        status: 200,
+        message: "The Comment is Updatad Successfully",
+      });
+    } else {
+      res.status(404).json({
+        status: 404,
+        data: "The Comment Update is Not Completed",
+      });
+    }
+  } catch (err) {
+    console.log(err.stack);
+  }
+
+  client.close();
+};
+
 module.exports = {
-  getCompanies,
-  getSpecificCompanyItems,
+  getComments,
+  addComments,
+  deleteComment,
+  updateComment,
 };

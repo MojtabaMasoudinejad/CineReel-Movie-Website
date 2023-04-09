@@ -3,8 +3,10 @@ import styled from "styled-components";
 
 import { UserContext } from "../UserContext";
 // import SliderPoster from "./SliderPoster";
+
 import MovieCard from "./MovieCard";
 import Profile from "./Profile";
+import Comments from "../Comments.js/Comments";
 
 const HomePage = () => {
   const { trendingDay, trendingWeek } = useContext(UserContext);
@@ -14,10 +16,11 @@ const HomePage = () => {
 
   return (
     <MainDiv>
-      <Profile />
+      {/* <Comments currentUserId="1" /> */}
+      {/* <Profile /> */}
       {/* <SliderPoster /> */}
 
-      {/* <div>
+      <div>
         <button
           onClick={() => {
             setTrDay(true);
@@ -42,7 +45,7 @@ const HomePage = () => {
       {trWeek &&
         trendingWeek.map((specificMovie, index) => {
           return <MovieCard key={index} specificMovie={specificMovie} />;
-        })} */}
+        })}
     </MainDiv>
   );
 };

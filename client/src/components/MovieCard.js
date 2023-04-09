@@ -79,7 +79,7 @@ const MainDiv = styled.div`
   z-index: 0;
   border: 1px solid rgb(99, 99, 99);
 
-  $:hover {
+  &:hover {
     transform: scale(1.2);
     z-index: 1000;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,

@@ -15,7 +15,7 @@ export const UserProvider = ({ children }) => {
   const [topRated, setTopRated] = useState(null);
   const [popularPeople, setPopularPeople] = useState(null);
 
-  console.log("trendingDay", trendingDay);
+  // console.log("trendingDay", trendingDay);
   //   console.log("PPeople", popularPeople);
 
   const SpinnerIcon = withBaseIcon({ size: 50 });
