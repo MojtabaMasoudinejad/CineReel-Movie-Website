@@ -1,43 +1,56 @@
-import styled, { keyframes } from "styled-components";
-import { useEffect, useState } from "react";
-
-import { withBaseIcon } from "react-icons-kit";
-import { spinner3 } from "react-icons-kit/icomoon/spinner3";
-
+import styled from "styled-components";
+import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 
-const API_KEY = process.env.REACT_APP_API_KEY;
+import { UserContext } from "../UserContext";
+
+// import { withBaseIcon } from "react-icons-kit";
+// import { spinner3 } from "react-icons-kit/icomoon/spinner3";
+import LoadingState from "./LoadingState";
+
+// const API_KEY = process.env.REACT_APP_API_KEY;
 
 const MovieDetails = () => {
+  const { trendingDay, trendingWeek, topRated } = useContext(UserContext);
+  console.log("trendingDay", trendingDay);
+
   const [currentMovieDetail, setCurrentMovieDetail] = useState();
   const { movie_id } = useParams();
 
-  console.log(currentMovieDetail);
-
-  const SpinnerIcon = withBaseIcon({ size: 50 });
-
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-    fetch(
-      `https://api.themoviedb.org/3/movie/${movie_id}?api_key=${API_KEY}&language=en-US`
-    )
-      .then((res) => res.json())
-      .then((resData) => {
-        setCurrentMovieDetail(resData);
-      })
-      .catch((err) => {
-        console.log("Error", err);
-      });
+
+    {
+      !currentMovieDetail &&
+        trendingDay.map((item) => {
+          if (item.id.toString() === movie_id) {
+            console.log(item);
+            setCurrentMovieDetail(item);
+          }
+        });
+    }
+    {
+      !currentMovieDetail &&
+        trendingWeek.map((item) => {
+          if (item.id.toString() === movie_id) {
+            console.log(item);
+            setCurrentMovieDetail(item);
+          }
+        });
+    }
+    {
+      !currentMovieDetail &&
+        topRated.map((item) => {
+          if (item.id.toString() === movie_id) {
+            console.log(item);
+            setCurrentMovieDetail(item);
+          }
+        });
+    }
   }, [movie_id]);
 
   if (!currentMovieDetail) {
-    return (
-      <div>
-        <Spinner>
-          <SpinnerIcon icon={spinner3} />
-        </Spinner>
-      </div>
-    );
+    return <LoadingState />;
   }
 
   return (
@@ -51,7 +64,7 @@ const MovieDetails = () => {
         <div style={{ marginRight: "30px" }}>
           <div className="movie__posterBox">
             <MoviePoster
-              src={`http://image.tmdb.org/t/p/w500${currentMovieDetail.backdrop_path}`}
+              src={`http://image.tmdb.org/t/p/w500${currentMovieDetail.poster_path}`}
             />
           </div>
         </div>
@@ -60,7 +73,7 @@ const MovieDetails = () => {
             <div style={{ fontWeight: "600", fontSize: "3rem" }}>
               {currentMovieDetail.original_title}
             </div>
-            <div className="movie__tagline">{currentMovieDetail.tagline}</div>
+            {/* <div className="movie__tagline">{currentMovieDetail.tagline}</div> */}
             <div className="movie__rating">
               {currentMovieDetail.vote_average}
               <i />
@@ -68,19 +81,19 @@ const MovieDetails = () => {
                 {"(" + currentMovieDetail.vote_count + ") votes"}
               </span>
             </div>
-            <div className="movie__runtime">
+            {/* <div className="movie__runtime">
               {currentMovieDetail.runtime + " mins"}
-            </div>
+            </div> */}
             <div className="movie__releaseDate">
               {"Release date: " + currentMovieDetail.release_date}
             </div>
-            <span style={{ margin: "1.25rem 0", display: "flex" }}>
+            {/* <span style={{ margin: "1.25rem 0", display: "flex" }}>
               {currentMovieDetail.genres.map((genre, index) => (
                 <div key={index}>
                   <MovieGenre id={genre.id}>{genre.name}</MovieGenre>
                 </div>
               ))}
-            </span>
+            </span> */}
           </MovieDetail>
           <div style={{ margin: "2rem 0", flex: "0.8" }}>
             <TextSynopsis>Synopsis</TextSynopsis>
@@ -104,7 +117,7 @@ const MovieDetails = () => {
           </a>
         )}
 
-        <a
+        {/* <a
           href={"https://www.imdb.com/title/" + currentMovieDetail.imdb_id}
           target="_blank"
           style={{ textDecoration: "none" }}
@@ -118,12 +131,12 @@ const MovieDetails = () => {
               ></i>
             </MovieButton>
           </p>
-        </a>
+        </a> */}
       </MovieLink>
       <div style={{ color: "white" }} className="movie__heading">
         Production companies
       </div>
-      <MovieProduction>
+      {/* <MovieProduction>
         {currentMovieDetail.production_companies.map((company, index) => (
           <div key={index}>
             {company.logo_path && (
@@ -140,31 +153,12 @@ const MovieDetails = () => {
             )}
           </div>
         ))}
-      </MovieProduction>
+      </MovieProduction> */}
     </MainDiv>
   );
 };
 
 export default MovieDetails;
-
-const SpinnerMove = keyframes`
-from{
-  transform: rotate(0deg)
-}
-to{
-transform:rotate(360deg)
-}
-`;
-
-const Spinner = styled.div`
-  width: 50px;
-  height: 50px;
-  animation: ${SpinnerMove} 1.5s linear infinite;
-  position: relative;
-  margin: 40vh auto;
-  color: #1e81b0;
-  scale: 1.2;
-`;
 
 const MainDiv = styled.div`
   width: 100%;

@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 import { UserContext } from "../UserContext";
 
@@ -59,10 +60,12 @@ const SliderPoster = () => {
                   }}
                 >
                   <div>{item.title ? item.title : item.name}</div>
-                  <ImgPosterSlyder
-                    src={`http://image.tmdb.org/t/p/w500${item.backdrop_path}`}
-                    alt="movie poster"
-                  />
+                  <Link to={`/movie/${item.id}`}>
+                    <ImgPosterSlyder
+                      src={`http://image.tmdb.org/t/p/w500${item.backdrop_path}`}
+                      alt="movie poster"
+                    />
+                  </Link>
                 </div>
               )}
             </div>

@@ -2,6 +2,7 @@ import React from "react";
 import styled, { keyframes } from "styled-components";
 
 import { spinner3 } from "react-icons-kit/icomoon/spinner3";
+import { withBaseIcon } from "react-icons-kit";
 
 const LoadingState = () => {
   const SpinnerIcon = withBaseIcon({ size: 50 });
