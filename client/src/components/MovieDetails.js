@@ -4,15 +4,15 @@ import { useParams } from "react-router-dom";
 
 import { UserContext } from "../UserContext";
 
-// import { withBaseIcon } from "react-icons-kit";
-// import { spinner3 } from "react-icons-kit/icomoon/spinner3";
 import LoadingState from "./LoadingState";
 
 // const API_KEY = process.env.REACT_APP_API_KEY;
 
 const MovieDetails = () => {
-  const { trendingDay, trendingWeek, topRated } = useContext(UserContext);
+  const { trendingDay, trendingWeek, topRated, genre } =
+    useContext(UserContext);
   console.log("trendingDay", trendingDay);
+  console.log("Genre:", genre);
 
   const [currentMovieDetail, setCurrentMovieDetail] = useState();
   const { movie_id } = useParams();
@@ -24,7 +24,7 @@ const MovieDetails = () => {
       !currentMovieDetail &&
         trendingDay.map((item) => {
           if (item.id.toString() === movie_id) {
-            console.log(item);
+            // console.log(item);
             setCurrentMovieDetail(item);
           }
         });
@@ -33,7 +33,7 @@ const MovieDetails = () => {
       !currentMovieDetail &&
         trendingWeek.map((item) => {
           if (item.id.toString() === movie_id) {
-            console.log(item);
+            // console.log(item);
             setCurrentMovieDetail(item);
           }
         });
@@ -42,7 +42,7 @@ const MovieDetails = () => {
       !currentMovieDetail &&
         topRated.map((item) => {
           if (item.id.toString() === movie_id) {
-            console.log(item);
+            // console.log(item);
             setCurrentMovieDetail(item);
           }
         });
@@ -55,7 +55,7 @@ const MovieDetails = () => {
 
   return (
     <MainDiv>
-      <div style={{ width: "80%" }}>
+      <div style={{ width: "95%" }}>
         <MovieBackdrop
           src={`http://image.tmdb.org/t/p/w500${currentMovieDetail.backdrop_path}`}
         />
@@ -69,13 +69,13 @@ const MovieDetails = () => {
           </div>
         </div>
         <MovieDataRight>
-          <MovieDetail className="movie__detailRightTop">
+          <MovieDetail>
             <div style={{ fontWeight: "600", fontSize: "3rem" }}>
               {currentMovieDetail.original_title}
             </div>
             {/* <div className="movie__tagline">{currentMovieDetail.tagline}</div> */}
-            <div className="movie__rating">
-              {currentMovieDetail.vote_average}
+            <div style={{ margin: "30px 0" }}>
+              IMDB: {currentMovieDetail.vote_average}
               <i />
               <span style={{ marginLeft: "1rem" }}>
                 {"(" + currentMovieDetail.vote_count + ") votes"}
@@ -84,19 +84,29 @@ const MovieDetails = () => {
             {/* <div className="movie__runtime">
               {currentMovieDetail.runtime + " mins"}
             </div> */}
-            <div className="movie__releaseDate">
+            <div style={{ margin: "30px 0" }}>
               {"Release date: " + currentMovieDetail.release_date}
             </div>
-            {/* <span style={{ margin: "1.25rem 0", display: "flex" }}>
-              {currentMovieDetail.genres.map((genre, index) => (
-                <div key={index}>
-                  <MovieGenre id={genre.id}>{genre.name}</MovieGenre>
-                </div>
-              ))}
-            </span> */}
+            <div style={{ margin: "1.25rem 0", display: "flex" }}>
+              {currentMovieDetail.genre_ids.map((item, index) => {
+                return (
+                  <div key={index}>
+                    {genre.map((genreItem) => {
+                      if (item === genreItem.id) {
+                        return (
+                          <div key={index}>
+                            <MovieGenre>{genreItem.name} </MovieGenre>
+                          </div>
+                        );
+                      }
+                    })}
+                  </div>
+                );
+              })}
+            </div>
           </MovieDetail>
           <div style={{ margin: "2rem 0", flex: "0.8" }}>
-            <TextSynopsis>Synopsis</TextSynopsis>
+            <TextSynopsis>Synopsis:</TextSynopsis>
             <div>{currentMovieDetail.overview}</div>
           </div>
         </MovieDataRight>
@@ -133,9 +143,9 @@ const MovieDetails = () => {
           </p>
         </a> */}
       </MovieLink>
-      <div style={{ color: "white" }} className="movie__heading">
+      {/* <div style={{ color: "white" }} className="movie__heading">
         Production companies
-      </div>
+      </div> */}
       {/* <MovieProduction>
         {currentMovieDetail.production_companies.map((company, index) => (
           <div key={index}>
@@ -166,7 +176,7 @@ const MainDiv = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: black;
+  /* background: black; */
 `;
 
 const MovieBackdrop = styled.img`
@@ -174,14 +184,16 @@ const MovieBackdrop = styled.img`
   height: 500px;
   object-fit: cover;
   object-position: 0 35%;
+  filter: brightness(0.3);
+  margin-top: 30px;
 `;
 
 const MovieData = styled.div`
   align-items: center;
-  width: 75%;
+  width: 85%;
   display: flex;
   position: relative;
-  bottom: 225px;
+  bottom: 480px;
 `;
 
 const MoviePoster = styled.img`
@@ -203,6 +215,8 @@ const MovieGenre = styled.span`
   border: 2px solid white;
   border-radius: 20px;
   margin-right: 1rem;
+  /* background-color: red; */
+  /* z-index: 10; */
 `;
 
 const TextSynopsis = styled.div`

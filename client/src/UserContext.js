@@ -15,11 +15,11 @@ export const UserProvider = ({ children }) => {
   const [trendingWeek, setTrendingWeek] = useState(null);
   const [topRated, setTopRated] = useState(null);
   const [popularPeople, setPopularPeople] = useState(null);
+  const [genre, setGenre] = useState(null);
 
   // console.log("trendingDay", trendingDay);
   //   console.log("PPeople", popularPeople);
-
-  // const SpinnerIcon = withBaseIcon({ size: 50 });
+  // console.log("Genre:", genre);
 
   useEffect(() => {
     Promise.all([
@@ -33,20 +33,25 @@ export const UserProvider = ({ children }) => {
       fetch(
         `https://api.themoviedb.org/3/person/popular?api_key=${API_KEY}&language=en-US&page=1`
       ),
+      fetch(
+        `https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}&language=en-US`
+      ),
     ])
-      .then(([response1, response2, response3, response4]) => {
+      .then(([response1, response2, response3, response4, response5]) => {
         return Promise.all([
           response1.json(),
           response2.json(),
           response3.json(),
           response4.json(),
+          response5.json(),
         ]);
       })
-      .then(([data1, data2, data3, data4]) => {
+      .then(([data1, data2, data3, data4, data5]) => {
         setTrendingDay(data1.results);
         setTrendingWeek(data2.results);
         setTopRated(data3.results);
         setPopularPeople(data4.results);
+        setGenre(data5.genres);
       })
       .catch((err) => {
         console.log("Error", err);
@@ -61,28 +66,10 @@ export const UserProvider = ({ children }) => {
     trendingWeek,
     topRated,
     popularPeople,
+    genre,
   };
 
   return (
     <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>
   );
 };
-
-// const SpinnerMove = keyframes`
-// from{
-//   transform: rotate(0deg)
-// }
-// to{
-// transform:rotate(360deg)
-// }
-// `;
-
-// const Spinner = styled.div`
-//   width: 50px;
-//   height: 50px;
-//   animation: ${SpinnerMove} 0.8s linear infinite;
-//   position: relative;
-//   margin: 40vh auto;
-//   color: #1e81b0;
-//   scale: 1.2;
-// `;

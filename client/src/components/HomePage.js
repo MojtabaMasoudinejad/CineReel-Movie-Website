@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import styled from "styled-components";
 
 import { UserContext } from "../UserContext";
-import SliderPoster from "./SliderPoster";
+// import SliderPoster from "./SliderPoster";
 
 import MovieCard from "./MovieCard";
 // import Profile from "./Profile";
@@ -19,9 +19,9 @@ const HomePage = () => {
     <MainDiv>
       {/* <Comments currentUserId="1" /> */}
       {/* <Profile /> */}
-      <DivSlidePoster>
+      {/* <DivSlidePoster>
         <SliderPoster />
-      </DivSlidePoster>
+      </DivSlidePoster> */}
 
       <ButtonBox style={{ marginTop: "20px" }}>
         <BtnDiv style={{ left: leftActive ? "0" : "110px" }}></BtnDiv>
