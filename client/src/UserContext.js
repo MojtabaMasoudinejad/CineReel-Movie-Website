@@ -1,9 +1,10 @@
 import { createContext, useState } from "react";
 import { useEffect } from "react";
-import styled, { keyframes } from "styled-components";
+// import styled, { keyframes } from "styled-components";
 
-import { spinner3 } from "react-icons-kit/icomoon/spinner3";
-import { withBaseIcon } from "react-icons-kit";
+import LoadingState from "./components/LoadingState";
+// import { spinner3 } from "react-icons-kit/icomoon/spinner3";
+// import { withBaseIcon } from "react-icons-kit";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
@@ -18,7 +19,7 @@ export const UserProvider = ({ children }) => {
   // console.log("trendingDay", trendingDay);
   //   console.log("PPeople", popularPeople);
 
-  const SpinnerIcon = withBaseIcon({ size: 50 });
+  // const SpinnerIcon = withBaseIcon({ size: 50 });
 
   useEffect(() => {
     Promise.all([
@@ -52,13 +53,7 @@ export const UserProvider = ({ children }) => {
       });
   }, []);
   if (!trendingDay) {
-    return (
-      <div>
-        <Spinner>
-          <SpinnerIcon icon={spinner3} />
-        </Spinner>
-      </div>
-    );
+    return <LoadingState />;
   }
 
   const contextValue = {
@@ -73,21 +68,21 @@ export const UserProvider = ({ children }) => {
   );
 };
 
-const SpinnerMove = keyframes`
-from{
-  transform: rotate(0deg)
-}
-to{
-transform:rotate(360deg)
-}
-`;
+// const SpinnerMove = keyframes`
+// from{
+//   transform: rotate(0deg)
+// }
+// to{
+// transform:rotate(360deg)
+// }
+// `;
 
-const Spinner = styled.div`
-  width: 50px;
-  height: 50px;
-  animation: ${SpinnerMove} 0.8s linear infinite;
-  position: relative;
-  margin: 40vh auto;
-  color: #1e81b0;
-  scale: 1.2;
-`;
+// const Spinner = styled.div`
+//   width: 50px;
+//   height: 50px;
+//   animation: ${SpinnerMove} 0.8s linear infinite;
+//   position: relative;
+//   margin: 40vh auto;
+//   color: #1e81b0;
+//   scale: 1.2;
+// `;

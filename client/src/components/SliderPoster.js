@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
@@ -19,17 +19,26 @@ const SliderPoster = () => {
     setCurrentSlide(currentSlide === 0 ? slideLength - 1 : currentSlide - 1);
   };
 
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     setCurrentSlide(currentSlide === slideLength - 1 ? 0 : currentSlide + 1);
+  //   }, 2500);
+  //   return () => clearTimeout(timer);
+  // }, [currentSlide]);
+
   return (
     <MainDiv>
       <Slider>
         <SlArrowLeft
-          size={100}
-          color="red"
+          size="100"
+          onMouseOver={({ target }) => (target.style.color = "#2d3436")}
+          onMouseOut={({ target }) => (target.style.color = "#b2bec3")}
+          color="#b2bec3"
           onClick={() => prevSlide()}
           style={{
             cursor: "pointer",
             position: "absolute",
-            top: "50%",
+            top: "40%",
             left: "32px",
             zIndex: "10",
             userSelect: "none",
@@ -37,12 +46,14 @@ const SliderPoster = () => {
         />
         <SlArrowRight
           size={100}
-          color="red"
+          onMouseOver={({ target }) => (target.style.color = "#2d3436")}
+          onMouseOut={({ target }) => (target.style.color = "#b2bec3")}
+          color="#b2bec3"
           onClick={() => nextSlide()}
           style={{
             cursor: "pointer",
             position: "absolute",
-            top: "50%",
+            top: "40%",
             right: "32px",
             zIndex: "10",
             userSelect: "none",
@@ -59,7 +70,7 @@ const SliderPoster = () => {
                     transform: "scale(1.08)",
                   }}
                 >
-                  <div>{item.title ? item.title : item.name}</div>
+                  {/* <div>{item.title ? item.title : item.name}</div> */}
                   <Link to={`/movie/${item.id}`}>
                     <ImgPosterSlyder
                       src={`http://image.tmdb.org/t/p/w500${item.backdrop_path}`}
@@ -80,18 +91,20 @@ export default SliderPoster;
 
 const MainDiv = styled.div`
   margin: 20px 20px;
+  /* height: 700px; */
 `;
 
 const Slider = styled.div`
   position: relative;
-  height: 100vh;
+  /* height: 100vh; */
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 
 const ImgPosterSlyder = styled.img`
-  width: 1000px;
-  height: 600px;
+  width: 60vw;
+  /* height: 300; */
   border-radius: 10px;
+  margin: 20px 0;
 `;
