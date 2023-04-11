@@ -6,16 +6,34 @@ import { UserContext } from "../UserContext";
 
 import LoadingState from "./LoadingState";
 
-// const API_KEY = process.env.REACT_APP_API_KEY;
+const API_KEY = process.env.REACT_APP_API_KEY;
 
 const MovieDetails = () => {
   const { trendingDay, trendingWeek, topRated, genre } =
     useContext(UserContext);
   console.log("trendingDay", trendingDay);
-  console.log("Genre:", genre);
+  // console.log("Genre:", genre);
 
   const [currentMovieDetail, setCurrentMovieDetail] = useState();
+  const [video, setVideo] = useState(null);
   const { movie_id } = useParams();
+
+  // useEffect(() => {
+  //   fetch(
+  //     `https://api.themoviedb.org/3/movie/${movie_id}/videos?api_key=${API_KEY}&language=en-US`
+  //   )
+  //     .then((res) =>
+  //       res.json()
+  //     )
+  //     .then((data) => {
+  //       console.log(data);
+  //       setVideo(data);
+  //     });
+  // }, [movie_id]);
+
+  // if (!video) {
+  //   return <LoadingState />;
+  // }
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
@@ -47,9 +65,22 @@ const MovieDetails = () => {
           }
         });
     }
+
+    fetch(
+      `https://api.themoviedb.org/3/movie/${movie_id}/videos?api_key=${API_KEY}&language=en-US`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("video", data.results);
+        setVideo(data.results);
+      });
   }, [movie_id]);
 
   if (!currentMovieDetail) {
+    return <LoadingState />;
+  }
+
+  if (!video) {
     return <LoadingState />;
   }
 
@@ -73,7 +104,6 @@ const MovieDetails = () => {
             <div style={{ fontWeight: "600", fontSize: "3rem" }}>
               {currentMovieDetail.original_title}
             </div>
-            {/* <div className="movie__tagline">{currentMovieDetail.tagline}</div> */}
             <div style={{ margin: "30px 0" }}>
               IMDB: {currentMovieDetail.vote_average}
               <i />
@@ -81,9 +111,7 @@ const MovieDetails = () => {
                 {"(" + currentMovieDetail.vote_count + ") votes"}
               </span>
             </div>
-            {/* <div className="movie__runtime">
-              {currentMovieDetail.runtime + " mins"}
-            </div> */}
+
             <div style={{ margin: "30px 0" }}>
               {"Release date: " + currentMovieDetail.release_date}
             </div>
@@ -111,59 +139,15 @@ const MovieDetails = () => {
           </div>
         </MovieDataRight>
       </MovieData>
-      <MovieLink>
-        <div style={{ fontSize: "2.2rem", color: "white" }}>Useful Links</div>
-        {currentMovieDetail.homepage && (
-          <a
-            href={currentMovieDetail.homepage}
-            target="_blank"
-            style={{ textDecoration: "none" }}
-          >
-            <p>
-              <MovieButton style={{ backgroundColor: "rgb(255, 0, 0)" }}>
-                Homepage <i className="newTab fas fa-external-link-alt"></i>
-              </MovieButton>
-            </p>
-          </a>
-        )}
-
-        {/* <a
-          href={"https://www.imdb.com/title/" + currentMovieDetail.imdb_id}
-          target="_blank"
-          style={{ textDecoration: "none" }}
-        >
-          <p>
-            <MovieButton style={{ backgroundColor: "#f3ce13" }}>
-              IMDb
-              <i
-                style={{ marginLeft: "1.4rem" }}
-                className=" fas fa-external-link-alt"
-              ></i>
-            </MovieButton>
-          </p>
-        </a> */}
-      </MovieLink>
-      {/* <div style={{ color: "white" }} className="movie__heading">
-        Production companies
-      </div> */}
-      {/* <MovieProduction>
-        {currentMovieDetail.production_companies.map((company, index) => (
-          <div key={index}>
-            {company.logo_path && (
-              <ProductionCompany>
-                <img
-                  style={{ width: "200px", margin: "2rem" }}
-                  src={
-                    "https://image.tmdb.org/t/p/original" + company.logo_path
-                  }
-                  alt="Company Logo"
-                />
-                <span>{company.name}</span>
-              </ProductionCompany>
-            )}
-          </div>
-        ))}
-      </MovieProduction> */}
+      <div>
+        {video.map((item, index) => {
+          return (
+            <video key={index}>
+              <source src={` https://www.youtube.com/watch?v=${item.key}`} />
+            </video>
+          );
+        })}
+      </div>
     </MainDiv>
   );
 };

@@ -54,6 +54,7 @@ const Comments = ({ currentUserId, filmId }) => {
     });
   };
 
+  // Update the Comments
   const updateComment = (text, commentId) => {
     console.log("text", text);
     console.log("commentID:", commentId);
@@ -69,6 +70,8 @@ const Comments = ({ currentUserId, filmId }) => {
       .then((res) => res.json())
       .then((data) => {
         if (data.status === 200) {
+          setBackendComments(backendComments);
+          setActiveComment(null);
           console.log("The Comment is Updatad Successfully");
         } else {
           console.log("Unknown error has occured. Please try again.");
@@ -78,6 +81,8 @@ const Comments = ({ currentUserId, filmId }) => {
         console.log("Error: ", e);
       });
   };
+
+  //Delete the Comments
   const deleteComment = (commentId) => {
     if (window.confirm("Are you sure you want to remove comment?")) {
       backendComments.map((item) => {

@@ -2,11 +2,11 @@ import { useContext, useState } from "react";
 import styled from "styled-components";
 
 import { UserContext } from "../UserContext";
-// import SliderPoster from "./SliderPoster";
+import SliderPoster from "./SliderPoster";
 
-import MovieCard from "./MovieCard";
+// import MovieCard from "./MovieCard";
 // import Profile from "./Profile";
-// import Comments from "../Comments.js/Comments";
+import Comments from "../Comments.js/Comments";
 
 const HomePage = () => {
   const { trendingDay, trendingWeek } = useContext(UserContext);
@@ -17,11 +17,11 @@ const HomePage = () => {
 
   return (
     <MainDiv>
-      {/* <Comments currentUserId="1" /> */}
+      <Comments currentUserId="1" />
       {/* <Profile /> */}
       {/* <DivSlidePoster>
         <SliderPoster />
-      </DivSlidePoster> */}
+      </DivSlidePoster>
 
       <ButtonBox style={{ marginTop: "20px" }}>
         <BtnDiv style={{ left: leftActive ? "0" : "110px" }}></BtnDiv>
@@ -51,7 +51,7 @@ const HomePage = () => {
       {trWeek &&
         trendingWeek.map((specificMovie, index) => {
           return <MovieCard key={index} specificMovie={specificMovie} />;
-        })}
+        })} */}
     </MainDiv>
   );
 };
