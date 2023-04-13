@@ -1,10 +1,8 @@
 import { createContext, useState } from "react";
 import { useEffect } from "react";
-// import styled, { keyframes } from "styled-components";
+import { useAuth0 } from "@auth0/auth0-react";
 
 import LoadingState from "./components/LoadingState";
-// import { spinner3 } from "react-icons-kit/icomoon/spinner3";
-// import { withBaseIcon } from "react-icons-kit";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
@@ -16,6 +14,8 @@ export const UserProvider = ({ children }) => {
   const [topRated, setTopRated] = useState(null);
   const [popularPeople, setPopularPeople] = useState(null);
   const [genre, setGenre] = useState(null);
+  // const [user, setUser] = useState();
+  const { user, isAuthenticated } = useAuth0();
 
   // console.log("trendingDay", trendingDay);
   //   console.log("PPeople", popularPeople);
@@ -67,6 +67,8 @@ export const UserProvider = ({ children }) => {
     topRated,
     popularPeople,
     genre,
+    user,
+    isAuthenticated,
   };
 
   return (

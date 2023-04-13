@@ -8,16 +8,17 @@ const createCommentApi = async (text, parentId = null) => {
     _id: Math.random().toString(36),
     body: text,
     parentId,
-    filmId: 1,
+    filmId: "filmId", // this should Be dynamically changed
     userId: "1", // this should Be dynamically changed
     username: "John", //this should Be dynamically changed
     createdAt: new Date().toISOString(),
   };
 };
 
-const Comments = ({ currentUserId, filmId }) => {
+const Comments = ({ currentUserId }) => {
   const [backendComments, setBackendComments] = useState([]);
   const [activeComment, setActiveComment] = useState(null);
+
   const rootComments = backendComments.filter(
     (backendComment) => backendComment.parentId === null
   );
@@ -28,8 +29,8 @@ const Comments = ({ currentUserId, filmId }) => {
         (a, b) =>
           new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
       );
-  const addComment = (text, parentId) => {
-    createCommentApi(text, parentId).then((comment) => {
+  const addComment = (text, parentId, filmId) => {
+    createCommentApi(text, parentId, filmId).then((comment) => {
       // add Comment to CommentsCollection
       fetch("/api/add-comments", {
         method: "POST",
@@ -139,6 +140,7 @@ const Comments = ({ currentUserId, filmId }) => {
             deleteComment={deleteComment}
             updateComment={updateComment}
             currentUserId={currentUserId}
+            // currentFilmId={currentFilmId}
           />
         ))}
       </CommentsContainer>

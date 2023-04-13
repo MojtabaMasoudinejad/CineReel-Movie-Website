@@ -29,7 +29,6 @@ const Comment = ({
   const canEdit = currentUserId === comment.userId && !timePassed;
   const replyId = parentId ? parentId : comment._id;
   const createdAt = new Date(comment.createdAt).toLocaleDateString();
-
   return (
     <div key={comment._id} style={{ display: "flex", marginBottom: "28px" }}>
       <div style={{ marginRight: "12px" }}>

@@ -4,7 +4,7 @@ import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
-function MovieCard({ specificMovie }) {
+const MovieCard = ({ specificMovie }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -62,7 +62,7 @@ function MovieCard({ specificMovie }) {
       )}
     </>
   );
-}
+};
 
 export default MovieCard;
 
