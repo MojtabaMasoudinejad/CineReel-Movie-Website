@@ -19,9 +19,9 @@ const HomePage = () => {
     <MainDiv>
       {/* <Comments currentUserId="1" /> */}
       {/* <Profile /> */}
-      {/* <DivSlidePoster>
+      <DivSlidePoster>
         <SliderPoster />
-      </DivSlidePoster> */}
+      </DivSlidePoster>
 
       <ButtonBox style={{ marginTop: "20px" }}>
         <BtnDiv style={{ left: leftActive ? "0" : "110px" }}></BtnDiv>

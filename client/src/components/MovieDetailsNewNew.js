@@ -6,78 +6,98 @@ import { UserContext } from "../UserContext";
 
 import LoadingState from "./LoadingState";
 import CommentsNew from "../Comments/CommentsNew";
+import MovieCard from "./MovieCard";
+
+import { BsBookmark } from "react-icons/bs";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
 const MovieDetailsNewNew = () => {
-  const { trendingDay, trendingWeek, topRated, genre, user, isAuthenticated } =
+  const { trendingDay, trendingWeek, topRated, genre } =
     useContext(UserContext);
-  // console.log(user);
-
-  //   console.log("trendingDay", trendingDay);
 
   const [currentMovieDetail, setCurrentMovieDetail] = useState();
-  const [video, setVideo] = useState(null);
+  // const [video, setVideo] = useState(null);
+  const [recommendedMovies, setrecommendedMovies] = useState();
   const { movie_id } = useParams();
+  console.log(movie_id);
 
-  // Fetch video for specific Movie
-  const fetchVideo = async () => {
+  const fetchData = async () => {
     const response = await fetch(
-      `https://api.themoviedb.org/3/movie/${movie_id}/videos?api_key=${API_KEY}&language=en-US`
+      `https://api.themoviedb.org/3/movie/${movie_id}?api_key=${API_KEY}&language=en-US`
+    );
+    const jsonData = await response.json();
+    // console.log("jsonData", jsonData);
+    // console.log(jsonData.status !== "Released");
+    if (jsonData.status !== "Released") {
+      const response2 = await fetch(
+        `https://api.themoviedb.org/3/tv/${movie_id}?api_key=${API_KEY}&language=en-US`
+      );
+      const jsonData2 = await response2.json();
+      // console.log("jsonData2", jsonData2);
+      setCurrentMovieDetail(jsonData2);
+    } else {
+      setCurrentMovieDetail(jsonData);
+    }
+  };
+
+  //ّFetch Recommended Movies
+  const fetchRecommendedMovies = async () => {
+    const response = await fetch(
+      `https://api.themoviedb.org/3/movie/${movie_id}/recommendations?api_key=${API_KEY}&language=en-US&page=1`
     );
     const jsonData = await response.json();
 
-    setVideo(jsonData.results);
+    setrecommendedMovies(jsonData.results);
+    // console.log(jsonData.results);
   };
 
   useEffect(() => {
-    // window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
 
-    {
-      !currentMovieDetail &&
-        trendingDay.map((item) => {
-          if (item.id.toString() === movie_id) {
-            // console.log(item);
-            setCurrentMovieDetail(item);
-          }
-        });
-    }
-    {
-      !currentMovieDetail &&
-        trendingWeek.map((item) => {
-          if (item.id.toString() === movie_id) {
-            // console.log(item);
-            setCurrentMovieDetail(item);
-          }
-        });
-    }
-    {
-      !currentMovieDetail &&
-        topRated.map((item) => {
-          if (item.id.toString() === movie_id) {
-            // console.log(item);
-            setCurrentMovieDetail(item);
-          }
-        });
-    }
-
-    fetchVideo();
+    fetchData();
+    fetchRecommendedMovies();
   }, [movie_id]);
+
+  useEffect(() => {}, []);
+
+  console.log(currentMovieDetail);
 
   if (!currentMovieDetail) {
     return <LoadingState />;
   }
 
-  if (!video) {
-    return <LoadingState />;
+  // if (!video) {
+  //   return <LoadingState />;
+  // }
+
+  // if (!recommendedMovies) {
+  //   return <LoadingState />;
+  // }
+
+  if (!currentMovieDetail.backdrop_path && !currentMovieDetail.poster_path) {
+    window.alert("The Movie is not found in Data Base");
   }
 
   return (
+    // {currentMovieDetail.success && }
     <MainDiv>
-      {/* <div style={{ width: "95%" }}>
-        <MovieBackdrop
+      <div style={{ width: "95%" }}>
+        {currentMovieDetail.backdrop_path && (
+          <MovieBackdrop
+            src={`http://image.tmdb.org/t/p/w500${currentMovieDetail.backdrop_path}`}
+          />
+        )}
+
+        {!currentMovieDetail.backdrop_path && (
+          <MovieBackdrop
+            src={`http://image.tmdb.org/t/p/w500${currentMovieDetail.poster_path}`}
+          />
+        )}
+
+        {/* <MovieBackdrop
           src={`http://image.tmdb.org/t/p/w500${currentMovieDetail.backdrop_path}`}
-        />
+        /> */}
       </div>
       <MovieData>
         <div style={{ marginRight: "30px" }}>
@@ -90,7 +110,10 @@ const MovieDetailsNewNew = () => {
         <MovieDataRight>
           <MovieDetail>
             <div style={{ fontWeight: "600", fontSize: "3rem" }}>
-              {currentMovieDetail.original_title}
+              {currentMovieDetail.original_title &&
+                currentMovieDetail.original_title}
+              {currentMovieDetail.original_name &&
+                currentMovieDetail.original_name}
             </div>
             <div style={{ margin: "30px 0" }}>
               IMDB: {currentMovieDetail.vote_average}
@@ -100,25 +123,36 @@ const MovieDetailsNewNew = () => {
               </span>
             </div>
 
-            <div style={{ margin: "30px 0" }}>
-              {"Release date: " + currentMovieDetail.release_date}
-            </div>
+            {currentMovieDetail.release_date && (
+              <div style={{ margin: "30px 0" }}>
+                {"Release date: " + currentMovieDetail.release_date}
+              </div>
+            )}
             <div style={{ margin: "1.25rem 0", display: "flex" }}>
-              {currentMovieDetail.genre_ids.map((item, index) => {
-                return (
-                  <div key={index}>
-                    {genre.map((genreItem) => {
-                      if (item === genreItem.id) {
-                        return (
-                          <div key={index}>
-                            <MovieGenre>{genreItem.name} </MovieGenre>
-                          </div>
-                        );
-                      }
-                    })}
-                  </div>
-                );
-              })}
+              {currentMovieDetail.genres &&
+                currentMovieDetail.genres.map((item, index) => {
+                  return (
+                    <div key={index}>
+                      <MovieGenre>{item.name} </MovieGenre>
+                    </div>
+                  );
+                })}
+              {currentMovieDetail.genre_ids &&
+                currentMovieDetail.genre_ids.map((item, index) => {
+                  return (
+                    <div key={index}>
+                      {genre.map((genreItem) => {
+                        if (item === genreItem.id) {
+                          return (
+                            <div key={index}>
+                              <MovieGenre>{genreItem.name} </MovieGenre>
+                            </div>
+                          );
+                        }
+                      })}
+                    </div>
+                  );
+                })}
             </div>
           </MovieDetail>
           <div style={{ margin: "2rem 0", flex: "0.8" }}>
@@ -126,9 +160,7 @@ const MovieDetailsNewNew = () => {
             <div>{currentMovieDetail.overview}</div>
           </div>
         </MovieDataRight>
-      </MovieData> */}
-      <>hello</>
-
+      </MovieData>
       {/* <div>
         {video.map((item, index) => {
           return (
@@ -138,6 +170,18 @@ const MovieDetailsNewNew = () => {
           );
         })}
       </div> */}
+      {recommendedMovies && (
+        <div>
+          <h2>Recommended Movies</h2>
+          {recommendedMovies &&
+            recommendedMovies.slice(0, 4).map((item, index) => {
+              if (item.poster_path !== undefined) {
+                return <MovieCard key={index} specificMovie={item} />;
+              }
+            })}
+        </div>
+      )}
+
       <CommentsDiv>
         <CommentsNew movie_id={movie_id} />
       </CommentsDiv>
@@ -153,7 +197,6 @@ const MainDiv = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* background: black; */
 `;
 
 const MovieBackdrop = styled.img`
@@ -169,8 +212,8 @@ const MovieData = styled.div`
   align-items: center;
   width: 85%;
   display: flex;
-  position: relative;
-  bottom: 480px;
+  position: absolute;
+  top: 50px;
 `;
 
 const MoviePoster = styled.img`

@@ -14,10 +14,9 @@ export const UserProvider = ({ children }) => {
   const [topRated, setTopRated] = useState(null);
   const [popularPeople, setPopularPeople] = useState(null);
   const [genre, setGenre] = useState(null);
-  // const [user, setUser] = useState();
   const { user, isAuthenticated } = useAuth0();
 
-  // console.log("trendingDay", trendingDay);
+  // console.log("trendingDayUseContex", trendingDay);
   //   console.log("PPeople", popularPeople);
   // console.log("Genre:", genre);
 
