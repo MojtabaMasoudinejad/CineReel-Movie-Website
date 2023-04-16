@@ -13,8 +13,15 @@ import { FaBookmark, FaRegHeart } from "react-icons/fa";
 const API_KEY = process.env.REACT_APP_API_KEY;
 
 const MovieDetailsNewNew = () => {
-  const { trendingDay, trendingWeek, topRated, genre, user, usersMongoDb } =
-    useContext(UserContext);
+  const {
+    trendingDay,
+    trendingWeek,
+    topRated,
+    genre,
+    user,
+    usersMongoDb,
+    userContextData,
+  } = useContext(UserContext);
   const { movie_id } = useParams();
 
   const [currentMovieDetail, setCurrentMovieDetail] = useState();
@@ -27,9 +34,13 @@ const MovieDetailsNewNew = () => {
     console.log(usersMongoDb);
     usersMongoDb.forEach((item) => {
       if (item.email && user) {
+        console.log("11");
         if (item.email === user.email) {
+          console.log("22");
+          console.log(item.watchList);
           if (item.watchList) {
             if (item.watchList.includes(movie_id)) {
+              console.log("33");
               setAddedWatchList(true);
             } else {
               setAddedWatchList(false);
@@ -80,6 +91,7 @@ const MovieDetailsNewNew = () => {
 
   // Add specific Movie to WatchList
   const addToWatchListHandler = () => {
+    //
     if (!addedWatchList) {
       setAddedWatchList(true);
     } else {
@@ -99,6 +111,8 @@ const MovieDetailsNewNew = () => {
         .then((data) => {
           if (data.status === 200) {
             setAddedWatchList(true);
+            ///Fetch user Info again
+            userContextData();
           } else {
             console.log("Unknown error has occured. Please try again.");
           }
@@ -119,6 +133,7 @@ const MovieDetailsNewNew = () => {
         .then((data) => {
           if (data.status === 200) {
             setAddedWatchList(false);
+            userContextData();
           } else {
             console.log("Unknown error has occured. Please try again.");
           }
@@ -150,6 +165,8 @@ const MovieDetailsNewNew = () => {
         .then((data) => {
           if (data.status === 200) {
             setLiked(true);
+            ///Fetch user Info again
+            userContextData();
           } else {
             console.log("Unknown error has occured. Please try again.");
           }
@@ -170,6 +187,7 @@ const MovieDetailsNewNew = () => {
         .then((data) => {
           if (data.status === 200) {
             setLiked(false);
+            userContextData();
           } else {
             console.log("Unknown error has occured. Please try again.");
           }

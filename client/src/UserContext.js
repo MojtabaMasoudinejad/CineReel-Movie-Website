@@ -22,10 +22,10 @@ export const UserProvider = ({ children }) => {
   // console.log("Genre:", genre);
 
   // console.log("userMongoDb", usersMongoDb);
-  console.log("userAuth0", user);
+  // console.log("userAuth0", user);
   // console.log("userWatchList", userWatchList);
 
-  useEffect(() => {
+  const userContextData = () => {
     Promise.all([
       fetch(`https://api.themoviedb.org/3/trending/all/day?api_key=${API_KEY}`),
       fetch(
@@ -73,6 +73,10 @@ export const UserProvider = ({ children }) => {
       .catch((err) => {
         console.log("Error", err);
       });
+  };
+
+  useEffect(() => {
+    userContextData();
   }, []);
   if (!trendingDay) {
     return <LoadingState />;
@@ -92,6 +96,7 @@ export const UserProvider = ({ children }) => {
     isAuthenticated,
     usersMongoDb,
     setUsersMongoDb,
+    userContextData,
   };
 
   return (
