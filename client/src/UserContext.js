@@ -16,15 +16,13 @@ export const UserProvider = ({ children }) => {
   const [genre, setGenre] = useState(null);
   const { user, isAuthenticated } = useAuth0();
   const [usersMongoDb, setUsersMongoDb] = useState();
-  const [userWatchList, setUserWatchList] = useState();
-  const [onlineUser, setOnlineUser] = useState();
 
   // console.log("trendingDayUseContex", trendingDay);
   //   console.log("PPeople", popularPeople);
   // console.log("Genre:", genre);
 
   // console.log("userMongoDb", usersMongoDb);
-  // console.log("userAuth0", user);
+  console.log("userAuth0", user);
   // console.log("userWatchList", userWatchList);
 
   useEffect(() => {
@@ -84,30 +82,6 @@ export const UserProvider = ({ children }) => {
     return <LoadingState />;
   }
 
-  // if (usersMongoDb && user) {
-  //   console.log("hello  11");
-  //   console.log(
-  //     usersMongoDb.find((item) => {
-  //       return item.email === user.email;
-  //       // console.log("hello  22");
-  //       // // console.log(item.email === user.email);
-  //       // if (item.email === user.email) {
-  //       //   console.log("hello  33");
-  //       //   // setOnlineUser(item);
-  //       // }
-  //     })
-  //   );
-  //   usersMongoDb.find((item) => {
-  //     return item.email === user.email;
-  //     // console.log("hello  22");
-  //     // // console.log(item.email === user.email);
-  //     // if (item.email === user.email) {
-  //     //   console.log("hello  33");
-  //     //   // setOnlineUser(item);
-  //     // }
-  //   });
-  // }
-
   const contextValue = {
     trendingDay,
     trendingWeek,
@@ -117,6 +91,7 @@ export const UserProvider = ({ children }) => {
     user,
     isAuthenticated,
     usersMongoDb,
+    setUsersMongoDb,
   };
 
   return (

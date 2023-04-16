@@ -9,7 +9,6 @@ import CommentsNew from "../Comments/CommentsNew";
 import MovieCard from "./MovieCard";
 
 import { FaBookmark, FaRegHeart } from "react-icons/fa";
-import { BsHeart } from "react-icons/bs";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
@@ -23,6 +22,33 @@ const MovieDetailsNewNew = () => {
   const [recommendedMovies, setrecommendedMovies] = useState();
   const [addedWatchList, setAddedWatchList] = useState(false);
   const [liked, setLiked] = useState(false);
+
+  useEffect(() => {
+    console.log(usersMongoDb);
+    usersMongoDb.forEach((item) => {
+      if (item.email && user) {
+        if (item.email === user.email) {
+          if (item.watchList) {
+            if (item.watchList.includes(movie_id)) {
+              setAddedWatchList(true);
+            } else {
+              setAddedWatchList(false);
+            }
+          }
+        }
+
+        if (item.email === user.email) {
+          if (item.likedList) {
+            if (item.likedList.includes(movie_id)) {
+              setLiked(true);
+            } else {
+              setLiked(false);
+            }
+          }
+        }
+      }
+    });
+  }, [user, movie_id]);
 
   // Fetch all Specific Movie Data
   const fetchData = async () => {
@@ -52,32 +78,6 @@ const MovieDetailsNewNew = () => {
     setrecommendedMovies(jsonData.results);
   };
 
-  /// Check Fn
-  let y = false;
-  let x = false;
-  const check = () => {
-    if (usersMongoDb && user) {
-      usersMongoDb.forEach((item) => {
-        if (item.email === user.email) {
-          if (item.watchList) {
-            if (item.watchList.includes(movie_id)) {
-              y = true;
-            }
-          }
-          if (item.likedList) {
-            if (item.likedList.includes(movie_id)) {
-              x = true;
-            }
-          }
-        }
-      });
-    }
-  };
-
-  if (currentMovieDetail) {
-    check();
-  }
-
   // Add specific Movie to WatchList
   const addToWatchListHandler = () => {
     if (!addedWatchList) {
@@ -98,6 +98,7 @@ const MovieDetailsNewNew = () => {
         .then((res) => res.json())
         .then((data) => {
           if (data.status === 200) {
+            setAddedWatchList(true);
           } else {
             console.log("Unknown error has occured. Please try again.");
           }
@@ -117,6 +118,7 @@ const MovieDetailsNewNew = () => {
         .then((res) => res.json())
         .then((data) => {
           if (data.status === 200) {
+            setAddedWatchList(false);
           } else {
             console.log("Unknown error has occured. Please try again.");
           }
@@ -127,7 +129,7 @@ const MovieDetailsNewNew = () => {
     }
   };
 
-  // Add specific Movie to WatchList
+  // Add specific Movie to LikedList
   const likedHandler = () => {
     if (!liked) {
       setLiked(true);
@@ -147,6 +149,7 @@ const MovieDetailsNewNew = () => {
         .then((res) => res.json())
         .then((data) => {
           if (data.status === 200) {
+            setLiked(true);
           } else {
             console.log("Unknown error has occured. Please try again.");
           }
@@ -166,6 +169,7 @@ const MovieDetailsNewNew = () => {
         .then((res) => res.json())
         .then((data) => {
           if (data.status === 200) {
+            setLiked(false);
           } else {
             console.log("Unknown error has occured. Please try again.");
           }
@@ -197,9 +201,6 @@ const MovieDetailsNewNew = () => {
   if (!currentMovieDetail.backdrop_path && !currentMovieDetail.poster_path) {
     window.alert("The Movie is not found in Data Base");
   }
-
-  console.log("liked", liked);
-  console.log("x", x);
 
   return (
     // {currentMovieDetail.success && }
@@ -279,12 +280,12 @@ const MovieDetailsNewNew = () => {
             <div style={{ marginTop: "50px" }}>
               <FaBookmark
                 size={30}
-                style={{ fill: addedWatchList || y ? "red" : "" }}
+                style={{ fill: addedWatchList ? "red" : "" }}
                 onClick={addToWatchListHandler}
               />
               <FaRegHeart
                 size={30}
-                style={{ fill: liked || x ? "red" : "" }}
+                style={{ fill: liked ? "red" : "" }}
                 onClick={likedHandler}
               />
             </div>
