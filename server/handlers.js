@@ -173,9 +173,184 @@ const updateComment = async (req, res) => {
   client.close();
 };
 
+/// Get All Users Data
+
+const getAllUsers = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  const userList = [];
+  try {
+    await client.connect();
+    const db = client.db("Final_Project");
+
+    const result = await db.collection("users").find().toArray();
+
+    if (result) {
+      result.forEach((item) => {
+        userList.push(item);
+      });
+      res.status(200).json({
+        status: 200,
+        data: userList,
+        message: "List of All Users",
+      });
+    } else {
+      res.status(404).json({ status: 404, data: "The Data Is Not Found" });
+    }
+  } catch (err) {
+    console.log(err.stack);
+  }
+
+  client.close();
+};
+
+//Add the Movie from  user watchList
+const updateWatchList = async (req, res) => {
+  const { newWatchList } = req.body;
+  const { email } = req.params;
+  const client = new MongoClient(MONGO_URI, options);
+  try {
+    await client.connect();
+    const db = client.db("Final_Project");
+    const updateWatchList = await db.collection("users").updateOne(
+      { email: email },
+      {
+        $push: {
+          watchList: newWatchList,
+        },
+      }
+    );
+
+    if (updateWatchList.acknowledged) {
+      res.status(200).json({
+        status: 200,
+        message: "The WatchList is Updatad Successfully",
+      });
+    } else {
+      res.status(404).json({
+        status: 404,
+        data: "The WatchList Update is Not Completed",
+      });
+    }
+  } catch (err) {
+    console.log(err.stack);
+  }
+
+  client.close();
+};
+
+//Remove the Movie from  user watchList
+const updateRemoveWatchList = async (req, res) => {
+  const { newWatchList } = req.body;
+  const { email } = req.params;
+  const client = new MongoClient(MONGO_URI, options);
+  try {
+    await client.connect();
+    const db = client.db("Final_Project");
+    const updateWatchList = await db.collection("users").updateOne(
+      { email: email },
+      {
+        $pull: {
+          watchList: newWatchList,
+        },
+      }
+    );
+
+    if (updateWatchList.acknowledged) {
+      res.status(200).json({
+        status: 200,
+        message: "The WatchList is Updatad Successfully",
+      });
+    } else {
+      res.status(404).json({
+        status: 404,
+        data: "The WatchList Update is Not Completed",
+      });
+    }
+  } catch (err) {
+    console.log(err.stack);
+  }
+
+  client.close();
+};
+
+//Add the Movie To  user LikedList
+const likedMovie = async (req, res) => {
+  const { newLikedMovie } = req.body;
+  const { email } = req.params;
+  const client = new MongoClient(MONGO_URI, options);
+  try {
+    await client.connect();
+    const db = client.db("Final_Project");
+    const updateLikedList = await db.collection("users").updateOne(
+      { email: email },
+      {
+        $push: {
+          likedList: newLikedMovie,
+        },
+      }
+    );
+
+    if (updateLikedList.acknowledged) {
+      res.status(200).json({
+        status: 200,
+        message: "The LikedList is Updatad Successfully",
+      });
+    } else {
+      res.status(404).json({
+        status: 404,
+        data: "The LikedList Update is Not Completed",
+      });
+    }
+  } catch (err) {
+    console.log(err.stack);
+  }
+
+  client.close();
+};
+
+//Remove the Movie from  user LikedList
+const unlikedMovie = async (req, res) => {
+  const { newLikedMovie } = req.body;
+  const { email } = req.params;
+  const client = new MongoClient(MONGO_URI, options);
+  try {
+    await client.connect();
+    const db = client.db("Final_Project");
+    const updateLikedList = await db.collection("users").updateOne(
+      { email: email },
+      {
+        $pull: {
+          likedList: newLikedMovie,
+        },
+      }
+    );
+
+    if (updateLikedList.acknowledged) {
+      res.status(200).json({
+        status: 200,
+        message: "The LikedList is Updatad Successfully",
+      });
+    } else {
+      res.status(404).json({
+        status: 404,
+        data: "The LikedList Update is Not Completed",
+      });
+    }
+  } catch (err) {
+    console.log(err.stack);
+  }
+
+  client.close();
+};
+
 module.exports = {
   getComments,
   addComments,
   deleteComment,
   updateComment,
+  updateWatchList,
+  getAllUsers,
+  updateRemoveWatchList,
+  likedMovie,
+  unlikedMovie,
 };

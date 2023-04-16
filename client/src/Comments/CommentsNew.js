@@ -153,7 +153,8 @@ const CommentsNew = ({ movie_id }) => {
       .catch((err) => {
         console.log("Error", err);
       });
-  }, [movie_id, activeComment, backendComments]);
+  }, [movie_id, activeComment]);
+  ///I just deleted "backendComments" from top line [movie_id, activeComment,backendComments ] double check it later and make sure everything is ok
   if (!backendComments) {
     return (
       <div>

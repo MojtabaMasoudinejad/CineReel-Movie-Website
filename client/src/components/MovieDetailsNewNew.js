@@ -8,33 +8,34 @@ import LoadingState from "./LoadingState";
 import CommentsNew from "../Comments/CommentsNew";
 import MovieCard from "./MovieCard";
 
-import { BsBookmark } from "react-icons/bs";
+import { FaBookmark, FaRegHeart } from "react-icons/fa";
+import { BsHeart } from "react-icons/bs";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
 const MovieDetailsNewNew = () => {
-  const { trendingDay, trendingWeek, topRated, genre } =
+  const { trendingDay, trendingWeek, topRated, genre, user, usersMongoDb } =
     useContext(UserContext);
+  const { movie_id } = useParams();
 
   const [currentMovieDetail, setCurrentMovieDetail] = useState();
   // const [video, setVideo] = useState(null);
   const [recommendedMovies, setrecommendedMovies] = useState();
-  const { movie_id } = useParams();
-  console.log(movie_id);
+  const [addedWatchList, setAddedWatchList] = useState(false);
+  const [liked, setLiked] = useState(false);
 
+  // Fetch all Specific Movie Data
   const fetchData = async () => {
     const response = await fetch(
       `https://api.themoviedb.org/3/movie/${movie_id}?api_key=${API_KEY}&language=en-US`
     );
     const jsonData = await response.json();
-    // console.log("jsonData", jsonData);
-    // console.log(jsonData.status !== "Released");
+
     if (jsonData.status !== "Released") {
       const response2 = await fetch(
         `https://api.themoviedb.org/3/tv/${movie_id}?api_key=${API_KEY}&language=en-US`
       );
       const jsonData2 = await response2.json();
-      // console.log("jsonData2", jsonData2);
       setCurrentMovieDetail(jsonData2);
     } else {
       setCurrentMovieDetail(jsonData);
@@ -49,19 +50,137 @@ const MovieDetailsNewNew = () => {
     const jsonData = await response.json();
 
     setrecommendedMovies(jsonData.results);
-    // console.log(jsonData.results);
   };
 
+  /// Check Fn
+  let y = false;
+  let x = false;
+  const check = () => {
+    if (usersMongoDb && user) {
+      usersMongoDb.forEach((item) => {
+        if (item.email === user.email) {
+          if (item.watchList) {
+            if (item.watchList.includes(movie_id)) {
+              y = true;
+            }
+          }
+          if (item.likedList) {
+            if (item.likedList.includes(movie_id)) {
+              x = true;
+            }
+          }
+        }
+      });
+    }
+  };
+
+  if (currentMovieDetail) {
+    check();
+  }
+
+  // Add specific Movie to WatchList
+  const addToWatchListHandler = () => {
+    if (!addedWatchList) {
+      setAddedWatchList(true);
+    } else {
+      setAddedWatchList(!addedWatchList);
+    }
+
+    if (!addedWatchList) {
+      fetch(`/api/users/${user.email}`, {
+        method: "PATCH",
+        body: JSON.stringify({ newWatchList: movie_id }),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.status === 200) {
+          } else {
+            console.log("Unknown error has occured. Please try again.");
+          }
+        })
+        .catch((e) => {
+          console.log("Error: ", e);
+        });
+    } else {
+      fetch(`/api/users-remove/${user.email}`, {
+        method: "PATCH",
+        body: JSON.stringify({ newWatchList: movie_id }),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.status === 200) {
+          } else {
+            console.log("Unknown error has occured. Please try again.");
+          }
+        })
+        .catch((e) => {
+          console.log("Error: ", e);
+        });
+    }
+  };
+
+  // Add specific Movie to WatchList
+  const likedHandler = () => {
+    if (!liked) {
+      setLiked(true);
+    } else {
+      setLiked(!liked);
+    }
+
+    if (!liked) {
+      fetch(`/api/users-add-like/${user.email}`, {
+        method: "PATCH",
+        body: JSON.stringify({ newLikedMovie: movie_id }),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.status === 200) {
+          } else {
+            console.log("Unknown error has occured. Please try again.");
+          }
+        })
+        .catch((e) => {
+          console.log("Error: ", e);
+        });
+    } else {
+      fetch(`/api/users-remove-like/${user.email}`, {
+        method: "PATCH",
+        body: JSON.stringify({ newLikedMovie: movie_id }),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.status === 200) {
+          } else {
+            console.log("Unknown error has occured. Please try again.");
+          }
+        })
+        .catch((e) => {
+          console.log("Error: ", e);
+        });
+    }
+  };
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
 
     fetchData();
     fetchRecommendedMovies();
   }, [movie_id]);
-
-  useEffect(() => {}, []);
-
-  console.log(currentMovieDetail);
 
   if (!currentMovieDetail) {
     return <LoadingState />;
@@ -78,6 +197,9 @@ const MovieDetailsNewNew = () => {
   if (!currentMovieDetail.backdrop_path && !currentMovieDetail.poster_path) {
     window.alert("The Movie is not found in Data Base");
   }
+
+  console.log("liked", liked);
+  console.log("x", x);
 
   return (
     // {currentMovieDetail.success && }
@@ -154,8 +276,20 @@ const MovieDetailsNewNew = () => {
                   );
                 })}
             </div>
+            <div style={{ marginTop: "50px" }}>
+              <FaBookmark
+                size={30}
+                style={{ fill: addedWatchList || y ? "red" : "" }}
+                onClick={addToWatchListHandler}
+              />
+              <FaRegHeart
+                size={30}
+                style={{ fill: liked || x ? "red" : "" }}
+                onClick={likedHandler}
+              />
+            </div>
           </MovieDetail>
-          <div style={{ margin: "2rem 0", flex: "0.8" }}>
+          <div style={{ margin: "0rem 0", flex: "0.8" }}>
             <TextSynopsis>Synopsis:</TextSynopsis>
             <div>{currentMovieDetail.overview}</div>
           </div>
@@ -285,7 +419,7 @@ const TextSynopsis = styled.div`
 
 const MovieDetail = styled.div`
   text-shadow: 0px 0px 5px #000000;
-  margin-bottom: 0.5rem;
+  /* margin-bottom: 0.3rem; */
 `;
 
 const CommentsDiv = styled.div`

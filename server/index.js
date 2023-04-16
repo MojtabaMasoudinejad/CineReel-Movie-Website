@@ -7,6 +7,11 @@ const {
   addComments,
   deleteComment,
   updateComment,
+  updateWatchList,
+  getAllUsers,
+  updateRemoveWatchList,
+  likedMovie,
+  unlikedMovie,
 } = require("./handlers");
 
 const PORT = 4000;
@@ -34,5 +39,12 @@ express()
   .post("/api/add-comments", addComments)
   .delete("/api/add-comments/:_id", deleteComment)
   .patch("/api/add-comments/:_id", updateComment)
+
+  // Users Endpoints
+  .get("/api/users", getAllUsers)
+  .patch("/api/users/:email", updateWatchList)
+  .patch("/api/users-remove/:email", updateRemoveWatchList)
+  .patch("/api/users-add-like/:email", likedMovie)
+  .patch("/api/users-remove-like/:email", unlikedMovie)
 
   .listen(PORT, () => console.info(`Listening on port ${PORT}`));
