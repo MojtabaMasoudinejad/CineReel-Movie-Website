@@ -3,8 +3,8 @@ import { useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 
 import LoadingState from "./components/LoadingState";
-import MovieCard from "./components/MovieCard";
-import MovieCardWithId from "./components/MovieCardWithId";
+// import MovieCard from "./components/MovieCard";
+// import MovieCardWithId from "./components/MovieCardWithId";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 

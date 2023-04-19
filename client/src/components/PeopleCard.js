@@ -27,7 +27,7 @@ const PeopleCard = ({ people_id }) => {
     }, 200);
   }, [people_id]);
 
-  //   console.log("currentPerson", currentPerson);
+  console.log("currentPerson", currentPerson);
 
   return (
     <>
@@ -39,7 +39,7 @@ const PeopleCard = ({ people_id }) => {
         </MainDiv>
       ) : (
         <Link
-          //   to={`/movie/${currentMovie.id}`}
+          to={`/people/${currentPerson.id}`}
           style={{ textDecoration: "none", color: "white" }}
         >
           <MainDiv>

@@ -8,6 +8,7 @@ import HomePage from "./HomePage";
 import Trending from "./Trending";
 import Profile from "./Profile";
 import People from "./People";
+import PersonProfile from "./PersonProfile";
 
 import MovieDetailsNewNew from "./MovieDetailsNewNew";
 
@@ -23,6 +24,7 @@ const App = () => {
           <Route path="/movie/:movie_id" element={<MovieDetailsNewNew />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/people" element={<People />} />
+          <Route path="/people/:people_id" element={<PersonProfile />} />
         </Routes>
       </UserProvider>
     </BrowserRouter>
