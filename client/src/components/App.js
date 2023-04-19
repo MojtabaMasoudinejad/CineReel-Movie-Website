@@ -7,6 +7,7 @@ import Header from "./Header";
 import HomePage from "./HomePage";
 import Trending from "./Trending";
 import Profile from "./Profile";
+import People from "./People";
 
 import MovieDetailsNewNew from "./MovieDetailsNewNew";
 
@@ -21,6 +22,7 @@ const App = () => {
           <Route path="/trending" element={<Trending />} />
           <Route path="/movie/:movie_id" element={<MovieDetailsNewNew />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/people" element={<People />} />
         </Routes>
       </UserProvider>
     </BrowserRouter>

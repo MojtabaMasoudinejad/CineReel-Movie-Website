@@ -16,12 +16,14 @@ export const UserProvider = ({ children }) => {
   const [topRated, setTopRated] = useState(null);
   const [popularPeople, setPopularPeople] = useState(null);
   const [genre, setGenre] = useState(null);
+  const [people, setPeople] = useState(null);
+
   const { user, isAuthenticated } = useAuth0();
   const [usersMongoDb, setUsersMongoDb] = useState();
 
   // console.log("trendingDayUseContex", trendingDay);
   //   console.log("PPeople", popularPeople);
-  // console.log("Genre:", genre);
+  // console.log("latestPeople:", latestPeople);
 
   // console.log("userMongoDb", usersMongoDb);
   // console.log("userAuth0", user);
@@ -53,6 +55,10 @@ export const UserProvider = ({ children }) => {
       fetch(
         `https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}&language=en-US`
       ),
+      fetch(
+        `https://api.themoviedb.org/3/person/popular?api_key=${API_KEY}&language=en-US&page=1`
+      ),
+
       fetch(`/api/users`),
     ])
 
@@ -64,6 +70,7 @@ export const UserProvider = ({ children }) => {
           response4,
           response5,
           response6,
+          response7,
         ]) => {
           return Promise.all([
             response1.json(),
@@ -72,16 +79,18 @@ export const UserProvider = ({ children }) => {
             response4.json(),
             response5.json(),
             response6.json(),
+            response7.json(),
           ]);
         }
       )
-      .then(([data1, data2, data3, data4, data5, data6]) => {
+      .then(([data1, data2, data3, data4, data5, data6, data7]) => {
         setTrendingDay(data1.results);
         setTrendingWeek(data2.results);
         setTopRated(data3.results);
         setPopularPeople(data4.results);
         setGenre(data5.genres);
-        setUsersMongoDb(data6.data);
+        setPeople(data6.results);
+        setUsersMongoDb(data7.data);
       })
       .catch((err) => {
         console.log("Error", err);
@@ -110,7 +119,7 @@ export const UserProvider = ({ children }) => {
     usersMongoDb,
     setUsersMongoDb,
     userContextData,
-    // fetchData,
+    people,
   };
 
   return (

@@ -17,7 +17,7 @@ const Header = () => {
         <StyledNav>All Movies</StyledNav>
         <StyledNav to={"/trending"}>Trending</StyledNav>
         <StyledNav to={"/top-rated"}>Top Rated</StyledNav>
-        <StyledNav to={"/people"}>People</StyledNav>
+        <StyledNav to={"/people"}> People</StyledNav>
       </NavContainer>
       <UserContainer>
         {isAuthenticated ? (
