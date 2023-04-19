@@ -3,6 +3,8 @@ import { useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 
 import LoadingState from "./components/LoadingState";
+import MovieCard from "./components/MovieCard";
+import MovieCardWithId from "./components/MovieCardWithId";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
@@ -26,6 +28,17 @@ export const UserProvider = ({ children }) => {
   // console.log("userWatchList", userWatchList);
 
   const userContextData = () => {
+    // fetch(`/api/users`)
+    //   .then((res) => {
+    //     res.json();
+    //   })
+    //   .then((data) => {
+    //     setUsersMongoDb(data.data);
+    //   })
+    //   .catch((err) => {
+    //     console.log("Error", err);
+    //   });
+
     Promise.all([
       fetch(`https://api.themoviedb.org/3/trending/all/day?api_key=${API_KEY}`),
       fetch(
@@ -97,6 +110,7 @@ export const UserProvider = ({ children }) => {
     usersMongoDb,
     setUsersMongoDb,
     userContextData,
+    // fetchData,
   };
 
   return (

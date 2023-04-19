@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useAuth0 } from "@auth0/auth0-react";
 
 import { FaUser } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
@@ -7,6 +8,8 @@ import LogInButton from "./LogInButton";
 import LogOutButton from "./LogOutButton";
 
 const Header = () => {
+  const { isAuthenticated } = useAuth0();
+
   return (
     <MainDIv>
       <NavContainer>
@@ -17,7 +20,13 @@ const Header = () => {
         <StyledNav to={"/people"}>People</StyledNav>
       </NavContainer>
       <UserContainer>
-        <FaUser size={35} />
+        {isAuthenticated ? (
+          <StyledNav to={"/profile"}>
+            <FaUser size={35} />
+          </StyledNav>
+        ) : (
+          ""
+        )}
         <LogInButton />
         <LogOutButton />
       </UserContainer>

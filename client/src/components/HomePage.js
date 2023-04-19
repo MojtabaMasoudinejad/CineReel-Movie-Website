@@ -17,8 +17,6 @@ const HomePage = () => {
 
   return (
     <MainDiv>
-      {/* <Comments currentUserId="1" /> */}
-      {/* <Profile /> */}
       <DivSlidePoster>
         <SliderPoster />
       </DivSlidePoster>

@@ -31,16 +31,16 @@ const MovieDetailsNewNew = () => {
   const [liked, setLiked] = useState(false);
 
   useEffect(() => {
-    console.log(usersMongoDb);
+    // console.log(usersMongoDb);
     usersMongoDb.forEach((item) => {
       if (item.email && user) {
-        console.log("11");
+        // console.log("11");
         if (item.email === user.email) {
-          console.log("22");
-          console.log(item.watchList);
+          // console.log("22");
+          // console.log(item.watchList);
           if (item.watchList) {
             if (item.watchList.includes(movie_id)) {
-              console.log("33");
+              // console.log("33");
               setAddedWatchList(true);
             } else {
               setAddedWatchList(false);
@@ -111,7 +111,6 @@ const MovieDetailsNewNew = () => {
         .then((data) => {
           if (data.status === 200) {
             setAddedWatchList(true);
-            ///Fetch user Info again
             userContextData();
           } else {
             console.log("Unknown error has occured. Please try again.");
@@ -165,7 +164,6 @@ const MovieDetailsNewNew = () => {
         .then((data) => {
           if (data.status === 200) {
             setLiked(true);
-            ///Fetch user Info again
             userContextData();
           } else {
             console.log("Unknown error has occured. Please try again.");

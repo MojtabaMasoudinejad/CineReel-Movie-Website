@@ -6,8 +6,8 @@ import GlobalStyles from "../GlobalStyles";
 import Header from "./Header";
 import HomePage from "./HomePage";
 import Trending from "./Trending";
-// import MovieDetails from "./MovieDetails";
-// import MovieDetailsNew from "./MovieDetailsNew";
+import Profile from "./Profile";
+
 import MovieDetailsNewNew from "./MovieDetailsNewNew";
 
 const App = () => {
@@ -20,6 +20,7 @@ const App = () => {
           <Route path="/" element={<HomePage />} />
           <Route path="/trending" element={<Trending />} />
           <Route path="/movie/:movie_id" element={<MovieDetailsNewNew />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </UserProvider>
     </BrowserRouter>

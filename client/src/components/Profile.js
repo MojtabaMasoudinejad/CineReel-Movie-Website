@@ -1,21 +1,127 @@
-import React from "react";
+import React, { useState } from "react";
+import { useContext } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import JSONPretty from "react-json-pretty";
+import styled from "styled-components";
+
+import { UserContext } from "../UserContext";
+import LoadingState from "./LoadingState";
+import MovieCardWithId from "./MovieCardWithId";
+
+import { FaRegHeart } from "react-icons/fa";
+import { BsBookmark } from "react-icons/bs";
+import { IoIosLogOut } from "react-icons/io";
+
+const API_KEY = process.env.REACT_APP_API_KEY;
 
 const Profile = () => {
-  const { user, isAuthenticated } = useAuth0();
+  const { usersMongoDb } = useContext(UserContext);
+  const [isWatchList, setIsWatchList] = useState(true);
+  const [isFavorites, setIsFavorites] = useState(false);
+
+  const { user, isAuthenticated, isLoading, logout } = useAuth0();
+  // console.log(usersMongoDb);
+  // console.log(user);
+
+  if (isLoading) {
+    return <LoadingState />;
+  }
 
   return (
-    isAuthenticated && (
-      <div>
-        <img src={user.picture} alt={user.name} />
-        <h2>{user.name}</h2>
-        <p>{user.email}</p>
-        <JSONPretty data={user} />
-        {/* {JSON.stringify(user, null, 2)} */}
+    <MainDiv>
+      <SideBar>
+        <ItemMainDiv style={{ cursor: "context-menu" }}>
+          <Item>
+            Hello <span style={{ fontWeight: "800" }}>{user.given_name} !</span>{" "}
+          </Item>
+        </ItemMainDiv>
+
+        <ItemMainDiv
+          onClick={() => {
+            setIsFavorites(false);
+            setIsWatchList(true);
+          }}
+        >
+          <BsBookmark color="white" size={25} />
+          <Item
+            style={{
+              color: isWatchList ? "black" : "",
+              fontWeight: isWatchList ? "600" : "",
+            }}
+          >
+            Watch List Movies
+          </Item>
+        </ItemMainDiv>
+        <ItemMainDiv
+          onClick={() => {
+            setIsFavorites(true);
+            setIsWatchList(false);
+          }}
+        >
+          <FaRegHeart color="white" size={25} />
+          <Item
+            style={{
+              color: isFavorites ? "black" : "",
+              fontWeight: isFavorites ? "600" : "",
+            }}
+          >
+            Favorites Movies
+          </Item>
+        </ItemMainDiv>
+        <ItemMainDiv onClick={() => logout()}>
+          <IoIosLogOut color="white" size={30} />
+          <Item>Logout</Item>
+        </ItemMainDiv>
+      </SideBar>
+      <div style={{ width: "90vw" }}>
+        {isWatchList &&
+          usersMongoDb.map((item) => {
+            if (item.hasOwnProperty("watchList") && item.email === user.email) {
+              return item.watchList.map((movie_id, index) => {
+                return <MovieCardWithId key={index} movie_id={movie_id} />;
+              });
+            }
+          })}
+        {isFavorites &&
+          usersMongoDb.map((item) => {
+            if (item.hasOwnProperty("likedList") && item.email === user.email) {
+              return item.likedList.map((movie_id, index) => {
+                return <MovieCardWithId key={index} movie_id={movie_id} />;
+              });
+            }
+          })}
       </div>
-    )
+    </MainDiv>
   );
 };
 
 export default Profile;
+
+const MainDiv = styled.div`
+  display: flex;
+`;
+
+const SideBar = styled.div`
+  width: 250px;
+  height: 100vh;
+  background-color: rgb(26 66 106 / 93%);
+  padding: 20px;
+`;
+
+const ItemMainDiv = styled.div`
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgb(26 66 106 / 60%);
+  }
+`;
+
+const Item = styled.div`
+  color: white;
+  margin: 20px 10px;
+  /* cursor: pointer; */
+  /* &:hover {
+    color: black;
+  } */
+`;
