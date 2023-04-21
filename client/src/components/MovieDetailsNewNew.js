@@ -7,6 +7,7 @@ import { UserContext } from "../UserContext";
 import LoadingState from "./LoadingState";
 import CommentsNew from "../Comments/CommentsNew";
 import MovieCard from "./MovieCard";
+import PeopleCard from "./PeopleCard";
 
 import { FaBookmark, FaRegHeart } from "react-icons/fa";
 
@@ -27,20 +28,18 @@ const MovieDetailsNewNew = () => {
   const [currentMovieDetail, setCurrentMovieDetail] = useState();
   // const [video, setVideo] = useState(null);
   const [recommendedMovies, setrecommendedMovies] = useState();
+  const [movieCredits, setMovieCredits] = useState();
   const [addedWatchList, setAddedWatchList] = useState(false);
   const [liked, setLiked] = useState(false);
 
+  console.log("movieCredits", movieCredits);
+
   useEffect(() => {
-    // console.log(usersMongoDb);
     usersMongoDb.forEach((item) => {
       if (item.email && user) {
-        // console.log("11");
         if (item.email === user.email) {
-          // console.log("22");
-          // console.log(item.watchList);
           if (item.watchList) {
             if (item.watchList.includes(movie_id)) {
-              // console.log("33");
               setAddedWatchList(true);
             } else {
               setAddedWatchList(false);
@@ -87,6 +86,16 @@ const MovieDetailsNewNew = () => {
     const jsonData = await response.json();
 
     setrecommendedMovies(jsonData.results);
+  };
+
+  //ّFetch Movies Credits
+  const fetchMoviesCredits = async () => {
+    const response = await fetch(
+      `https://api.themoviedb.org/3/movie/${movie_id}/credits?api_key=${API_KEY}&language=en-US`
+    );
+    const jsonData = await response.json();
+
+    setMovieCredits(jsonData.cast);
   };
 
   // Add specific Movie to WatchList
@@ -200,6 +209,7 @@ const MovieDetailsNewNew = () => {
 
     fetchData();
     fetchRecommendedMovies();
+    fetchMoviesCredits();
   }, [movie_id]);
 
   if (!currentMovieDetail) {
@@ -211,6 +221,9 @@ const MovieDetailsNewNew = () => {
   // }
 
   // if (!recommendedMovies) {
+  //   return <LoadingState />;
+  // }
+  // if (!movieCredits) {
   //   return <LoadingState />;
   // }
 
@@ -333,6 +346,15 @@ const MovieDetailsNewNew = () => {
         </div>
       )}
 
+      {/* {movieCredits && (
+        <div>
+          <h2> Movie Cast</h2>
+          {movieCredits &&
+            movieCredits.slice(0, 4).map((item, index) => {
+              return <PeopleCard key={index} people_id={item.id} />;
+            })}
+        </div>
+      )} */}
       <CommentsDiv>
         <CommentsNew movie_id={movie_id} />
       </CommentsDiv>

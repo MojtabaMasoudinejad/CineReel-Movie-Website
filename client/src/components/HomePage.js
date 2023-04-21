@@ -7,6 +7,7 @@ import SliderPoster from "./SliderPoster";
 import MovieCard from "./MovieCard";
 import Profile from "./Profile";
 import Comments from "../Comments/Comments";
+import SearchBar from "./SearchBar";
 
 const HomePage = () => {
   const { trendingDay, trendingWeek } = useContext(UserContext);
@@ -17,6 +18,7 @@ const HomePage = () => {
 
   return (
     <MainDiv>
+      <SearchBar />
       <DivSlidePoster>
         <SliderPoster />
       </DivSlidePoster>

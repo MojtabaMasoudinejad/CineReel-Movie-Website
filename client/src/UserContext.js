@@ -17,6 +17,7 @@ export const UserProvider = ({ children }) => {
   const [popularPeople, setPopularPeople] = useState(null);
   const [genre, setGenre] = useState(null);
   const [people, setPeople] = useState(null);
+  const [searchItems, setSearchItems] = useState(null);
 
   const { user, isAuthenticated } = useAuth0();
   const [usersMongoDb, setUsersMongoDb] = useState();
@@ -120,6 +121,8 @@ export const UserProvider = ({ children }) => {
     setUsersMongoDb,
     userContextData,
     people,
+    searchItems,
+    setSearchItems,
   };
 
   return (

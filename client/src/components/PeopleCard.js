@@ -27,7 +27,7 @@ const PeopleCard = ({ people_id }) => {
     }, 200);
   }, [people_id]);
 
-  console.log("currentPerson", currentPerson);
+  //   console.log("currentPerson", currentPerson);
 
   return (
     <>

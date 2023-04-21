@@ -20,7 +20,7 @@ const PersonProfile = () => {
 
   const { people_id } = useParams();
 
-  console.log(currentPersonTvCredit);
+  //   console.log(currentPersonTvCredit);
 
   // Fetch Data for specific Person
   //   const fetchData = async () => {
@@ -63,6 +63,8 @@ const PersonProfile = () => {
   };
 
   useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+
     fetchData();
 
     setTimeout(() => {
