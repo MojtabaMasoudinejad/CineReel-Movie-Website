@@ -131,7 +131,7 @@ const CommentsNew = ({ movie_id }) => {
             .then((data) => {
               if (data.status === 200) {
                 setBackendComments(backendComments);
-                setActiveComment("null");
+                setActiveComment(null);
               } else {
                 window.alert("Something went wrong.");
               }

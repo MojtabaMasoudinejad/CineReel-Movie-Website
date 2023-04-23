@@ -8,6 +8,7 @@ import MovieCard from "./MovieCard";
 import Profile from "./Profile";
 import Comments from "../Comments/Comments";
 import SearchBar from "./SearchBar";
+// import AvatarProfile from "../AvatarProfile";
 
 const HomePage = () => {
   const { trendingDay, trendingWeek } = useContext(UserContext);
@@ -18,6 +19,7 @@ const HomePage = () => {
 
   return (
     <MainDiv>
+      {/* <AvatarProfile /> */}
       <SearchBar />
       <DivSlidePoster>
         <SliderPoster />

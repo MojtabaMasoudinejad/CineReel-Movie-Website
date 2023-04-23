@@ -27,6 +27,10 @@ const PeopleCard = ({ people_id }) => {
     }, 200);
   }, [people_id]);
 
+  if (!currentPerson) {
+    return <div>Loading ...</div>;
+  }
+
   //   console.log("currentPerson", currentPerson);
 
   return (

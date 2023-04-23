@@ -32,7 +32,8 @@ const MovieDetailsNewNew = () => {
   const [addedWatchList, setAddedWatchList] = useState(false);
   const [liked, setLiked] = useState(false);
 
-  console.log("movieCredits", movieCredits);
+  // console.log("movieCredits", movieCredits);
+  console.log("currentMovieDetail", currentMovieDetail);
 
   useEffect(() => {
     usersMongoDb.forEach((item) => {
@@ -61,20 +62,38 @@ const MovieDetailsNewNew = () => {
   }, [user, movie_id]);
 
   // Fetch all Specific Movie Data
+
   const fetchData = async () => {
-    const response = await fetch(
+    const response1 = await fetch(
+      `https://api.themoviedb.org/3/tv/${movie_id}?api_key=${API_KEY}&language=en-US`
+    );
+    const jsonDataTv = await response1.json();
+
+    const response2 = await fetch(
       `https://api.themoviedb.org/3/movie/${movie_id}?api_key=${API_KEY}&language=en-US`
     );
-    const jsonData = await response.json();
 
-    if (jsonData.status !== "Released") {
-      const response2 = await fetch(
-        `https://api.themoviedb.org/3/tv/${movie_id}?api_key=${API_KEY}&language=en-US`
-      );
-      const jsonData2 = await response2.json();
-      setCurrentMovieDetail(jsonData2);
+    const jsonDataMovie = await response2.json();
+
+    // console.log(jsonDataTv.status === "Ended");
+    // console.log(jsonDataTv.status === "Returning Series");
+    // console.log(
+    //   jsonDataTv.status === "Ended" || jsonDataTv.status === "Returning Series"
+    // );
+
+    if (
+      jsonDataTv.status === "Ended" ||
+      jsonDataTv.status === "Returning Series"
+    ) {
+      if (jsonDataMovie.belongs_to_collection) {
+        console.log("movie");
+        setCurrentMovieDetail(jsonDataMovie);
+      } else {
+        console.log("tv");
+        setCurrentMovieDetail(jsonDataTv);
+      }
     } else {
-      setCurrentMovieDetail(jsonData);
+      setCurrentMovieDetail(jsonDataMovie);
     }
   };
 

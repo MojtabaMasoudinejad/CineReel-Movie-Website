@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 // import { useContext } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import styled from "styled-components";
+import Avatar from "@mui/material/Avatar";
 
 import { UserContext } from "../UserContext";
 import LoadingState from "./LoadingState";
@@ -26,14 +27,21 @@ const Profile = () => {
     return <LoadingState />;
   }
 
+  if (!usersMongoDb) {
+    return <div>Loading . . .</div>;
+  }
+
   return (
     <MainDiv>
       <SideBar>
-        <ItemMainDiv style={{ cursor: "context-menu" }}>
-          <Item>
-            Hello <span style={{ fontWeight: "800" }}>{user.given_name} !</span>{" "}
+        <div>
+          <Item style={{ marginLeft: "-5px" }}>
+            <Avatar src="/broken-image.jpg" />
+            <span style={{ fontWeight: "800", marginLeft: "10px" }}>
+              {user.given_name} !
+            </span>{" "}
           </Item>
-        </ItemMainDiv>
+        </div>
 
         <ItemMainDiv
           onClick={() => {
@@ -45,10 +53,10 @@ const Profile = () => {
           <Item
             style={{
               color: isWatchList ? "black" : "",
-              fontWeight: isWatchList ? "600" : "",
+              fontWeight: isWatchList ? "800" : "",
             }}
           >
-            Watch List Movies
+            WatchList Movies
           </Item>
         </ItemMainDiv>
         <ItemMainDiv
@@ -61,7 +69,7 @@ const Profile = () => {
           <Item
             style={{
               color: isFavorites ? "black" : "",
-              fontWeight: isFavorites ? "600" : "",
+              fontWeight: isFavorites ? "800" : "",
             }}
           >
             Favorites Movies
@@ -118,6 +126,9 @@ const ItemMainDiv = styled.div`
 `;
 
 const Item = styled.div`
+  display: flex;
+  justify-content: start;
+  align-items: center;
   color: white;
   margin: 20px 10px;
   /* cursor: pointer; */

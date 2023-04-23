@@ -22,7 +22,7 @@ export const UserProvider = ({ children }) => {
   const { user, isAuthenticated } = useAuth0();
   const [usersMongoDb, setUsersMongoDb] = useState();
 
-  // console.log("trendingDayUseContex", trendingDay);
+  console.log("trendingDayUseContex", trendingDay);
   //   console.log("PPeople", popularPeople);
   // console.log("latestPeople:", latestPeople);
 

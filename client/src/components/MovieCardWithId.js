@@ -35,6 +35,10 @@ const MovieCardWithId = ({ movie_id }) => {
     }, 200);
   }, [movie_id]);
 
+  if (!currentMovie) {
+    return <div>Loading . . .</div>;
+  }
+
   return (
     <>
       {isLoading ? (
