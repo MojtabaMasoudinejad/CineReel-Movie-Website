@@ -8,6 +8,7 @@ import MovieCard from "./MovieCard";
 import Profile from "./Profile";
 import Comments from "../Comments/Comments";
 import SearchBar from "./SearchBar";
+import Footer from "../footer/Footer";
 // import AvatarProfile from "../AvatarProfile";
 
 const HomePage = () => {
@@ -54,6 +55,7 @@ const HomePage = () => {
         trendingWeek.map((specificMovie, index) => {
           return <MovieCard key={index} specificMovie={specificMovie} />;
         })}
+      <Footer />
     </MainDiv>
   );
 };

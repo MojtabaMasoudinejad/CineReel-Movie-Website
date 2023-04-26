@@ -34,14 +34,16 @@ export const Trending = () => {
           trendingWeek
         </Button>
       </ButtonBox>
-      {trDay &&
-        trendingDay.map((specificMovie, index) => {
-          return <MovieCard key={index} specificMovie={specificMovie} />;
-        })}
-      {trWeek &&
-        trendingWeek.map((specificMovie, index) => {
-          return <MovieCard key={index} specificMovie={specificMovie} />;
-        })}
+      <div>
+        {trDay &&
+          trendingDay.map((specificMovie, index) => {
+            return <MovieCard key={index} specificMovie={specificMovie} />;
+          })}
+        {trWeek &&
+          trendingWeek.map((specificMovie, index) => {
+            return <MovieCard key={index} specificMovie={specificMovie} />;
+          })}
+      </div>
     </div>
   );
 };
@@ -77,4 +79,9 @@ const Button = styled.button`
   outline: none;
   position: relative;
   text-align: center;
+`;
+
+const DivScrollHor = styled.div`
+  overflow: auto;
+  white-space: nowrap;
 `;

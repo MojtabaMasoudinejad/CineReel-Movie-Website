@@ -9,7 +9,7 @@ const People = () => {
   //   console.log(latestPeople);
 
   return (
-    <MainDiv style={{ display: "flex" }}>
+    <MainDiv>
       {/* <SideBar></SideBar> */}
       <div>
         {people.map((item, index) => {

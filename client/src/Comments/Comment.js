@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import CommentForm from "./CommentForm";
 // import { deleteComment } from "../../../server/handlers";
+import Avatar from "@mui/material/Avatar";
 
 const Comment = ({
   comment,
@@ -29,10 +30,12 @@ const Comment = ({
   const canEdit = currentUserId === comment.userId && !timePassed;
   const replyId = parentId ? parentId : comment._id;
   const createdAt = new Date(comment.createdAt).toLocaleDateString();
+
   return (
     <div key={comment._id} style={{ display: "flex", marginBottom: "28px" }}>
       <div style={{ marginRight: "12px" }}>
-        <img src="/user-icon.png" />
+        {/* <img src="/user-icon.png" /> */}
+        <Avatar src="/broken-image.jpg" sx={{ width: 24, height: 24 }} />
       </div>
       <div style={{ width: "100%" }}>
         <div style={{ display: "flex" }}>
@@ -84,10 +87,10 @@ const Comment = ({
         )}
         {replies.length > 0 && (
           <div style={{ marginTop: "20px" }}>
-            {replies.map((reply) => (
+            {replies.map((reply, index) => (
               <Comment
                 comment={reply}
-                key={reply.id}
+                key={index}
                 setActiveComment={setActiveComment}
                 activeComment={activeComment}
                 updateComment={updateComment}

@@ -19,10 +19,10 @@ export const UserProvider = ({ children }) => {
   const [people, setPeople] = useState(null);
   const [searchItems, setSearchItems] = useState(null);
 
-  const { user, isAuthenticated } = useAuth0();
+  const { user, isAuthenticated, loginWithRedirect } = useAuth0();
   const [usersMongoDb, setUsersMongoDb] = useState();
 
-  console.log("trendingDayUseContex", trendingDay);
+  // console.log("trendingDayUseContex", trendingDay);
   //   console.log("PPeople", popularPeople);
   // console.log("latestPeople:", latestPeople);
 
@@ -117,6 +117,7 @@ export const UserProvider = ({ children }) => {
     genre,
     user,
     isAuthenticated,
+    loginWithRedirect,
     usersMongoDb,
     setUsersMongoDb,
     userContextData,

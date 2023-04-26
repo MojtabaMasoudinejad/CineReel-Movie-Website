@@ -7,6 +7,13 @@ import LoadingState from "../components/LoadingState";
 
 import { UserContext } from "../UserContext";
 
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+
 const createCommentApi = async (
   text,
   parentId = null,
@@ -26,12 +33,20 @@ const createCommentApi = async (
 };
 
 const CommentsNew = ({ movie_id }) => {
-  const { user, isAuthenticated } = useContext(UserContext);
+  const { user, isAuthenticated, loginWithRedirect } = useContext(UserContext);
   const [backendComments, setBackendComments] = useState([]);
   const [activeComment, setActiveComment] = useState(null);
   const [messages, setMessages] = useState([]);
   const bottomRef = useRef(null);
+  const [open, setOpen] = useState(false);
 
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   const rootComments = backendComments.filter(
     (backendComment) =>
       backendComment.parentId === null && backendComment.filmId === movie_id
@@ -44,17 +59,17 @@ const CommentsNew = ({ movie_id }) => {
           new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
       );
 
-  useEffect(() => {
-    // 👇️ simulate chat messages flowing in
-    setInterval(
-      () =>
-        setMessages((current) => [
-          ...current,
-          "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Porro, quaerat eum id obcaecati, magnam voluptatum dolorem sunt, omnis sed consectetur necessitatibus blanditiis ipsa? Cumque architecto, doloribus mollitia velit non sint!",
-        ]),
-      600
-    );
-  }, []);
+  // useEffect(() => {
+  //   // 👇️ simulate chat messages flowing in
+  //   setInterval(
+  //     () =>
+  //       setMessages((current) => [
+  //         ...current,
+  //         "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Porro, quaerat eum id obcaecati, magnam voluptatum dolorem sunt, omnis sed consectetur necessitatibus blanditiis ipsa? Cumque architecto, doloribus mollitia velit non sint!",
+  //       ]),
+  //     600
+  //   );
+  // }, []);
 
   const addComment = (text, parentId, filmId, userId, username) => {
     if (user) {
@@ -88,7 +103,8 @@ const CommentsNew = ({ movie_id }) => {
           });
       });
     } else {
-      window.alert("You Should Ligin First.");
+      // window.alert("You Should Ligin First.");
+      handleClickOpen();
     }
   };
 
@@ -143,7 +159,7 @@ const CommentsNew = ({ movie_id }) => {
       });
     }
   };
-  // Get All COmments from MongoDB
+  // Get All Comments from MongoDB
   useEffect(() => {
     fetch("/api/all-comments")
       .then((res) => res.json())
@@ -165,6 +181,28 @@ const CommentsNew = ({ movie_id }) => {
 
   return (
     <CommentsDiv>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"User is not logged in"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            You should first login to add comments to yhis movie
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Close</Button>
+          <Button onClick={() => loginWithRedirect()} autoFocus>
+            Login
+          </Button>
+        </DialogActions>
+      </Dialog>
+
       <CommentsTitle>Comments</CommentsTitle>
       <CommentsFormTitle>Write comment</CommentsFormTitle>
       <CommentForm submitLabel="Write" handleSubmit={addComment} />
@@ -179,7 +217,7 @@ const CommentsNew = ({ movie_id }) => {
             addComment={addComment}
             deleteComment={deleteComment}
             updateComment={updateComment}
-            currentUserId={rootComment.userId}
+            currentUserId={user ? user.email : ""}
           />
         ))}
       </CommentsContainer>

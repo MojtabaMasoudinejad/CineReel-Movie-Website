@@ -28,7 +28,7 @@ const Profile = () => {
   }
 
   if (!usersMongoDb) {
-    return <div>Loading . . .</div>;
+    return <LoadingState />;
   }
 
   return (

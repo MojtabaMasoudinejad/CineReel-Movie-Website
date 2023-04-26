@@ -76,13 +76,13 @@ const PersonProfile = () => {
     return <LoadingState />;
   }
 
-  if (!currentPersonMovieCredit) {
-    return <LoadingState />;
-  }
+  // if (!currentPersonMovieCredit) {
+  //   return <LoadingState />;
+  // }
 
-  if (!currentPersonTvCredit) {
-    return <LoadingState />;
-  }
+  // if (!currentPersonTvCredit) {
+  //   return <LoadingState />;
+  // }
 
   return (
     <MainDiv>
@@ -144,16 +144,18 @@ const PersonProfile = () => {
       </MovieData>
       <div>
         <div> Movie Credit:</div>
-        {currentPersonMovieCredit.slice(0, 4).map((item, index) => {
-          return <MovieCardWithId key={index} movie_id={item.id} />;
+        {currentPersonMovieCredit.slice(0, 6).map((item, index) => {
+          if (item.poster_path) {
+            return <MovieCardWithId key={index} movie_id={item.id} />;
+          }
         })}
       </div>
-      <div>
+      {/* <div>
         <div> TV Credit:</div>
         {currentPersonTvCredit.slice(0, 4).map((item, index) => {
           return <MovieCardWithId key={index} movie_id={item.id} />;
         })}
-      </div>
+      </div> */}
     </MainDiv>
   );
 };

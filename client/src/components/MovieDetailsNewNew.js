@@ -1,6 +1,9 @@
 import styled from "styled-components";
 import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
+import YouTube from "react-youtube";
+import { useNavigate } from "react-router-dom";
+// import { useAuth0 } from "@auth0/auth0-react";
 
 import { UserContext } from "../UserContext";
 
@@ -8,8 +11,16 @@ import LoadingState from "./LoadingState";
 import CommentsNew from "../Comments/CommentsNew";
 import MovieCard from "./MovieCard";
 import PeopleCard from "./PeopleCard";
+import ErrorMoviePage from "./ErrorMoviePage";
 
 import { FaBookmark, FaRegHeart } from "react-icons/fa";
+
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
@@ -22,18 +33,33 @@ const MovieDetailsNewNew = () => {
     user,
     usersMongoDb,
     userContextData,
+    isAuthenticated,
+    loginWithRedirect,
   } = useContext(UserContext);
   const { movie_id } = useParams();
+  const navigate = useNavigate();
+  // const {  isAuthenticated } = useAuth0();
 
   const [currentMovieDetail, setCurrentMovieDetail] = useState();
-  // const [video, setVideo] = useState(null);
+  const [movieVideo, setMovieVideo] = useState(null);
   const [recommendedMovies, setrecommendedMovies] = useState();
   const [movieCredits, setMovieCredits] = useState();
   const [addedWatchList, setAddedWatchList] = useState(false);
   const [liked, setLiked] = useState(false);
 
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   // console.log("movieCredits", movieCredits);
   console.log("currentMovieDetail", currentMovieDetail);
+  // console.log("recommendedMovies", recommendedMovies);
+  // console.log("movieVideo", movieVideo);
 
   useEffect(() => {
     usersMongoDb.forEach((item) => {
@@ -117,110 +143,127 @@ const MovieDetailsNewNew = () => {
     setMovieCredits(jsonData.cast);
   };
 
+  //ّFetch Movies Video
+  const fetchMoviesVideo = async () => {
+    const response = await fetch(
+      `https://api.themoviedb.org/3/movie/${movie_id}/videos?api_key=${API_KEY}&language=en-US`
+    );
+    const jsonData = await response.json();
+
+    setMovieVideo(jsonData.results);
+  };
+
   // Add specific Movie to WatchList
   const addToWatchListHandler = () => {
-    //
-    if (!addedWatchList) {
-      setAddedWatchList(true);
-    } else {
-      setAddedWatchList(!addedWatchList);
-    }
+    if (isAuthenticated) {
+      if (!addedWatchList) {
+        setAddedWatchList(true);
+      } else {
+        setAddedWatchList(!addedWatchList);
+      }
 
-    if (!addedWatchList) {
-      fetch(`/api/users/${user.email}`, {
-        method: "PATCH",
-        body: JSON.stringify({ newWatchList: movie_id }),
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.status === 200) {
-            setAddedWatchList(true);
-            userContextData();
-          } else {
-            console.log("Unknown error has occured. Please try again.");
-          }
+      if (!addedWatchList) {
+        fetch(`/api/users/${user.email}`, {
+          method: "PATCH",
+          body: JSON.stringify({ newWatchList: movie_id }),
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
         })
-        .catch((e) => {
-          console.log("Error: ", e);
-        });
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.status === 200) {
+              setAddedWatchList(true);
+              userContextData();
+            } else {
+              console.log("Unknown error has occured. Please try again.");
+            }
+          })
+          .catch((e) => {
+            console.log("Error: ", e);
+          });
+      } else {
+        fetch(`/api/users-remove/${user.email}`, {
+          method: "PATCH",
+          body: JSON.stringify({ newWatchList: movie_id }),
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.status === 200) {
+              setAddedWatchList(false);
+              userContextData();
+            } else {
+              console.log("Unknown error has occured. Please try again.");
+            }
+          })
+          .catch((e) => {
+            console.log("Error: ", e);
+          });
+      }
     } else {
-      fetch(`/api/users-remove/${user.email}`, {
-        method: "PATCH",
-        body: JSON.stringify({ newWatchList: movie_id }),
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.status === 200) {
-            setAddedWatchList(false);
-            userContextData();
-          } else {
-            console.log("Unknown error has occured. Please try again.");
-          }
-        })
-        .catch((e) => {
-          console.log("Error: ", e);
-        });
+      handleClickOpen();
     }
   };
 
   // Add specific Movie to LikedList
   const likedHandler = () => {
-    if (!liked) {
-      setLiked(true);
-    } else {
-      setLiked(!liked);
-    }
+    if (isAuthenticated) {
+      if (!liked) {
+        setLiked(true);
+      } else {
+        setLiked(!liked);
+      }
 
-    if (!liked) {
-      fetch(`/api/users-add-like/${user.email}`, {
-        method: "PATCH",
-        body: JSON.stringify({ newLikedMovie: movie_id }),
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.status === 200) {
-            setLiked(true);
-            userContextData();
-          } else {
-            console.log("Unknown error has occured. Please try again.");
-          }
+      if (!liked) {
+        fetch(`/api/users-add-like/${user.email}`, {
+          method: "PATCH",
+          body: JSON.stringify({ newLikedMovie: movie_id }),
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
         })
-        .catch((e) => {
-          console.log("Error: ", e);
-        });
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.status === 200) {
+              setLiked(true);
+              userContextData();
+            } else {
+              console.log("Unknown error has occured. Please try again.");
+            }
+          })
+          .catch((e) => {
+            console.log("Error: ", e);
+          });
+      } else {
+        fetch(`/api/users-remove-like/${user.email}`, {
+          method: "PATCH",
+          body: JSON.stringify({ newLikedMovie: movie_id }),
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.status === 200) {
+              setLiked(false);
+              userContextData();
+            } else {
+              console.log("Unknown error has occured. Please try again.");
+            }
+          })
+          .catch((e) => {
+            console.log("Error: ", e);
+          });
+      }
     } else {
-      fetch(`/api/users-remove-like/${user.email}`, {
-        method: "PATCH",
-        body: JSON.stringify({ newLikedMovie: movie_id }),
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.status === 200) {
-            setLiked(false);
-            userContextData();
-          } else {
-            console.log("Unknown error has occured. Please try again.");
-          }
-        })
-        .catch((e) => {
-          console.log("Error: ", e);
-        });
+      handleClickOpen();
     }
   };
   useEffect(() => {
@@ -229,13 +272,14 @@ const MovieDetailsNewNew = () => {
     fetchData();
     fetchRecommendedMovies();
     fetchMoviesCredits();
+    fetchMoviesVideo();
   }, [movie_id]);
 
   if (!currentMovieDetail) {
     return <LoadingState />;
   }
 
-  // if (!video) {
+  // if (!movieVideo) {
   //   return <LoadingState />;
   // }
 
@@ -247,12 +291,35 @@ const MovieDetailsNewNew = () => {
   // }
 
   if (!currentMovieDetail.backdrop_path && !currentMovieDetail.poster_path) {
-    window.alert("The Movie is not found in Data Base");
+    // window.alert("The Movie is not found in Data Base");
+    navigate(`/error`);
   }
 
   return (
     // {currentMovieDetail.success && }
     <MainDiv>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"User is not logged in"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            You should first login to add this movie to your profile
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Close</Button>
+          <Button onClick={() => loginWithRedirect()} autoFocus>
+            Login
+          </Button>
+        </DialogActions>
+      </Dialog>
+
       <div style={{ width: "95%" }}>
         {currentMovieDetail.backdrop_path && (
           <MovieBackdrop
@@ -281,10 +348,8 @@ const MovieDetailsNewNew = () => {
         <MovieDataRight>
           <MovieDetail>
             <div style={{ fontWeight: "600", fontSize: "3rem" }}>
-              {currentMovieDetail.original_title &&
-                currentMovieDetail.original_title}
-              {currentMovieDetail.original_name &&
-                currentMovieDetail.original_name}
+              {currentMovieDetail.title && currentMovieDetail.title}
+              {currentMovieDetail.name && currentMovieDetail.name}
             </div>
             <div style={{ margin: "30px 0" }}>
               IMDB: {currentMovieDetail.vote_average}
@@ -344,36 +409,62 @@ const MovieDetailsNewNew = () => {
           </div>
         </MovieDataRight>
       </MovieData>
-      {/* <div>
-        {video.map((item, index) => {
-          return (
-            <video key={index}>
-              <source src={` https://www.youtube.com/watch?v=${item.key}`} />
-            </video>
-          );
-        })}
-      </div> */}
+
       {recommendedMovies && (
         <div>
-          <h2>Recommended Movies</h2>
-          {recommendedMovies &&
-            recommendedMovies.slice(0, 4).map((item, index) => {
-              if (item.poster_path !== undefined) {
-                return <MovieCard key={index} specificMovie={item} />;
-              }
-            })}
+          {Object.keys(recommendedMovies).length !== 0 && (
+            <div>
+              <h2>Recommended Movies</h2>
+              {recommendedMovies &&
+                recommendedMovies.slice(0, 4).map((item, index) => {
+                  if (item.poster_path && item.backdrop_path) {
+                    return <MovieCard key={index} specificMovie={item} />;
+                  }
+                })}
+            </div>
+          )}
         </div>
       )}
 
-      {/* {movieCredits && (
+      {/* <div style={{ overflow: "auto", whiteSpace: "nowrap" }}> */}
+      {movieCredits && (
         <div>
           <h2> Movie Cast</h2>
-          {movieCredits &&
-            movieCredits.slice(0, 4).map((item, index) => {
-              return <PeopleCard key={index} people_id={item.id} />;
-            })}
+          <div>
+            {movieCredits &&
+              movieCredits.slice(0, 5).map((item, index) => {
+                if (item.profile_path) {
+                  return <PeopleCard key={index} people_id={item.id} />;
+                }
+              })}
+          </div>
         </div>
-      )} */}
+      )}
+      {/* </div> */}
+
+      {movieVideo && (
+        <div>
+          {Object.keys(movieVideo).length !== 0 && (
+            <div>
+              <h2> Movie Video</h2>
+              <div style={{ display: "flex" }}>
+                {movieVideo.slice(0, 2).map((item, index) => {
+                  if (item.site === "YouTube") {
+                    return (
+                      <YouTube
+                        key={index}
+                        videoId={item.key}
+                        style={{ margin: "10px " }}
+                      />
+                    );
+                  }
+                })}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
       <CommentsDiv>
         <CommentsNew movie_id={movie_id} />
       </CommentsDiv>

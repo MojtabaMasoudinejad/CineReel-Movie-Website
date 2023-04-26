@@ -10,6 +10,7 @@ import Profile from "./Profile";
 import People from "./People";
 import PersonProfile from "./PersonProfile";
 import SearchPage from "./SearchPage";
+import ErrorMoviePage from "./ErrorMoviePage";
 
 import MovieDetailsNewNew from "./MovieDetailsNewNew";
 
@@ -27,6 +28,7 @@ const App = () => {
           <Route path="/people" element={<People />} />
           <Route path="/people/:people_id" element={<PersonProfile />} />
           <Route path="/search" element={<SearchPage />} />
+          <Route path="/error" element={<ErrorMoviePage />} />
         </Routes>
       </UserProvider>
     </BrowserRouter>

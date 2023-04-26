@@ -31,7 +31,7 @@ const PeopleCard = ({ people_id }) => {
     return <div>Loading ...</div>;
   }
 
-  //   console.log("currentPerson", currentPerson);
+  // console.log("currentPerson", currentPerson);
 
   return (
     <>
