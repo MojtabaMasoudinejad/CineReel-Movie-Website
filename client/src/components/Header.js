@@ -18,6 +18,7 @@ import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import Logout from "@mui/icons-material/Logout";
+import SearchBar from "./SearchBar";
 
 const Header = () => {
   const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
@@ -41,12 +42,15 @@ const Header = () => {
   return (
     <MainDIv>
       <NavContainer>
-        <StyledNav to={"/"}>IMDB </StyledNav>
+        <StyledNav to={"/"}>CineReel! </StyledNav>
         <StyledNav>All Movies</StyledNav>
         <StyledNav to={"/trending"}>Trending</StyledNav>
         <StyledNav to={"/top-rated"}>Top Rated</StyledNav>
         <StyledNav to={"/people"}> People</StyledNav>
+        <StyledNav to={"/pricing"}> Pricing</StyledNav>
       </NavContainer>
+      <SearchBar />
+
       {/* <UserContainer>
         {isAuthenticated ? (
           <StyledNav to={"/profile"}>
@@ -150,10 +154,10 @@ const MainDIv = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 98.9vw;
+  /* width: 98.9vw; */
   background-color: black;
   height: 70px;
-  /* z-index: 2; */
+  z-index: 2;
   color: white;
   top: 0;
 `;

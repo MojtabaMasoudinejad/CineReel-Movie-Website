@@ -10,6 +10,12 @@ import Comments from "../Comments/Comments";
 import SearchBar from "./SearchBar";
 import Footer from "../footer/Footer";
 // import AvatarProfile from "../AvatarProfile";
+import img from "../Assets/bg-presentation.jpg";
+import Pricing from "./Pricing";
+import CoverImg from "../HomepageComponents/CoverImg";
+import TopRatedCover from "../HomepageComponents/TopRatedCover";
+import CoverPouplarMovies from "../HomepageComponents/CoverPouplarMovies";
+import CoverTrendings from "../HomepageComponents/CoverTrendings";
 
 const HomePage = () => {
   const { trendingDay, trendingWeek } = useContext(UserContext);
@@ -20,13 +26,16 @@ const HomePage = () => {
 
   return (
     <MainDiv>
-      {/* <AvatarProfile /> */}
-      <SearchBar />
-      <DivSlidePoster>
-        <SliderPoster />
-      </DivSlidePoster>
+      <CoverImg />
+      <CoverPouplarMovies />
+      <CoverTrendings />
+      {/* <TopRatedCover /> */}
 
-      <ButtonBox style={{ marginTop: "20px" }}>
+      {/* <DivSlidePoster>
+        <SliderPoster />
+      </DivSlidePoster> */}
+
+      {/* <ButtonBox style={{ marginTop: "20px" }}>
         <BtnDiv style={{ left: leftActive ? "0" : "110px" }}></BtnDiv>
         <Button
           onClick={(e) => {
@@ -54,7 +63,7 @@ const HomePage = () => {
       {trWeek &&
         trendingWeek.map((specificMovie, index) => {
           return <MovieCard key={index} specificMovie={specificMovie} />;
-        })}
+        })} */}
       <Footer />
     </MainDiv>
   );
@@ -63,7 +72,7 @@ const HomePage = () => {
 export default HomePage;
 
 const MainDiv = styled.div`
-  margin: 20px 20px;
+  /* margin: 20px 20px; */
 `;
 
 const DivSlidePoster = styled.div`
@@ -100,3 +109,15 @@ const Button = styled.button`
   position: relative;
   text-align: center;
 `;
+
+// const CoverImg = styled.div`
+//   /* position: absolute; */
+//   top: 0;
+//   background-image: url(${img});
+//   min-height: 100vh;
+//   /* width: 100%; */
+//   background-size: "cover";
+//   background-position: "top";
+//   display: "grid";
+//   place-items: "center";
+// `;

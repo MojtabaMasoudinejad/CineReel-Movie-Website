@@ -13,13 +13,15 @@ import SearchPage from "./SearchPage";
 import ErrorMoviePage from "./ErrorMoviePage";
 
 import MovieDetailsNewNew from "./MovieDetailsNewNew";
+import Pricing from "./Pricing";
 
 const App = () => {
   return (
     <BrowserRouter>
       <GlobalStyles />
-      <Header />
+
       <UserProvider>
+        <Header />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/trending" element={<Trending />} />
@@ -29,6 +31,7 @@ const App = () => {
           <Route path="/people/:people_id" element={<PersonProfile />} />
           <Route path="/search" element={<SearchPage />} />
           <Route path="/error" element={<ErrorMoviePage />} />
+          <Route path="/pricing" element={<Pricing />} />
         </Routes>
       </UserProvider>
     </BrowserRouter>

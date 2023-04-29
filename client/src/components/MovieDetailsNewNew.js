@@ -59,7 +59,7 @@ const MovieDetailsNewNew = () => {
   // console.log("movieCredits", movieCredits);
   console.log("currentMovieDetail", currentMovieDetail);
   // console.log("recommendedMovies", recommendedMovies);
-  // console.log("movieVideo", movieVideo);
+  console.log("movieVideo", movieVideo);
 
   useEffect(() => {
     usersMongoDb.forEach((item) => {
