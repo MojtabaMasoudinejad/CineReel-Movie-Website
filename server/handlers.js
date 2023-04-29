@@ -343,6 +343,76 @@ const unlikedMovie = async (req, res) => {
   client.close();
 };
 
+//Add Person To  user LikedList
+const likedPerson = async (req, res) => {
+  const { newLikedPerson } = req.body;
+  const { email } = req.params;
+  const client = new MongoClient(MONGO_URI, options);
+  try {
+    await client.connect();
+    const db = client.db("Final_Project");
+    const updateLikedList = await db.collection("users").updateOne(
+      { email: email },
+      {
+        $push: {
+          likedListPerson: newLikedPerson,
+        },
+      }
+    );
+
+    if (updateLikedList.acknowledged) {
+      res.status(200).json({
+        status: 200,
+        message: "The LikedListPerson is Updatad Successfully",
+      });
+    } else {
+      res.status(404).json({
+        status: 404,
+        data: "The LikedListPerson Update is Not Completed",
+      });
+    }
+  } catch (err) {
+    console.log(err.stack);
+  }
+
+  client.close();
+};
+
+//Remove Person from  user LikedList
+const unlikedPerson = async (req, res) => {
+  const { newLikedPerson } = req.body;
+  const { email } = req.params;
+  const client = new MongoClient(MONGO_URI, options);
+  try {
+    await client.connect();
+    const db = client.db("Final_Project");
+    const updateLikedList = await db.collection("users").updateOne(
+      { email: email },
+      {
+        $pull: {
+          likedListPerson: newLikedPerson,
+        },
+      }
+    );
+
+    if (updateLikedList.acknowledged) {
+      res.status(200).json({
+        status: 200,
+        message: "The LikedListPerson is Updatad Successfully",
+      });
+    } else {
+      res.status(404).json({
+        status: 404,
+        data: "The LikedListPerson Update is Not Completed",
+      });
+    }
+  } catch (err) {
+    console.log(err.stack);
+  }
+
+  client.close();
+};
+
 module.exports = {
   getComments,
   addComments,
@@ -353,4 +423,6 @@ module.exports = {
   updateRemoveWatchList,
   likedMovie,
   unlikedMovie,
+  likedPerson,
+  unlikedPerson,
 };

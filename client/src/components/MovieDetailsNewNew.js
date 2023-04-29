@@ -14,6 +14,7 @@ import PeopleCard from "./PeopleCard";
 import ErrorMoviePage from "./ErrorMoviePage";
 
 import { FaBookmark, FaRegHeart } from "react-icons/fa";
+import { IoHeartCircleSharp } from "react-icons/io5";
 
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";

@@ -8,17 +8,33 @@ import LoadingState from "./LoadingState";
 import MovieCardWithId from "./MovieCardWithId";
 
 import { FaBookmark, FaRegHeart } from "react-icons/fa";
+import { IoHeartCircleSharp } from "react-icons/io5";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
 const PersonProfile = () => {
+  const { user, userContextData, isAuthenticated, usersMongoDb } =
+    useContext(UserContext);
   const [isLoading, setIsLoading] = useState(true);
   const [currentPerson, setCurrentPerson] = useState(null);
   const [currentPersonMovieCredit, setCurrentPersonMovieCredit] =
     useState(null);
   const [currentPersonTvCredit, setCurrentPersonTvCredit] = useState(null);
+  const [liked, setLiked] = useState(false);
+  // const [open, setOpen] = useState(false);
 
   const { people_id } = useParams();
+
+  // console.log("people_id", people_id);
+  // console.log("liked", liked);
+
+  // const handleClickOpen = () => {
+  //   setOpen(true);
+  // };
+
+  // const handleClose = () => {
+  //   setOpen(false);
+  // };
 
   //   console.log(currentPersonTvCredit);
 
@@ -60,6 +76,80 @@ const PersonProfile = () => {
       .catch((err) => {
         console.log("Error", err);
       });
+  };
+
+  useEffect(() => {
+    usersMongoDb.forEach((item) => {
+      if (item.email && user) {
+        if (item.email === user.email) {
+          if (item.likedListPerson) {
+            if (item.likedListPerson.includes(people_id)) {
+              setLiked(true);
+            } else {
+              setLiked(false);
+            }
+          }
+        }
+      }
+    });
+  }, [user, people_id]);
+
+  // Add specific Person to LikedListPerson
+  const likedHandler = () => {
+    if (isAuthenticated) {
+      if (!liked) {
+        setLiked(true);
+      } else {
+        setLiked(!liked);
+      }
+
+      if (!liked) {
+        fetch(`/api/users-add-person-like/${user.email}`, {
+          method: "PATCH",
+          body: JSON.stringify({ newLikedPerson: people_id }),
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.status === 200) {
+              setLiked(true);
+              userContextData();
+            } else {
+              console.log("Unknown error has occured. Please try again.");
+            }
+          })
+          .catch((e) => {
+            console.log("Error: ", e);
+          });
+      } else {
+        fetch(`/api/users-remove-person-like/${user.email}`, {
+          method: "PATCH",
+          body: JSON.stringify({ newLikedPerson: people_id }),
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.status === 200) {
+              setLiked(false);
+              userContextData();
+            } else {
+              console.log("Unknown error has occured. Please try again.");
+            }
+          })
+          .catch((e) => {
+            console.log("Error: ", e);
+          });
+      }
+    }
+    // else {
+    //   handleClickOpen();
+    // }
   };
 
   useEffect(() => {
@@ -129,10 +219,10 @@ const PersonProfile = () => {
             style={{ fill: addedWatchList ? "red" : "" }}
             onClick={addToWatchListHandler}
           /> */}
-              <FaRegHeart
+              <IoHeartCircleSharp
                 size={30}
-                // style={{ fill: liked ? "red" : "" }}
-                // onClick={likedHandler}
+                style={{ fill: liked ? "red" : "" }}
+                onClick={likedHandler}
               />
             </div>
           </MovieDetail>

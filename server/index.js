@@ -12,6 +12,8 @@ const {
   updateRemoveWatchList,
   likedMovie,
   unlikedMovie,
+  likedPerson,
+  unlikedPerson,
 } = require("./handlers");
 
 const PORT = 4000;
@@ -46,5 +48,7 @@ express()
   .patch("/api/users-remove/:email", updateRemoveWatchList)
   .patch("/api/users-add-like/:email", likedMovie)
   .patch("/api/users-remove-like/:email", unlikedMovie)
+  .patch("/api/users-add-person-like/:email", likedPerson)
+  .patch("/api/users-remove-person-like/:email", unlikedPerson)
 
   .listen(PORT, () => console.info(`Listening on port ${PORT}`));

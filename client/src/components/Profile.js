@@ -7,10 +7,12 @@ import Avatar from "@mui/material/Avatar";
 import { UserContext } from "../UserContext";
 import LoadingState from "./LoadingState";
 import MovieCardWithId from "./MovieCardWithId";
+import PeopleCard from "./PeopleCard";
 
 import { FaRegHeart } from "react-icons/fa";
 import { BsBookmark } from "react-icons/bs";
 import { IoIosLogOut } from "react-icons/io";
+import { IoHeartCircleSharp } from "react-icons/io5";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
@@ -18,6 +20,7 @@ const Profile = () => {
   const { usersMongoDb } = useContext(UserContext);
   const [isWatchList, setIsWatchList] = useState(true);
   const [isFavorites, setIsFavorites] = useState(false);
+  const [isFavoritesPerson, setIsFavoritesPerson] = useState(false);
 
   const { user, isAuthenticated, isLoading, logout } = useAuth0();
   // console.log(usersMongoDb);
@@ -47,6 +50,7 @@ const Profile = () => {
           onClick={() => {
             setIsFavorites(false);
             setIsWatchList(true);
+            setIsFavoritesPerson(false);
           }}
         >
           <BsBookmark color="white" size={25} />
@@ -63,6 +67,7 @@ const Profile = () => {
           onClick={() => {
             setIsFavorites(true);
             setIsWatchList(false);
+            setIsFavoritesPerson(false);
           }}
         >
           <FaRegHeart color="white" size={25} />
@@ -73,6 +78,23 @@ const Profile = () => {
             }}
           >
             Favorites Movies
+          </Item>
+        </ItemMainDiv>
+        <ItemMainDiv
+          onClick={() => {
+            setIsFavorites(false);
+            setIsWatchList(false);
+            setIsFavoritesPerson(true);
+          }}
+        >
+          <IoHeartCircleSharp color="white" size={25} />
+          <Item
+            style={{
+              color: isFavorites ? "black" : "",
+              fontWeight: isFavorites ? "800" : "",
+            }}
+          >
+            Favorites Persons
           </Item>
         </ItemMainDiv>
         <ItemMainDiv onClick={() => logout()}>
@@ -94,6 +116,17 @@ const Profile = () => {
             if (item.hasOwnProperty("likedList") && item.email === user.email) {
               return item.likedList.map((movie_id, index) => {
                 return <MovieCardWithId key={index} movie_id={movie_id} />;
+              });
+            }
+          })}
+        {isFavoritesPerson &&
+          usersMongoDb.map((item) => {
+            if (
+              item.hasOwnProperty("likedListPerson") &&
+              item.email === user.email
+            ) {
+              return item.likedListPerson.map((people_id, index) => {
+                return <PeopleCard key={index} people_id={people_id} />;
               });
             }
           })}
