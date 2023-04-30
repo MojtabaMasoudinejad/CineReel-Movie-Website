@@ -18,11 +18,12 @@ export const UserProvider = ({ children }) => {
   const [genre, setGenre] = useState(null);
   const [people, setPeople] = useState(null);
   const [searchItems, setSearchItems] = useState(null);
+  const [upcomingMovies, setUpcomingMovies] = useState(null);
 
   const { user, isAuthenticated, loginWithRedirect } = useAuth0();
   const [usersMongoDb, setUsersMongoDb] = useState();
 
-  console.log("topRated", topRated);
+  console.log("upcomingMovies", upcomingMovies);
   //   console.log("PPeople", popularPeople);
   // console.log("latestPeople:", latestPeople);
 
@@ -61,6 +62,9 @@ export const UserProvider = ({ children }) => {
       ),
 
       fetch(`/api/users`),
+      fetch(
+        `https://api.themoviedb.org/3/movie/upcoming?api_key=${API_KEY}&language=en-US&page=1`
+      ),
     ])
 
       .then(
@@ -72,6 +76,7 @@ export const UserProvider = ({ children }) => {
           response5,
           response6,
           response7,
+          response8,
         ]) => {
           return Promise.all([
             response1.json(),
@@ -81,10 +86,11 @@ export const UserProvider = ({ children }) => {
             response5.json(),
             response6.json(),
             response7.json(),
+            response8.json(),
           ]);
         }
       )
-      .then(([data1, data2, data3, data4, data5, data6, data7]) => {
+      .then(([data1, data2, data3, data4, data5, data6, data7, data8]) => {
         setTrendingDay(data1.results);
         setTrendingWeek(data2.results);
         setTopRated(data3.results);
@@ -92,6 +98,7 @@ export const UserProvider = ({ children }) => {
         setGenre(data5.genres);
         setPeople(data6.results);
         setUsersMongoDb(data7.data);
+        setUpcomingMovies(data8.results);
       })
       .catch((err) => {
         console.log("Error", err);
@@ -124,6 +131,7 @@ export const UserProvider = ({ children }) => {
     people,
     searchItems,
     setSearchItems,
+    upcomingMovies,
   };
 
   return (

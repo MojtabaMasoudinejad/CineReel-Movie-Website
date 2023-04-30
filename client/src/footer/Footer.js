@@ -73,7 +73,7 @@ const StyledFooter = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  width: 98.9vw;
+  /* width: 98.9vw; */
   background-color: black;
   height: 300px;
   color: white;

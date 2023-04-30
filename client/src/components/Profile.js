@@ -90,8 +90,8 @@ const Profile = () => {
           <IoHeartCircleSharp color="white" size={25} />
           <Item
             style={{
-              color: isFavorites ? "black" : "",
-              fontWeight: isFavorites ? "800" : "",
+              color: isFavoritesPerson ? "black" : "",
+              fontWeight: isFavoritesPerson ? "800" : "",
             }}
           >
             Favorites Persons

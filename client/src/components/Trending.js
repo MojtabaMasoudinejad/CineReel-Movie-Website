@@ -10,6 +10,7 @@ export const Trending = () => {
   const [trDay, setTrDay] = useState(true);
   const [trWeek, setTrWeek] = useState(false);
   const [leftActive, setLeftActive] = useState(true);
+  window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
 
   return (
     <div>

@@ -25,7 +25,6 @@ const CoverPouplarMovies = () => {
             opacity: "0.5",
           }}
         />
-
         <AllLink to={"/top-rated"}>VIEW ALL </AllLink>
       </ContainerDiv>
       <MovieDiv>
@@ -56,6 +55,7 @@ const ContainerDiv = styled.div`
 `;
 
 const Title = styled.p`
+  /* font-family: "Montserrat", "Open Sans", sans-serif; */
   color: white;
   font-size: 35px;
   /* font-weight: bold; */

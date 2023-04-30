@@ -16,6 +16,7 @@ import CoverImg from "../HomepageComponents/CoverImg";
 import TopRatedCover from "../HomepageComponents/TopRatedCover";
 import CoverPouplarMovies from "../HomepageComponents/CoverPouplarMovies";
 import CoverTrendings from "../HomepageComponents/CoverTrendings";
+import CoverUpComing from "../HomepageComponents/CoverUpComing";
 
 const HomePage = () => {
   const { trendingDay, trendingWeek } = useContext(UserContext);
@@ -29,8 +30,8 @@ const HomePage = () => {
       <CoverImg />
       <CoverPouplarMovies />
       <CoverTrendings />
-      {/* <TopRatedCover /> */}
-
+      <TopRatedCover />
+      <CoverUpComing />
       {/* <DivSlidePoster>
         <SliderPoster />
       </DivSlidePoster> */}

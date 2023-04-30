@@ -1,10 +1,12 @@
-import { useContext, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { useContext, useState, useRef } from "react";
+import { NavLink, Link } from "react-router-dom";
 import styled from "styled-components";
 
 import { UserContext } from "../UserContext";
 
 import MovieCard from "../components/MovieCard";
+
+import { SlArrowRight, SlArrowLeft } from "react-icons/sl";
 
 const CoverTrendings = () => {
   const { trendingDay, trendingWeek } = useContext(UserContext);
@@ -12,6 +14,36 @@ const CoverTrendings = () => {
   const [trDay, setTrDay] = useState(true);
   const [trWeek, setTrWeek] = useState(false);
   const [leftActive, setLeftActive] = useState(true);
+  // const [arrowDisable, setArrowDisable] = useState(true);
+
+  // const elementRef = useRef(null);
+
+  // const handleHorizantalScroll = (element, speed, distance, step) => {
+  //   let scrollAmount = 0;
+  //   const slideTimer = setInterval(() => {
+  //     element.scrollLeft += step;
+  //     scrollAmount += Math.abs(step);
+  //     if (scrollAmount >= distance) {
+  //       clearInterval(slideTimer);
+  //     }
+  //     if (element.scrollLeft === 0) {
+  //       setArrowDisable(true);
+  //     } else {
+  //       setArrowDisable(false);
+  //     }
+  //   }, speed);
+  // };
+
+  const slideLeft = () => {
+    let slider = document.getElementById("slider");
+    slider.scrollLeft = slider.scrollLeft - 218;
+    console.log("slider", slider.scrollLeft);
+  };
+
+  const slideRight = () => {
+    let slider = document.getElementById("slider");
+    slider.scrollLeft = slider.scrollLeft + 218;
+  };
 
   return (
     <MainDiv>
@@ -44,16 +76,90 @@ const CoverTrendings = () => {
           Week-Trending
         </Button>
       </ButtonBox>
-      <div>
-        {trDay &&
-          trendingDay.slice(0, 7).map((specificMovie, index) => {
-            return <MovieCard key={index} specificMovie={specificMovie} />;
-          })}
-        {trWeek &&
-          trendingWeek.slice(0, 7).map((specificMovie, index) => {
-            return <MovieCard key={index} specificMovie={specificMovie} />;
-          })}
-        <AllLink to={"/trending"}>VIEW ALL</AllLink>
+      <div style={{ display: "flex" }}>
+        <div
+          id="slider"
+          style={{
+            display: "flex",
+            overflow: "auto",
+            overflowX: "hidden",
+            width: "70vw",
+            height: "360px",
+          }}
+        >
+          {trDay &&
+            trendingDay.map((specificMovie, index) => {
+              return <MovieCard key={index} specificMovie={specificMovie} />;
+            })}
+          {trWeek &&
+            trendingWeek.map((specificMovie, index) => {
+              return <MovieCard key={index} specificMovie={specificMovie} />;
+            })}
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            marginLeft: "30px",
+          }}
+        >
+          <hr
+            align="left"
+            style={{ width: "70px", marginLeft: " 10px", opacity: "0.5" }}
+          />
+          <Title>TRENDING MOVIES</Title>
+
+          <div>
+            <SlArrowLeft
+              size="50"
+              onMouseOver={({ target }) => (target.style.color = "#2d3436")}
+              onMouseOut={({ target }) => (target.style.color = "#b2bec3")}
+              color="#b2bec3"
+              // color="red"
+              onClick={() => slideLeft()}
+              style={{
+                cursor: "pointer",
+                // position: "absolute",
+                top: "40%",
+                right: "182px",
+                zIndex: "10",
+                userSelect: "none",
+              }}
+            />
+            <SlArrowRight
+              size="50"
+              onMouseOver={({ target }) => (target.style.color = "#2d3436")}
+              onMouseOut={({ target }) => (target.style.color = "#b2bec3")}
+              color="#b2bec3"
+              // color="red"
+              onClick={() => slideRight()}
+              style={{
+                cursor: "pointer",
+                // position: "absolute",
+                top: "40%",
+                right: "132px",
+                zIndex: "10",
+                userSelect: "none",
+              }}
+            />
+          </div>
+          <hr
+            align="left"
+            style={{
+              marginLeft: " 10px",
+              marginRight: "10px",
+              opacity: "0.5",
+            }}
+          />
+          <div>
+            <Link to={"/trending"} style={{ textDecoration: "none" }}>
+              <ViewallDiv> VIEW ALL</ViewallDiv>
+            </Link>
+          </div>
+
+          {/* <AllLink to={"/trending"}>VIEW ALL</AllLink> */}
+        </div>
       </div>
     </MainDiv>
   );
@@ -64,9 +170,10 @@ export default CoverTrendings;
 const MainDiv = styled.div`
   /* width: 100vw; */
   /* display: flex; */
+  height: 500px;
   margin: 0 60px;
-  margin-bottom: 60px;
-  border: solid red 5px;
+  /* margin-bottom: 60px; */
+  /* border: solid red 5px; */
   position: relative;
 `;
 
@@ -76,7 +183,7 @@ const ButtonBox = styled.div`
   margin: 20px 0;
   position: relative;
   background: white;
-  border: solid blue 5px;
+  /* border: solid blue 5px; */
 `;
 
 const Button = styled.button`
@@ -88,16 +195,37 @@ const Button = styled.button`
   outline: none;
   position: relative;
   text-align: center;
-  border: solid green 5px;
+  /* border: solid green 5px; */
 `;
 
 const AllLink = styled(NavLink)`
   /* color: #b2bec3; */
   font-size: 22px;
-  margin: 130px 50px;
+  width: 200px;
+  margin: 220px 150px;
   position: absolute;
   text-decoration: none;
   &:hover {
     color: black;
   }
+`;
+
+const ViewallDiv = styled.div`
+  font-size: 22px;
+  width: 200px;
+  margin-left: 10px;
+  text-decoration: none;
+  &:hover {
+    color: black;
+  }
+`;
+
+const Title = styled.p`
+  /* font-family: "Montserrat", "Open Sans", sans-serif; */
+  /* color: white; */
+  font-size: 35px;
+  /* font-weight: bold; */
+  text-align: left;
+  width: 200px;
+  margin: 40px 20px;
 `;
