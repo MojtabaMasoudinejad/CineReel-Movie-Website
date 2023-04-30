@@ -32,39 +32,6 @@ const HomePage = () => {
       <CoverTrendings />
       <TopRatedCover />
       <CoverUpComing />
-      {/* <DivSlidePoster>
-        <SliderPoster />
-      </DivSlidePoster> */}
-
-      {/* <ButtonBox style={{ marginTop: "20px" }}>
-        <BtnDiv style={{ left: leftActive ? "0" : "110px" }}></BtnDiv>
-        <Button
-          onClick={(e) => {
-            setTrDay(true);
-            setTrWeek(false);
-            setLeftActive(true);
-          }}
-        >
-          trendingDay
-        </Button>
-        <Button
-          onClick={() => {
-            setTrWeek(true);
-            setTrDay(false);
-            setLeftActive(false);
-          }}
-        >
-          trendingWeek
-        </Button>
-      </ButtonBox>
-      {trDay &&
-        trendingDay.map((specificMovie, index) => {
-          return <MovieCard key={index} specificMovie={specificMovie} />;
-        })}
-      {trWeek &&
-        trendingWeek.map((specificMovie, index) => {
-          return <MovieCard key={index} specificMovie={specificMovie} />;
-        })} */}
       <Footer />
     </MainDiv>
   );

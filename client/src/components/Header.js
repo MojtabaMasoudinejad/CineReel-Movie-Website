@@ -150,16 +150,16 @@ const Header = () => {
 export default Header;
 
 const MainDIv = styled.div`
-  /* position: fixed; */
+  position: fixed;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* width: 98.9vw; */
+  width: 100vw;
   background-color: black;
   height: 70px;
   z-index: 2;
   color: white;
-  top: 0;
+  /* top: 0; */
 `;
 const NavContainer = styled.div`
   margin: 0px 2%;

@@ -3,6 +3,11 @@ import CommentForm from "./CommentForm";
 // import { deleteComment } from "../../../server/handlers";
 import Avatar from "@mui/material/Avatar";
 
+import { VscReply } from "react-icons/vsc";
+import { BsReplyAll } from "react-icons/bs";
+import { CiEdit } from "react-icons/ci";
+import { AiOutlineDelete } from "react-icons/ai";
+
 const Comment = ({
   comment,
   replies,
@@ -56,27 +61,66 @@ const Comment = ({
         )}
         <CommentActions>
           {canReply && (
-            <CommentAction
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
               onClick={() =>
                 setActiveComment({ id: comment._id, type: "replying" })
               }
             >
-              Reply
-            </CommentAction>
+              <BsReplyAll size={20} />
+              <CommentAction
+                style={{ marginLeft: "5px" }}
+                // onClick={() =>
+                //   setActiveComment({ id: comment._id, type: "replying" })
+                // }
+              >
+                Reply
+              </CommentAction>
+            </div>
           )}
           {canEdit && (
-            <CommentAction
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
               onClick={() =>
                 setActiveComment({ id: comment._id, type: "editing" })
               }
             >
-              Edit
-            </CommentAction>
+              <CiEdit size={20} />
+              <CommentAction
+                style={{ marginLeft: "5px" }}
+                // onClick={() =>
+                //   setActiveComment({ id: comment._id, type: "editing" })
+                // }
+              >
+                Edit
+              </CommentAction>
+            </div>
           )}
           {canDelete && (
-            <CommentAction onClick={() => deleteComment(comment._id)}>
-              Delete
-            </CommentAction>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+              onClick={() => deleteComment(comment._id)}
+            >
+              <AiOutlineDelete size={20} />
+              <CommentAction
+                style={{ marginLeft: "5px" }}
+                // onClick={() => deleteComment(comment._id)}
+              >
+                Delete
+              </CommentAction>
+            </div>
           )}
         </CommentActions>
         {isReplying && (
@@ -118,6 +162,8 @@ const CommentAuthor = styled.div`
 
 const CommentActions = styled.div`
   display: flex;
+  /* justify-content:center; */
+  align-items: center;
   font-size: 12px;
   color: rgb(51, 51, 51);
   cursor: pointer;
@@ -126,6 +172,7 @@ const CommentActions = styled.div`
 
 const CommentAction = styled.div`
   margin-right: 8px;
+  font-size: 13px;
 
   &:hover {
     text-decoration: underline;

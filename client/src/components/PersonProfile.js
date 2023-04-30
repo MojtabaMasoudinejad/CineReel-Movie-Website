@@ -288,6 +288,8 @@ export default PersonProfile;
 const MainDiv = styled.div`
   width: 100%;
   position: relative;
+  padding-top: 70px;
+
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -302,6 +304,8 @@ const MovieBackdrop = styled.div`
 `;
 
 const MovieData = styled.div`
+  padding-top: 70px;
+
   align-items: center;
   width: 85%;
   display: flex;

@@ -60,7 +60,7 @@ const MovieDetailsNewNew = () => {
   // console.log("movieCredits", movieCredits);
   console.log("currentMovieDetail", currentMovieDetail);
   // console.log("recommendedMovies", recommendedMovies);
-  console.log("movieVideo", movieVideo);
+  // console.log("movieVideo", movieVideo);
 
   useEffect(() => {
     usersMongoDb.forEach((item) => {
@@ -268,7 +268,7 @@ const MovieDetailsNewNew = () => {
     }
   };
   useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+    // window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
 
     fetchData();
     fetchRecommendedMovies();
@@ -391,17 +391,30 @@ const MovieDetailsNewNew = () => {
                   );
                 })}
             </div>
-            <div style={{ marginTop: "50px" }}>
+            <div
+              style={{
+                marginTop: "50px",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
               <FaBookmark
                 size={30}
                 style={{ fill: addedWatchList ? "red" : "" }}
                 onClick={addToWatchListHandler}
+                onMouseOver={({ target }) => (target.style.cursor = "pointer")}
               />
               <FaRegHeart
                 size={30}
                 style={{ fill: liked ? "red" : "" }}
                 onClick={likedHandler}
+                onMouseOver={({ target }) => (target.style.cursor = "pointer")}
               />
+              {currentMovieDetail.homepage && (
+                <a href={currentMovieDetail.homepage}>
+                  <HomepageButton>HomePage</HomepageButton>
+                </a>
+              )}
             </div>
           </MovieDetail>
           <div style={{ margin: "0rem 0", flex: "0.8" }}>
@@ -410,46 +423,83 @@ const MovieDetailsNewNew = () => {
           </div>
         </MovieDataRight>
       </MovieData>
+      <hr
+        align="left"
+        style={{
+          margin: "60px 0",
+          marginBottom: "20px",
 
-      {recommendedMovies && (
-        <div>
-          {Object.keys(recommendedMovies).length !== 0 && (
-            <div>
-              <h2>Recommended Movies</h2>
-              {recommendedMovies &&
-                recommendedMovies.slice(0, 4).map((item, index) => {
-                  if (item.poster_path && item.backdrop_path) {
-                    return <MovieCard key={index} specificMovie={item} />;
-                  }
-                })}
-            </div>
-          )}
-        </div>
-      )}
+          marginLeft: "-250px",
+          width: "60vw",
+          color: "red",
+          // border: "solid 50px red",
+        }}
+      />
+      <div>
+        {recommendedMovies && (
+          <div>
+            {Object.keys(recommendedMovies).length !== 0 && (
+              <div>
+                <h2>Recommended Movies</h2>
+                <ScrollingDiv>
+                  {recommendedMovies &&
+                    recommendedMovies.map((item, index) => {
+                      if (item.poster_path && item.backdrop_path) {
+                        return <MovieCard key={index} specificMovie={item} />;
+                      }
+                    })}
+                </ScrollingDiv>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
 
-      {/* <div style={{ overflow: "auto", whiteSpace: "nowrap" }}> */}
+      <hr
+        align="left"
+        style={{
+          margin: "60px 0",
+          marginBottom: "20px",
+
+          marginLeft: "-250px",
+          width: "60vw",
+          color: "red",
+          // border: "solid 50px red",
+        }}
+      />
+
       {movieCredits && (
         <div>
           <h2> Movie Cast</h2>
-          <div>
+          <ScrollingDiv>
             {movieCredits &&
-              movieCredits.slice(0, 5).map((item, index) => {
+              movieCredits.slice(0, 15).map((item, index) => {
                 if (item.profile_path) {
                   return <PeopleCard key={index} people_id={item.id} />;
                 }
               })}
-          </div>
+          </ScrollingDiv>
         </div>
       )}
-      {/* </div> */}
+      <hr
+        align="left"
+        style={{
+          margin: "60px 0",
+          marginBottom: "20px",
 
+          marginLeft: "-250px",
+          width: "60vw",
+          color: "red",
+          // border: "solid 50px red",
+        }}
+      />
       {movieVideo && (
         <div>
           {Object.keys(movieVideo).length !== 0 && (
             <div>
               <h2> Movie Video</h2>
-              <div style={{ display: "flex" }}>
-                {movieVideo.slice(0, 2).map((item, index) => {
+              <ScrollingDiv style={{ height: "400px" }}>
+                {movieVideo.slice(0, 8).map((item, index) => {
                   if (item.site === "YouTube") {
                     return (
                       <YouTube
@@ -460,12 +510,22 @@ const MovieDetailsNewNew = () => {
                     );
                   }
                 })}
-              </div>
+              </ScrollingDiv>
             </div>
           )}
         </div>
       )}
-
+      <hr
+        align="left"
+        style={{
+          margin: "60px 0",
+          marginBottom: "20px",
+          marginLeft: "-250px",
+          width: "60vw",
+          color: "red",
+          // border: "solid 50px red",
+        }}
+      />
       <CommentsDiv>
         <CommentsNew movie_id={movie_id} />
       </CommentsDiv>
@@ -476,6 +536,8 @@ const MovieDetailsNewNew = () => {
 export default MovieDetailsNewNew;
 
 const MainDiv = styled.div`
+  padding-top: 70px;
+
   width: 100%;
   position: relative;
   display: flex;
@@ -493,6 +555,8 @@ const MovieBackdrop = styled.img`
 `;
 
 const MovieData = styled.div`
+  padding-top: 70px;
+
   align-items: center;
   width: 85%;
   display: flex;
@@ -519,8 +583,6 @@ const MovieGenre = styled.span`
   border: 2px solid white;
   border-radius: 20px;
   margin-right: 1rem;
-  /* background-color: red; */
-  /* z-index: 10; */
 `;
 
 const TextSynopsis = styled.div`
@@ -569,10 +631,46 @@ const TextSynopsis = styled.div`
 
 const MovieDetail = styled.div`
   text-shadow: 0px 0px 5px #000000;
-  /* margin-bottom: 0.3rem; */
 `;
 
 const CommentsDiv = styled.div`
   margin-top: 20px;
   width: 800px;
+`;
+
+const ScrollingDiv = styled.div`
+  /* width: 1400px; */
+  width: 75vw;
+  height: 350px;
+  display: flex;
+  overflow: auto;
+
+  &::-webkit-scrollbar {
+    height: 9px;
+  }
+
+  &::-webkit-scrollbar-track {
+    border-radius: 8px;
+    /* background-color: #95a5a6; */
+    /* border: 1px solid #cacaca; */
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    background-color: #bdc3c7;
+  }
+`;
+
+const HomepageButton = styled.button`
+  background-color: transparent;
+  color: white;
+  margin-left: 10px;
+  border: solid 1px white;
+  border-radius: 5px;
+  padding: 5px;
+  font-size: 17px;
+  opacity: 0.7;
+  &:hover {
+    opacity: 1;
+  }
 `;

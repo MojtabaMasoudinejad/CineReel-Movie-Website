@@ -62,6 +62,8 @@ export default Pricing;
 
 const MainDIv = styled.div`
   min-height: 100vh;
+  padding-top: 70px;
+
   background-color: black;
   color: white;
   font-family: Roboto;

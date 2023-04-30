@@ -206,19 +206,33 @@ const CommentsNew = ({ movie_id }) => {
       <CommentsTitle>Comments</CommentsTitle>
       <CommentsFormTitle>Write comment</CommentsFormTitle>
       <CommentForm submitLabel="Write" handleSubmit={addComment} />
-      <CommentsContainer>
-        {rootComments.map((rootComment) => (
-          <Comment
-            key={rootComment._id}
-            comment={rootComment}
-            replies={getReplies(rootComment._id)}
-            activeComment={activeComment}
-            setActiveComment={setActiveComment}
-            addComment={addComment}
-            deleteComment={deleteComment}
-            updateComment={updateComment}
-            currentUserId={user ? user.email : ""}
-          />
+      <CommentsContainer
+        style={{ border: rootComments.length !== 0 ? "solid 1px black" : "" }}
+      >
+        {rootComments.map((rootComment, index) => (
+          <div
+            style={
+              {
+                // backgroundColor: "#dfe6e9",
+                // borderRadius: "2%",
+                // padding: "1px",
+                // margin: "2px 0",
+              }
+            }
+          >
+            {index !== 0 && <hr />}
+            <Comment
+              key={rootComment._id}
+              comment={rootComment}
+              replies={getReplies(rootComment._id)}
+              activeComment={activeComment}
+              setActiveComment={setActiveComment}
+              addComment={addComment}
+              deleteComment={deleteComment}
+              updateComment={updateComment}
+              currentUserId={user ? user.email : ""}
+            />
+          </div>
         ))}
       </CommentsContainer>
     </CommentsDiv>
@@ -241,5 +255,8 @@ const CommentsFormTitle = styled.div`
 `;
 
 const CommentsContainer = styled.div`
-  margin-top: 40px;
+  margin: 40px 0;
+  /* border: solid 1px black; */
+  padding: 20px;
+  border-radius: 2%;
 `;

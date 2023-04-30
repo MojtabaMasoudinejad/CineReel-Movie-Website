@@ -87,6 +87,7 @@ export default PeopleCard;
 
 const MainDiv = styled.div`
   display: inline-block;
+
   transition: transform 0.2s;
   position: relative;
   border-radius: 10px;

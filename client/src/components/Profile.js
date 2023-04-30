@@ -139,6 +139,7 @@ export default Profile;
 
 const MainDiv = styled.div`
   display: flex;
+  padding-top: 70px;
 `;
 
 const SideBar = styled.div`

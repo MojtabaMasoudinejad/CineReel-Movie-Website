@@ -24,6 +24,7 @@ const MainDiv = styled.div`
   background-repeat: no-repeat;
   background-size: cover;
   background-size: 1200px;
+  padding-top: 70px;
 
   /* filter: brightness(0.5); */
 `;

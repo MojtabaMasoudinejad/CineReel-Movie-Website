@@ -23,7 +23,8 @@ const People = () => {
 export default People;
 
 const MainDiv = styled.div`
-  margin: 20px 8px;
+  margin: 00px 8px;
+  padding-top: 70px;
 `;
 
 // const SideBar = styled.div`
