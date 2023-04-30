@@ -116,11 +116,9 @@ const CoverTrendings = () => {
               onMouseOver={({ target }) => (target.style.color = "#2d3436")}
               onMouseOut={({ target }) => (target.style.color = "#b2bec3")}
               color="#b2bec3"
-              // color="red"
               onClick={() => slideLeft()}
               style={{
                 cursor: "pointer",
-                // position: "absolute",
                 top: "40%",
                 right: "182px",
                 zIndex: "10",
@@ -132,11 +130,9 @@ const CoverTrendings = () => {
               onMouseOver={({ target }) => (target.style.color = "#2d3436")}
               onMouseOut={({ target }) => (target.style.color = "#b2bec3")}
               color="#b2bec3"
-              // color="red"
               onClick={() => slideRight()}
               style={{
                 cursor: "pointer",
-                // position: "absolute",
                 top: "40%",
                 right: "132px",
                 zIndex: "10",
@@ -153,12 +149,10 @@ const CoverTrendings = () => {
             }}
           />
           <div>
-            <Link to={"/trending"} style={{ textDecoration: "none" }}>
+            <Link to={"/allMovies"} style={{ textDecoration: "none" }}>
               <ViewallDiv> VIEW ALL</ViewallDiv>
             </Link>
           </div>
-
-          {/* <AllLink to={"/trending"}>VIEW ALL</AllLink> */}
         </div>
       </div>
     </MainDiv>
@@ -168,22 +162,17 @@ const CoverTrendings = () => {
 export default CoverTrendings;
 
 const MainDiv = styled.div`
-  /* width: 100vw; */
-  /* display: flex; */
   height: 500px;
   margin: 0 60px;
-  /* margin-bottom: 60px; */
-  /* border: solid red 5px; */
+
   position: relative;
 `;
 
 const ButtonBox = styled.div`
   display: flex;
-  /* width: 400px; */
   margin: 20px 0;
   position: relative;
   background: white;
-  /* border: solid blue 5px; */
 `;
 
 const Button = styled.button`
@@ -195,19 +184,6 @@ const Button = styled.button`
   outline: none;
   position: relative;
   text-align: center;
-  /* border: solid green 5px; */
-`;
-
-const AllLink = styled(NavLink)`
-  /* color: #b2bec3; */
-  font-size: 22px;
-  width: 200px;
-  margin: 220px 150px;
-  position: absolute;
-  text-decoration: none;
-  &:hover {
-    color: black;
-  }
 `;
 
 const ViewallDiv = styled.div`
@@ -222,9 +198,7 @@ const ViewallDiv = styled.div`
 
 const Title = styled.p`
   /* font-family: "Montserrat", "Open Sans", sans-serif; */
-  /* color: white; */
   font-size: 35px;
-  /* font-weight: bold; */
   text-align: left;
   width: 200px;
   margin: 40px 20px;

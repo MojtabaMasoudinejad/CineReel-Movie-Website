@@ -10,31 +10,43 @@ import MovieCardWithId from "./MovieCardWithId";
 import { FaBookmark, FaRegHeart } from "react-icons/fa";
 import { IoHeartCircleSharp } from "react-icons/io5";
 
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+
 const API_KEY = process.env.REACT_APP_API_KEY;
 
 const PersonProfile = () => {
-  const { user, userContextData, isAuthenticated, usersMongoDb } =
-    useContext(UserContext);
+  const {
+    user,
+    userContextData,
+    isAuthenticated,
+    usersMongoDb,
+    loginWithRedirect,
+  } = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(true);
   const [currentPerson, setCurrentPerson] = useState(null);
   const [currentPersonMovieCredit, setCurrentPersonMovieCredit] =
     useState(null);
   const [currentPersonTvCredit, setCurrentPersonTvCredit] = useState(null);
   const [liked, setLiked] = useState(false);
-  // const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const { people_id } = useParams();
 
   // console.log("people_id", people_id);
   // console.log("liked", liked);
 
-  // const handleClickOpen = () => {
-  //   setOpen(true);
-  // };
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
 
-  // const handleClose = () => {
-  //   setOpen(false);
-  // };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   //   console.log(currentPersonTvCredit);
 
@@ -146,10 +158,9 @@ const PersonProfile = () => {
             console.log("Error: ", e);
           });
       }
+    } else {
+      handleClickOpen();
     }
-    // else {
-    //   handleClickOpen();
-    // }
   };
 
   useEffect(() => {
@@ -176,6 +187,28 @@ const PersonProfile = () => {
 
   return (
     <MainDiv>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"User is not logged in"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            You should first login to add this movie to your profile
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Close</Button>
+          <Button onClick={() => loginWithRedirect()} autoFocus>
+            Login
+          </Button>
+        </DialogActions>
+      </Dialog>
+
       <div style={{ width: "95%" }}>
         <MovieBackdrop></MovieBackdrop>
       </div>

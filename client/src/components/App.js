@@ -11,9 +11,9 @@ import People from "./People";
 import PersonProfile from "./PersonProfile";
 import SearchPage from "./SearchPage";
 import ErrorMoviePage from "./ErrorMoviePage";
-
 import MovieDetailsNewNew from "./MovieDetailsNewNew";
 import Pricing from "./Pricing";
+import AllMovies from "./AllMovies";
 
 const App = () => {
   return (
@@ -32,6 +32,7 @@ const App = () => {
           <Route path="/search" element={<SearchPage />} />
           <Route path="/error" element={<ErrorMoviePage />} />
           <Route path="/pricing" element={<Pricing />} />
+          <Route path="/allMovies" element={<AllMovies />} />
         </Routes>
       </UserProvider>
     </BrowserRouter>

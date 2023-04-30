@@ -25,7 +25,7 @@ const CoverPouplarMovies = () => {
             opacity: "0.5",
           }}
         />
-        <AllLink to={"/top-rated"}>VIEW ALL </AllLink>
+        <AllLink to={"/allMovies"}>VIEW ALL </AllLink>
       </ContainerDiv>
       <MovieDiv>
         {topRated &&

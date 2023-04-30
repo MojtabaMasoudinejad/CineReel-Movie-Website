@@ -43,9 +43,9 @@ const Header = () => {
     <MainDIv>
       <NavContainer>
         <StyledNav to={"/"}>CineReel! </StyledNav>
-        <StyledNav>All Movies</StyledNav>
-        <StyledNav to={"/trending"}>Trending</StyledNav>
-        <StyledNav to={"/top-rated"}>Top Rated</StyledNav>
+        <StyledNav to={"/allMovies"}>All Movies</StyledNav>
+        {/* <StyledNav to={"/trending"}>Trending</StyledNav>
+        <StyledNav to={"/top-rated"}>Top Rated</StyledNav> */}
         <StyledNav to={"/people"}> People</StyledNav>
         <StyledNav to={"/pricing"}> Pricing</StyledNav>
       </NavContainer>

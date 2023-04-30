@@ -77,7 +77,7 @@ const CoverUpComing = () => {
             opacity: "0.5",
           }}
         />
-        <Link to={"/trending"}>
+        <Link to={"/allMovies"}>
           <ViewDiv>VIEW ALL</ViewDiv>
         </Link>
         {/* <AllLink to={"/trending"}>VIEW ALL</AllLink> */}
