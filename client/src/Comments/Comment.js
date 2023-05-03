@@ -43,9 +43,11 @@ const Comment = ({
         <Avatar src="/broken-image.jpg" sx={{ width: 24, height: 24 }} />
       </div>
       <div style={{ width: "100%" }}>
-        <div style={{ display: "flex" }}>
+        <div
+          style={{ display: "flex", alignItems: "center", marginBottom: "8px" }}
+        >
           <CommentAuthor>{comment.username}</CommentAuthor>
-          <div>{createdAt}</div>
+          <div style={{ fontSize: "16 px" }}>{createdAt}</div>
         </div>
         {!isEditing && <div style={{ fontSize: "18px" }}>{comment.body}</div>}
         {isEditing && (
@@ -156,7 +158,7 @@ export default Comment;
 
 const CommentAuthor = styled.div`
   margin-right: 8px;
-  font-size: 20px;
+  font-size: 16px;
   color: rgb(59, 130, 246);
 `;
 

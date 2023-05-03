@@ -1,17 +1,17 @@
-import { useContext, useState } from "react";
-import styled from "styled-components";
+// import { useContext, useState } from "react";
+// import styled from "styled-components";
 
-import { UserContext } from "../UserContext";
-import SliderPoster from "./SliderPoster";
+// import { UserContext } from "../UserContext";
+// import SliderPoster from "./SliderPoster";
 
-import MovieCard from "./MovieCard";
-import Profile from "./Profile";
-import Comments from "../Comments/Comments";
-import SearchBar from "./SearchBar";
+// import MovieCard from "./MovieCard";
+// import Profile from "./Profile";
+// import Comments from "../Comments/Comments";
+// import SearchBar from "./SearchBar";
 import Footer from "../footer/Footer";
 // import AvatarProfile from "../AvatarProfile";
-import img from "../Assets/bg-presentation.jpg";
-import Pricing from "./Pricing";
+// import img from "../Assets/bg-presentation.jpg";
+// import Pricing from "./Pricing";
 import CoverImg from "../HomepageComponents/CoverImg";
 import TopRatedCover from "../HomepageComponents/TopRatedCover";
 import CoverPouplarMovies from "../HomepageComponents/CoverPouplarMovies";
@@ -19,64 +19,60 @@ import CoverTrendings from "../HomepageComponents/CoverTrendings";
 import CoverUpComing from "../HomepageComponents/CoverUpComing";
 
 const HomePage = () => {
-  const { trendingDay, trendingWeek } = useContext(UserContext);
-
-  const [trDay, setTrDay] = useState(true);
-  const [trWeek, setTrWeek] = useState(false);
-  const [leftActive, setLeftActive] = useState(true);
+  window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
 
   return (
-    <MainDiv>
+    <div>
       <CoverImg />
       <CoverPouplarMovies />
       <CoverTrendings />
       <TopRatedCover />
       <CoverUpComing />
       <Footer />
-    </MainDiv>
+    </div>
   );
 };
 
 export default HomePage;
 
-const MainDiv = styled.div`
-  /* margin: 20px 20px; */
-`;
+// const MainDiv = styled.div`
+//   margin: 20px 20px;
+// `;
 
-const DivSlidePoster = styled.div`
-  margin-bottom: 20px;
-`;
+// const DivSlidePoster = styled.div`
+//   margin-bottom: 20px;
+// `;
 
-const ButtonBox = styled.div`
-  display: flex;
-  width: 220px;
-  /* margin: 35px auto; */
-  margin: 20px 0;
-  position: relative;
-  border-radius: 30px;
-  background: white;
-  border: 1px solid black;
-`;
-const BtnDiv = styled.div`
-  left: 0;
-  top: 0;
-  position: absolute;
-  width: 110px;
-  height: 100%;
-  background: #74b9ff;
-  border-radius: 30px;
-  transition: 0.5s;
-`;
+// const ButtonBox = styled.div`
+//   display: flex;
+//   width: 220px;
+//   /* margin: 35px auto; */
+//   margin: 20px 0;
+//   position: relative;
+//   border-radius: 30px;
+//   background: white;
+//   border: 1px solid black;
+// `;
+// const BtnDiv = styled.div`
+//   left: 0;
+//   top: 0;
+//   position: absolute;
+//   width: 110px;
+//   height: 100%;
+//   background: #74b9ff;
+//   border-radius: 30px;
+//   transition: 0.5s;
+// `;
 
-const Button = styled.button`
-  padding: 10px 20px;
-  cursor: pointer;
-  background: transparent;
-  border: 0;
-  outline: none;
-  position: relative;
-  text-align: center;
-`;
+// const Button = styled.button`
+//   padding: 10px 20px;
+//   cursor: pointer;
+//   background: transparent;
+//   border: 0;
+//   outline: none;
+//   position: relative;
+//   text-align: center;
+// `;
 
 // const CoverImg = styled.div`
 //   /* position: absolute; */

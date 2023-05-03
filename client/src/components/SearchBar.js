@@ -8,24 +8,66 @@ import styled from "styled-components";
 
 import img from "../Assets/search-icon.webp";
 const SearchBar = () => {
-  const { searchItems, setSearchItems } = useContext(UserContext);
+  const {
+    searchItemsMovies,
+    setSearchItemsMovies,
+    searchItemsTv,
+    setSearchItemsTv,
+    searchItemsPerson,
+    setSearchItemsPerson,
+    searchItemsCompanies,
+    setSearchItemsCompanies,
+  } = useContext(UserContext);
 
   const [searchTerm, setSearchTerm] = useState("");
-  //   const [searchItems, setSearchItems] = useState();
+  //   const [searchItemsMovies, setsearchItemsMovies] = useState();
   const API_KEY = process.env.REACT_APP_API_KEY;
 
   const navigate = useNavigate();
 
   //   console.log("searchTerm", searchTerm);
-  console.log(searchItems);
+  console.log(searchItemsMovies);
 
   const searchQuery = async (searchValue) => {
     if (searchValue !== "") {
-      const response = await fetch(
-        `https://api.themoviedb.org/3/search/multi?api_key=${API_KEY}&language=en-US&query=${searchValue}&page=1&include_adult=false`
-      );
-      const jsonData = await response.json();
-      setSearchItems(jsonData.results);
+      // const response = await fetch(
+      //   `https://api.themoviedb.org/3/search/multi?api_key=${API_KEY}&language=en-US&query=${searchValue}&page=1&include_adult=false`
+      // );
+      // const jsonData = await response.json();
+      // setSearchItemsMovies(jsonData.results);
+
+      Promise.all([
+        fetch(
+          `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=en-US&query=${searchValue}&page=1&include_adult=false`
+        ),
+        fetch(
+          `https://api.themoviedb.org/3/search/tv?api_key=${API_KEY}&language=en-US&query=${searchValue}&page=1&include_adult=false`
+        ),
+        fetch(
+          `https://api.themoviedb.org/3/search/person?api_key=${API_KEY}&language=en-US&query=${searchValue}&page=1&include_adult=false`
+        ),
+        fetch(
+          `https://api.themoviedb.org/3/search/company?api_key=${API_KEY}&query=${searchValue}&page=1`
+        ),
+      ])
+
+        .then(([response1, response2, response3, response4]) => {
+          return Promise.all([
+            response1.json(),
+            response2.json(),
+            response3.json(),
+            response4.json(),
+          ]);
+        })
+        .then(([data1, data2, data3, data4]) => {
+          setSearchItemsMovies(data1.results);
+          setSearchItemsTv(data2.results);
+          setSearchItemsPerson(data3.results);
+          setSearchItemsCompanies(data4.results);
+        })
+        .catch((err) => {
+          console.log("Error", err);
+        });
     }
   };
 

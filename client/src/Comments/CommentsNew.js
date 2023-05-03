@@ -32,12 +32,23 @@ const createCommentApi = async (
   };
 };
 
+// const element = document.getElementById("container");
+// console.log("element", element);
+
+// const scrollToBtm = () => {
+//   element.scrollIntoView({
+//     behavior: "smooth",
+//     block: "end",
+//     inline: "end",
+//   });
+// };
+
 const CommentsNew = ({ movie_id }) => {
   const { user, isAuthenticated, loginWithRedirect } = useContext(UserContext);
   const [backendComments, setBackendComments] = useState([]);
   const [activeComment, setActiveComment] = useState(null);
   const [messages, setMessages] = useState([]);
-  const bottomRef = useRef(null);
+  const scollToRef = useRef();
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -73,6 +84,7 @@ const CommentsNew = ({ movie_id }) => {
 
   const addComment = (text, parentId, filmId, userId, username) => {
     if (user) {
+      // scrollToBtm();
       createCommentApi(
         text,
         parentId,
@@ -169,8 +181,7 @@ const CommentsNew = ({ movie_id }) => {
       .catch((err) => {
         console.log("Error", err);
       });
-  }, [movie_id, activeComment]);
-  ///I just deleted "backendComments" from top line [movie_id, activeComment,backendComments ] double check it later and make sure everything is ok
+  }, [movie_id, activeComment, backendComments]);
   if (!backendComments) {
     return (
       <div>
@@ -192,7 +203,7 @@ const CommentsNew = ({ movie_id }) => {
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            You should first login to add comments to yhis movie
+            You should first login to add comments to this movie
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -207,6 +218,7 @@ const CommentsNew = ({ movie_id }) => {
       <CommentsFormTitle>Write comment</CommentsFormTitle>
       <CommentForm submitLabel="Write" handleSubmit={addComment} />
       <CommentsContainer
+        id="container"
         style={{ border: rootComments.length !== 0 ? "solid 1px black" : "" }}
       >
         {rootComments.map((rootComment, index) => (

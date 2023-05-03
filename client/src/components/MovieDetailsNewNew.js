@@ -15,6 +15,9 @@ import ErrorMoviePage from "./ErrorMoviePage";
 
 import { FaBookmark, FaRegHeart } from "react-icons/fa";
 import { IoHeartCircleSharp } from "react-icons/io5";
+import { SiImdb } from "react-icons/si";
+
+import image from "../Assets/errorPic04.png";
 
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -36,6 +39,8 @@ const MovieDetailsNewNew = () => {
     userContextData,
     isAuthenticated,
     loginWithRedirect,
+    onClickId,
+    setOnClickId,
   } = useContext(UserContext);
   const { movie_id } = useParams();
   const navigate = useNavigate();
@@ -102,23 +107,8 @@ const MovieDetailsNewNew = () => {
 
     const jsonDataMovie = await response2.json();
 
-    // console.log(jsonDataTv.status === "Ended");
-    // console.log(jsonDataTv.status === "Returning Series");
-    // console.log(
-    //   jsonDataTv.status === "Ended" || jsonDataTv.status === "Returning Series"
-    // );
-
-    if (
-      jsonDataTv.status === "Ended" ||
-      jsonDataTv.status === "Returning Series"
-    ) {
-      if (jsonDataMovie.belongs_to_collection) {
-        console.log("movie");
-        setCurrentMovieDetail(jsonDataMovie);
-      } else {
-        console.log("tv");
-        setCurrentMovieDetail(jsonDataTv);
-      }
+    if (jsonDataTv.name === onClickId) {
+      setCurrentMovieDetail(jsonDataTv);
     } else {
       setCurrentMovieDetail(jsonDataMovie);
     }
@@ -268,7 +258,7 @@ const MovieDetailsNewNew = () => {
     }
   };
   useEffect(() => {
-    // window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
 
     fetchData();
     fetchRecommendedMovies();
@@ -293,7 +283,23 @@ const MovieDetailsNewNew = () => {
 
   if (!currentMovieDetail.backdrop_path && !currentMovieDetail.poster_path) {
     // window.alert("The Movie is not found in Data Base");
-    navigate(`/error`);
+    // navigate(`/error`);
+
+    return (
+      <DivError>
+        <MainDivError></MainDivError>
+        <div style={{ position: "absolute", top: "35vh", left: "20vw" }}>
+          <ErrorMsgOne>
+            There is an error while trying to load page from API
+          </ErrorMsgOne>
+          <ErrorMsgTwo>
+            Please try refreshing the page, or{" "}
+            <a href="https://github.com/MojtabaMasoudinejad">contact support</a>{" "}
+            if the problem persists
+          </ErrorMsgTwo>
+        </div>
+      </DivError>
+    );
   }
 
   return (
@@ -340,10 +346,12 @@ const MovieDetailsNewNew = () => {
       </div>
       <MovieData>
         <div style={{ marginRight: "30px" }}>
-          <div className="movie__posterBox">
-            <MoviePoster
-              src={`http://image.tmdb.org/t/p/w500${currentMovieDetail.poster_path}`}
-            />
+          <div>
+            {currentMovieDetail.poster_path && (
+              <MoviePoster
+                src={`http://image.tmdb.org/t/p/w500${currentMovieDetail.poster_path}`}
+              />
+            )}
           </div>
         </div>
         <MovieDataRight>
@@ -400,21 +408,40 @@ const MovieDetailsNewNew = () => {
             >
               <FaBookmark
                 size={30}
-                style={{ fill: addedWatchList ? "red" : "" }}
+                style={{
+                  fill: addedWatchList ? "red" : "",
+                  marginRight: "20px",
+                }}
                 onClick={addToWatchListHandler}
                 onMouseOver={({ target }) => (target.style.cursor = "pointer")}
               />
               <FaRegHeart
                 size={30}
-                style={{ fill: liked ? "red" : "" }}
+                style={{ fill: liked ? "red" : "", marginRight: "20px" }}
                 onClick={likedHandler}
                 onMouseOver={({ target }) => (target.style.cursor = "pointer")}
               />
-              {currentMovieDetail.homepage && (
+              {currentMovieDetail.imdb_id && (
+                <a
+                  href={`https://www.imdb.com/title/${currentMovieDetail.imdb_id}`}
+                  target="_blank"
+                >
+                  <SiImdb
+                    size={30}
+                    style={{
+                      margin: "20px 0",
+                      color: "white",
+                      marginRight: "20px",
+                    }}
+                  />
+                </a>
+              )}
+
+              {/* {currentMovieDetail.homepage && (
                 <a href={currentMovieDetail.homepage}>
                   <HomepageButton>HomePage</HomepageButton>
                 </a>
-              )}
+              )} */}
             </div>
           </MovieDetail>
           <div style={{ margin: "0rem 0", flex: "0.8" }}>
@@ -423,95 +450,90 @@ const MovieDetailsNewNew = () => {
           </div>
         </MovieDataRight>
       </MovieData>
-      <hr
-        align="left"
-        style={{
-          margin: "60px 0",
-          marginBottom: "20px",
 
-          marginLeft: "-250px",
-          width: "60vw",
-          color: "red",
-          // border: "solid 50px red",
-        }}
-      />
       <div>
         {recommendedMovies && (
           <div>
-            {Object.keys(recommendedMovies).length !== 0 && (
-              <div>
+            {recommendedMovies.length !== 0 && (
+              <>
                 <h2>Recommended Movies</h2>
                 <ScrollingDiv>
-                  {recommendedMovies &&
+                  {recommendedMovies.length !== 0 &&
                     recommendedMovies.map((item, index) => {
                       if (item.poster_path && item.backdrop_path) {
                         return <MovieCard key={index} specificMovie={item} />;
                       }
                     })}
                 </ScrollingDiv>
-              </div>
+              </>
             )}
           </div>
         )}
       </div>
 
-      <hr
-        align="left"
-        style={{
-          margin: "60px 0",
-          marginBottom: "20px",
-
-          marginLeft: "-250px",
-          width: "60vw",
-          color: "red",
-          // border: "solid 50px red",
-        }}
-      />
-
       {movieCredits && (
         <div>
-          <h2> Movie Cast</h2>
-          <ScrollingDiv>
-            {movieCredits &&
-              movieCredits.slice(0, 15).map((item, index) => {
-                if (item.profile_path) {
-                  return <PeopleCard key={index} people_id={item.id} />;
-                }
-              })}
-          </ScrollingDiv>
+          {movieCredits.length !== 0 && (
+            <>
+              <hr
+                align="left"
+                style={{
+                  margin: "60px 0",
+                  marginBottom: "20px",
+
+                  width: "60vw",
+                  color: "red",
+                }}
+              />
+              <h2> Movie Cast</h2>
+              <ScrollingDiv>
+                {movieCredits.length !== 0 &&
+                  movieCredits.slice(0, 15).map((item, index) => {
+                    if (item.profile_path) {
+                      return <PeopleCard key={index} people_id={item.id} />;
+                    }
+                  })}
+              </ScrollingDiv>
+            </>
+          )}
         </div>
       )}
-      <hr
-        align="left"
-        style={{
-          margin: "60px 0",
-          marginBottom: "20px",
 
-          marginLeft: "-250px",
-          width: "60vw",
-          color: "red",
-          // border: "solid 50px red",
-        }}
-      />
       {movieVideo && (
         <div>
-          {Object.keys(movieVideo).length !== 0 && (
-            <div>
-              <h2> Movie Video</h2>
-              <ScrollingDiv style={{ height: "400px" }}>
-                {movieVideo.slice(0, 8).map((item, index) => {
-                  if (item.site === "YouTube") {
-                    return (
-                      <YouTube
-                        key={index}
-                        videoId={item.key}
-                        style={{ margin: "10px " }}
-                      />
-                    );
-                  }
-                })}
-              </ScrollingDiv>
-            </div>
+          {movieVideo.length !== 0 && (
+            <>
+              <hr
+                align="left"
+                style={{
+                  margin: "60px 0",
+                  marginBottom: "20px",
+
+                  // marginLeft: "-250px",
+                  width: "60vw",
+                  color: "red",
+                  // border: "solid 50px red",
+                }}
+              />
+              {movieVideo.length !== 0 && (
+                <div>
+                  <h2> Movie Video</h2>
+                  <ScrollingDiv style={{ height: "400px" }}>
+                    {movieVideo.slice(0, 8).map((item, index) => {
+                      if (item.site === "YouTube") {
+                        return (
+                          <YouTube
+                            key={index}
+                            videoId={item.key}
+                            style={{ margin: "10px " }}
+                          />
+                        );
+                      }
+                    })}
+                  </ScrollingDiv>
+                </div>
+              )}
+            </>
           )}
         </div>
       )}
@@ -668,9 +690,44 @@ const HomepageButton = styled.button`
   border: solid 1px white;
   border-radius: 5px;
   padding: 5px;
-  font-size: 17px;
+  font-size: 16px;
   opacity: 0.7;
   &:hover {
     opacity: 1;
   }
+`;
+
+const DivError = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
+  padding-top: 70px;
+  /* position: relative; */
+  /* left: 300px;
+  top: 130px; */
+`;
+
+const ErrorMsgOne = styled.div`
+  font-size: x-large;
+  font-weight: bold;
+  padding: 15px;
+  margin-bottom: 50px;
+`;
+
+const ErrorMsgTwo = styled.div`
+  font-size: large;
+`;
+
+const MainDivError = styled.div`
+  background-image: url(${image});
+  height: 92vh;
+  width: 98.9vw;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-size: 1200px;
+  padding-top: 70px;
+
+  /* filter: brightness(0.5); */
 `;

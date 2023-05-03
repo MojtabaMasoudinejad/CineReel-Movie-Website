@@ -6,11 +6,10 @@ import PeopleCard from "./PeopleCard";
 
 const People = () => {
   const { people } = useContext(UserContext);
-  //   console.log(latestPeople);
 
   return (
     <MainDiv>
-      {/* <SideBar></SideBar> */}
+      <SideBar>Popular People</SideBar>
       <div>
         {people.map((item, index) => {
           return <PeopleCard key={index} people_id={item.id} />;
@@ -23,13 +22,15 @@ const People = () => {
 export default People;
 
 const MainDiv = styled.div`
-  margin: 00px 8px;
+  margin: auto;
   padding-top: 70px;
+  width: 70vw;
 `;
 
-// const SideBar = styled.div`
-//   width: 250px;
-//   height: 100vh;
-//   background-color: rgb(26 66 106 / 93%);
-//   padding: 20px;
-// `;
+const SideBar = styled.div`
+  padding: 20px;
+  color: black;
+  font-size: 30px;
+  font-weight: bold;
+  margin: 20px 0;
+`;

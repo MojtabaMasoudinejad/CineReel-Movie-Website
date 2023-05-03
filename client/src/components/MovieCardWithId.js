@@ -1,12 +1,17 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
+import { UserContext } from "../UserContext";
+
+import LoadingState from "./LoadingState";
 const API_KEY = process.env.REACT_APP_API_KEY;
 
 const MovieCardWithId = ({ movie_id }) => {
+  const { onClickId, setOnClickId } = useContext(UserContext);
+
   const [isLoading, setIsLoading] = useState(true);
   const [currentMovie, setCurrentMovie] = useState();
 
@@ -36,7 +41,11 @@ const MovieCardWithId = ({ movie_id }) => {
   }, [movie_id]);
 
   if (!currentMovie) {
-    return <div>Loading . . .</div>;
+    return (
+      <div>
+        <LoadingState />
+      </div>
+    );
   }
 
   return (
@@ -51,6 +60,11 @@ const MovieCardWithId = ({ movie_id }) => {
         <Link
           to={`/movie/${currentMovie.id}`}
           style={{ textDecoration: "none", color: "white" }}
+          onClick={() => {
+            setOnClickId(
+              currentMovie.title ? currentMovie.title : currentMovie.name
+            );
+          }}
         >
           <MainDiv>
             <img

@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
+import { UserContext } from "../UserContext";
+
 const MovieCard = ({ specificMovie }) => {
+  const { onClickId, setOnClickId } = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -25,6 +27,11 @@ const MovieCard = ({ specificMovie }) => {
         <Link
           to={`/movie/${specificMovie.id}`}
           style={{ textDecoration: "none", color: "white" }}
+          onClick={() => {
+            setOnClickId(
+              specificMovie.title ? specificMovie.title : specificMovie.name
+            );
+          }}
         >
           <MainDiv>
             <img

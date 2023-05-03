@@ -7,8 +7,10 @@ import { UserContext } from "../UserContext";
 import LoadingState from "./LoadingState";
 import MovieCardWithId from "./MovieCardWithId";
 
-import { FaBookmark, FaRegHeart } from "react-icons/fa";
+import { FaFacebook } from "react-icons/fa";
 import { IoHeartCircleSharp } from "react-icons/io5";
+import { SiImdb } from "react-icons/si";
+import { GrInstagram } from "react-icons/gr";
 
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -34,10 +36,13 @@ const PersonProfile = () => {
   const [currentPersonTvCredit, setCurrentPersonTvCredit] = useState(null);
   const [liked, setLiked] = useState(false);
   const [open, setOpen] = useState(false);
+  const [currentPersonImgs, setCurrentPersonImgs] = useState(null);
+
+  const [externalIDs, setExternalIDs] = useState(null);
 
   const { people_id } = useParams();
 
-  // console.log("people_id", people_id);
+  console.log("currentPersonImgs", currentPersonImgs);
   // console.log("liked", liked);
 
   const handleClickOpen = () => {
@@ -71,19 +76,29 @@ const PersonProfile = () => {
       fetch(
         `https://api.themoviedb.org/3/person/${people_id}/tv_credits?api_key=${API_KEY}&language=en-US`
       ),
+      fetch(
+        `https://api.themoviedb.org/3/person/${people_id}/images?api_key=${API_KEY}`
+      ),
+      fetch(
+        `https://api.themoviedb.org/3/person/${people_id}/external_ids?api_key=${API_KEY}&language=en-US`
+      ),
     ])
 
-      .then(([response1, response2, response3]) => {
+      .then(([response1, response2, response3, response4, response5]) => {
         return Promise.all([
           response1.json(),
           response2.json(),
           response3.json(),
+          response4.json(),
+          response5.json(),
         ]);
       })
-      .then(([data1, data2, data3]) => {
+      .then(([data1, data2, data3, data4, data5]) => {
         setCurrentPerson(data1);
         setCurrentPersonMovieCredit(data2.cast);
         setCurrentPersonTvCredit(data3.cast);
+        setCurrentPersonImgs(data4.profiles);
+        setExternalIDs(data5);
       })
       .catch((err) => {
         console.log("Error", err);
@@ -214,7 +229,7 @@ const PersonProfile = () => {
       </div>
       <MovieData>
         <div style={{ marginRight: "30px" }}>
-          <div className="movie__posterBox">
+          <div>
             <MoviePoster
               src={`http://image.tmdb.org/t/p/w500${currentPerson.profile_path}`}
             />
@@ -246,17 +261,42 @@ const PersonProfile = () => {
               </div>
             )}
             <div style={{ margin: "1.25rem 0", display: "flex" }}></div>
-            <div style={{ marginTop: "50px" }}>
-              {/* <FaBookmark
-            size={30}
-            style={{ fill: addedWatchList ? "red" : "" }}
-            onClick={addToWatchListHandler}
-          /> */}
+            <div
+              style={{
+                marginTop: "20px",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
               <IoHeartCircleSharp
                 size={30}
-                style={{ fill: liked ? "red" : "" }}
+                style={{ fill: liked ? "red" : "", marginRight: "20px" }}
                 onClick={likedHandler}
               />
+              <a
+                href={`https://www.imdb.com/name/${externalIDs.imdb_id}`}
+                target="_blank"
+              >
+                <SiImdb
+                  size={25}
+                  style={{ marginRight: "20px", color: "white" }}
+                />
+              </a>
+              <a
+                href={`https://www.facebook.com/${externalIDs.facebook_id}`}
+                target="_blank"
+              >
+                <FaFacebook
+                  size={25}
+                  style={{ marginRight: "20px", color: "white" }}
+                />
+              </a>
+              <a
+                href={`https://www.instagram.com/${externalIDs.instagram_id}  `}
+                target="_blank"
+              >
+                <GrInstagram size={25} style={{ color: "white" }} />
+              </a>
             </div>
           </MovieDetail>
           <div style={{ margin: "0rem 0", flex: "0.8" }}>
@@ -265,20 +305,83 @@ const PersonProfile = () => {
           </div>
         </MovieDataRight>
       </MovieData>
-      <div>
-        <div> Movie Credit:</div>
-        {currentPersonMovieCredit.slice(0, 6).map((item, index) => {
-          if (item.poster_path) {
-            return <MovieCardWithId key={index} movie_id={item.id} />;
-          }
-        })}
-      </div>
-      {/* <div>
-        <div> TV Credit:</div>
-        {currentPersonTvCredit.slice(0, 4).map((item, index) => {
-          return <MovieCardWithId key={index} movie_id={item.id} />;
-        })}
-      </div> */}
+      {currentPersonMovieCredit && (
+        <>
+          {currentPersonMovieCredit.length !== 0 && (
+            <div style={{ marginBottom: "30px" }}>
+              <h2> Movie Credit:</h2>
+              <ScrollingDiv>
+                {currentPersonMovieCredit.slice(0, 14).map((item, index) => {
+                  if (item.poster_path) {
+                    return <MovieCardWithId key={index} movie_id={item.id} />;
+                  }
+                })}
+              </ScrollingDiv>
+            </div>
+          )}
+        </>
+      )}
+
+      {currentPersonTvCredit && (
+        <>
+          {currentPersonTvCredit.length !== 0 && (
+            <div style={{ marginBottom: "30px" }}>
+              <hr
+                align="left"
+                style={{
+                  margin: "60px 0",
+                  marginBottom: "20px",
+
+                  // marginLeft: "-250px",
+                  width: "60vw",
+                  color: "red",
+                  // border: "solid 50px red",
+                }}
+              />
+              <h2> TV Credit:</h2>
+              <ScrollingDiv>
+                {currentPersonTvCredit.slice(0, 14).map((item, index) => {
+                  if (item.poster_path) {
+                    return <MovieCardWithId key={index} movie_id={item.id} />;
+                  }
+                })}
+              </ScrollingDiv>
+            </div>
+          )}
+        </>
+      )}
+
+      {currentPersonImgs && (
+        <>
+          {currentPersonImgs.length !== 0 && (
+            <div style={{ marginBottom: "30px" }}>
+              <hr
+                align="left"
+                style={{
+                  margin: "60px 0",
+                  marginBottom: "20px",
+
+                  // marginLeft: "-250px",
+                  width: "60vw",
+                  color: "red",
+                  // border: "solid 50px red",
+                }}
+              />
+              <h2> Images:</h2>
+              <ScrollingDiv>
+                {currentPersonImgs.slice(0, 14).map((item, index) => {
+                  return (
+                    <MoviePoster
+                      key={index}
+                      src={`http://image.tmdb.org/t/p/w500${item.file_path}`}
+                    />
+                  );
+                })}
+              </ScrollingDiv>
+            </div>
+          )}
+        </>
+      )}
     </MainDiv>
   );
 };
@@ -317,6 +420,7 @@ const MoviePoster = styled.img`
   width: 300px;
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.86) 0px 22px 40px 6px;
+  margin-right: 5px;
 `;
 
 const MovieDataRight = styled.div`
@@ -326,13 +430,6 @@ const MovieDataRight = styled.div`
   height: 450px;
   justify-content: space-between;
 `;
-
-// const MovieGenre = styled.span`
-//   padding: 0.5rem;
-//   border: 2px solid white;
-//   border-radius: 20px;
-//   margin-right: 1rem;
-// `;
 
 const TextSynopsis = styled.div`
   font-size: 1.5rem;
@@ -347,7 +444,22 @@ const MovieDetail = styled.div`
   text-shadow: 0px 0px 5px #000000;
 `;
 
-// const CommentsDiv = styled.div`
-//   margin-top: 20px;
-//   width: 800px;
-// `;
+const ScrollingDiv = styled.div`
+  width: 75vw;
+  height: 350px;
+  display: flex;
+  overflow: auto;
+
+  &::-webkit-scrollbar {
+    height: 9px;
+  }
+
+  &::-webkit-scrollbar-track {
+    border-radius: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    background-color: #bdc3c7;
+  }
+`;

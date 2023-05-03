@@ -41,6 +41,8 @@ const CommentForm = ({
 export default CommentForm;
 
 const CommentFormTextarea = styled.textarea`
+  font-family: "Times New Roman", Times, serif;
+  font-size: 20px;
   width: 100%;
   height: 80px;
   margin-bottom: 8px;
