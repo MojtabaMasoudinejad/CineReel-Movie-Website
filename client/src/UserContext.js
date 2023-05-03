@@ -21,15 +21,16 @@ export const UserProvider = ({ children }) => {
   const [searchItemsTv, setSearchItemsTv] = useState(null);
   const [searchItemsPerson, setSearchItemsPerson] = useState(null);
   const [searchItemsCompanies, setSearchItemsCompanies] = useState(null);
-  const [actionMovies, setActionMovies] = useState(null);
-
   const [upcomingMovies, setUpcomingMovies] = useState(null);
   const [onClickId, setOnClickId] = useState(null);
+  const [allIsTopRated, setAllIsTopRated] = useState(true);
+  const [allIsDayTr, setAllIsDayTr] = useState(false);
+  const [allIsWeekTr, setAllIsWeekTr] = useState(false);
+  const [allIsUpcoming, setAllIsUpcoming] = useState(false);
 
   const { user, isAuthenticated, loginWithRedirect } = useAuth0();
   const [usersMongoDb, setUsersMongoDb] = useState();
 
-  console.log("actionMovies", actionMovies);
   //   console.log("PPeople", popularPeople);
   // console.log("latestPeople:", latestPeople);
 
@@ -72,9 +73,6 @@ export const UserProvider = ({ children }) => {
       fetch(
         `https://api.themoviedb.org/3/movie/upcoming?api_key=${API_KEY}&language=en-US&page=1`
       ),
-      fetch(
-        `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=${genre}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_watch_monetization_types=flatrate`
-      ),
     ])
 
       .then(
@@ -87,7 +85,6 @@ export const UserProvider = ({ children }) => {
           response6,
           response7,
           response8,
-          response9,
         ]) => {
           return Promise.all([
             response1.json(),
@@ -98,23 +95,19 @@ export const UserProvider = ({ children }) => {
             response6.json(),
             response7.json(),
             response8.json(),
-            response9.json(),
           ]);
         }
       )
-      .then(
-        ([data1, data2, data3, data4, data5, data6, data7, data8, data9]) => {
-          setTrendingDay(data1.results);
-          setTrendingWeek(data2.results);
-          setTopRated(data3.results);
-          setPopularPeople(data4.results);
-          setGenre(data5.genres);
-          setPeople(data6.results);
-          setUsersMongoDb(data7.data);
-          setUpcomingMovies(data8.results);
-          setActionMovies(data9.results);
-        }
-      )
+      .then(([data1, data2, data3, data4, data5, data6, data7, data8]) => {
+        setTrendingDay(data1.results);
+        setTrendingWeek(data2.results);
+        setTopRated(data3.results);
+        setPopularPeople(data4.results);
+        setGenre(data5.genres);
+        setPeople(data6.results);
+        setUsersMongoDb(data7.data);
+        setUpcomingMovies(data8.results);
+      })
       .catch((err) => {
         console.log("Error", err);
       });
@@ -155,6 +148,14 @@ export const UserProvider = ({ children }) => {
     setSearchItemsPerson,
     searchItemsCompanies,
     setSearchItemsCompanies,
+    allIsTopRated,
+    setAllIsTopRated,
+    allIsDayTr,
+    setAllIsDayTr,
+    allIsWeekTr,
+    setAllIsWeekTr,
+    allIsUpcoming,
+    setAllIsUpcoming,
   };
 
   return (

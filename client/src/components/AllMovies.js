@@ -14,15 +14,18 @@ const AllMovies = () => {
     trendingDay,
     trendingWeek,
     topRated,
-
     upcomingMovies,
+    allIsTopRated,
+    allIsDayTr,
+    allIsWeekTr,
+    allIsUpcoming,
   } = useContext(UserContext);
   const { isLoading } = useAuth0();
 
-  const [isTopRated, setIsTopRated] = useState(true);
-  const [isWeek, setIsWeek] = useState(false);
-  const [isDay, setIsDay] = useState(false);
-  const [isUpComing, setIsUpComing] = useState(false);
+  const [isTopRated, setIsTopRated] = useState(allIsTopRated);
+  const [isWeek, setIsWeek] = useState(allIsWeekTr);
+  const [isDay, setIsDay] = useState(allIsDayTr);
+  const [isUpComing, setIsUpComing] = useState(allIsUpcoming);
 
   // if (isLoading) {
   //   return <LoadingState />;

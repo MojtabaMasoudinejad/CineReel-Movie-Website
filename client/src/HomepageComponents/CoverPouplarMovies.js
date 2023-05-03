@@ -7,7 +7,13 @@ import { UserContext } from "../UserContext";
 import MovieCard from "../components/MovieCard";
 
 const CoverPouplarMovies = () => {
-  const { topRated } = useContext(UserContext);
+  const {
+    topRated,
+    setAllIsTopRated,
+    setAllIsDayTr,
+    setAllIsWeekTr,
+    setAllIsUpcoming,
+  } = useContext(UserContext);
 
   return (
     <MainDiv>
@@ -25,7 +31,17 @@ const CoverPouplarMovies = () => {
             opacity: "0.5",
           }}
         />
-        <AllLink to={"/allMovies"}>VIEW ALL </AllLink>
+        <AllLink
+          to={"/allMovies"}
+          onClick={() => {
+            setAllIsTopRated(true);
+            setAllIsDayTr(false);
+            setAllIsWeekTr(false);
+            setAllIsUpcoming(false);
+          }}
+        >
+          VIEW ALL
+        </AllLink>
       </ContainerDiv>
       <MovieDiv>
         {topRated &&

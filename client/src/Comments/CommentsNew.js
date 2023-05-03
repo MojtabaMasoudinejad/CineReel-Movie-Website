@@ -222,19 +222,10 @@ const CommentsNew = ({ movie_id }) => {
         style={{ border: rootComments.length !== 0 ? "solid 1px black" : "" }}
       >
         {rootComments.map((rootComment, index) => (
-          <div
-            style={
-              {
-                // backgroundColor: "#dfe6e9",
-                // borderRadius: "2%",
-                // padding: "1px",
-                // margin: "2px 0",
-              }
-            }
-          >
+          <div key={index}>
             {index !== 0 && <hr />}
             <Comment
-              key={rootComment._id}
+              key={index}
               comment={rootComment}
               replies={getReplies(rootComment._id)}
               activeComment={activeComment}

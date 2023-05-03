@@ -9,7 +9,14 @@ import MovieCard from "../components/MovieCard";
 import { SlArrowRight, SlArrowLeft } from "react-icons/sl";
 
 const CoverTrendings = () => {
-  const { trendingDay, trendingWeek } = useContext(UserContext);
+  const {
+    trendingDay,
+    trendingWeek,
+    setAllIsTopRated,
+    setAllIsDayTr,
+    setAllIsWeekTr,
+    setAllIsUpcoming,
+  } = useContext(UserContext);
 
   const [trDay, setTrDay] = useState(true);
   const [trWeek, setTrWeek] = useState(false);
@@ -58,6 +65,10 @@ const CoverTrendings = () => {
             setTrDay(true);
             setTrWeek(false);
             setLeftActive(true);
+            setAllIsTopRated(false);
+            setAllIsDayTr(true);
+            setAllIsWeekTr(false);
+            setAllIsUpcoming(false);
           }}
         >
           Day-Trending
@@ -71,6 +82,10 @@ const CoverTrendings = () => {
             setTrWeek(true);
             setTrDay(false);
             setLeftActive(false);
+            setAllIsTopRated(false);
+            setAllIsDayTr(false);
+            setAllIsWeekTr(true);
+            setAllIsUpcoming(false);
           }}
         >
           Week-Trending

@@ -10,7 +10,13 @@ import MovieCard from "../components/MovieCard";
 import { SlArrowRight, SlArrowLeft } from "react-icons/sl";
 
 const CoverUpComing = () => {
-  const { upcomingMovies } = useContext(UserContext);
+  const {
+    upcomingMovies,
+    setAllIsTopRated,
+    setAllIsDayTr,
+    setAllIsWeekTr,
+    setAllIsUpcoming,
+  } = useContext(UserContext);
 
   //   const [trDay, setTrDay] = useState(true);
   //   const [trWeek, setTrWeek] = useState(false);
@@ -77,7 +83,15 @@ const CoverUpComing = () => {
             opacity: "0.5",
           }}
         />
-        <Link to={"/allMovies"}>
+        <Link
+          to={"/allMovies"}
+          onClick={() => {
+            setAllIsTopRated(false);
+            setAllIsDayTr(false);
+            setAllIsWeekTr(false);
+            setAllIsUpcoming(true);
+          }}
+        >
           <ViewDiv>VIEW ALL</ViewDiv>
         </Link>
         {/* <AllLink to={"/trending"}>VIEW ALL</AllLink> */}
