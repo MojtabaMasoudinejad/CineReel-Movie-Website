@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { UserContext } from "../UserContext";
 
 const MovieCard = ({ specificMovie }) => {
-  const { onClickId, setOnClickId } = useContext(UserContext);
+  const { setOnClickId } = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {

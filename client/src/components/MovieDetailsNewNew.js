@@ -2,8 +2,6 @@ import styled from "styled-components";
 import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import YouTube from "react-youtube";
-import { useNavigate } from "react-router-dom";
-// import { useAuth0 } from "@auth0/auth0-react";
 
 import { UserContext } from "../UserContext";
 
@@ -11,10 +9,8 @@ import LoadingState from "./LoadingState";
 import CommentsNew from "../Comments/CommentsNew";
 import MovieCard from "./MovieCard";
 import PeopleCard from "./PeopleCard";
-import ErrorMoviePage from "./ErrorMoviePage";
 
 import { FaBookmark, FaRegHeart } from "react-icons/fa";
-import { IoHeartCircleSharp } from "react-icons/io5";
 import { SiImdb } from "react-icons/si";
 
 import image from "../Assets/errorPic04.png";
@@ -30,9 +26,6 @@ const API_KEY = process.env.REACT_APP_API_KEY;
 
 const MovieDetailsNewNew = () => {
   const {
-    trendingDay,
-    trendingWeek,
-    topRated,
     genre,
     user,
     usersMongoDb,
@@ -40,11 +33,8 @@ const MovieDetailsNewNew = () => {
     isAuthenticated,
     loginWithRedirect,
     onClickId,
-    setOnClickId,
   } = useContext(UserContext);
   const { movie_id } = useParams();
-  const navigate = useNavigate();
-  // const {  isAuthenticated } = useAuth0();
 
   const [currentMovieDetail, setCurrentMovieDetail] = useState();
   const [movieVideo, setMovieVideo] = useState(null);
@@ -62,10 +52,6 @@ const MovieDetailsNewNew = () => {
   const handleClose = () => {
     setOpen(false);
   };
-  // console.log("movieCredits", movieCredits);
-  console.log("currentMovieDetail", currentMovieDetail);
-  // console.log("recommendedMovies", recommendedMovies);
-  // console.log("movieVideo", movieVideo);
 
   useEffect(() => {
     usersMongoDb.forEach((item) => {
@@ -270,21 +256,7 @@ const MovieDetailsNewNew = () => {
     return <LoadingState />;
   }
 
-  // if (!movieVideo) {
-  //   return <LoadingState />;
-  // }
-
-  // if (!recommendedMovies) {
-  //   return <LoadingState />;
-  // }
-  // if (!movieCredits) {
-  //   return <LoadingState />;
-  // }
-
   if (!currentMovieDetail.backdrop_path && !currentMovieDetail.poster_path) {
-    // window.alert("The Movie is not found in Data Base");
-    // navigate(`/error`);
-
     return (
       <DivError>
         <MainDivError></MainDivError>
@@ -303,7 +275,6 @@ const MovieDetailsNewNew = () => {
   }
 
   return (
-    // {currentMovieDetail.success && }
     <MainDiv>
       <Dialog
         open={open}
@@ -339,10 +310,6 @@ const MovieDetailsNewNew = () => {
             src={`http://image.tmdb.org/t/p/w500${currentMovieDetail.poster_path}`}
           />
         )}
-
-        {/* <MovieBackdrop
-          src={`http://image.tmdb.org/t/p/w500${currentMovieDetail.backdrop_path}`}
-        /> */}
       </div>
       <MovieData>
         <div style={{ marginRight: "30px" }}>
@@ -436,12 +403,6 @@ const MovieDetailsNewNew = () => {
                   />
                 </a>
               )}
-
-              {/* {currentMovieDetail.homepage && (
-                <a href={currentMovieDetail.homepage}>
-                  <HomepageButton>HomePage</HomepageButton>
-                </a>
-              )} */}
             </div>
           </MovieDetail>
           <div style={{ margin: "0rem 0", flex: "0.8" }}>
@@ -489,9 +450,7 @@ const MovieDetailsNewNew = () => {
               <ScrollingDiv>
                 {movieCredits.length !== 0 &&
                   movieCredits.slice(0, 15).map((item, index) => {
-                    if (item.profile_path) {
-                      return <PeopleCard key={index} people_id={item.id} />;
-                    }
+                    return <PeopleCard key={index} people_id={item.id} />;
                   })}
               </ScrollingDiv>
             </>
@@ -509,10 +468,8 @@ const MovieDetailsNewNew = () => {
                   margin: "60px 0",
                   marginBottom: "20px",
 
-                  // marginLeft: "-250px",
                   width: "60vw",
                   color: "red",
-                  // border: "solid 50px red",
                 }}
               />
               {movieVideo.length !== 0 && (
@@ -545,7 +502,6 @@ const MovieDetailsNewNew = () => {
           marginLeft: "-250px",
           width: "60vw",
           color: "red",
-          // border: "solid 50px red",
         }}
       />
       <CommentsDiv>
@@ -616,41 +572,6 @@ const TextSynopsis = styled.div`
   align-items: center;
 `;
 
-// const MovieLink = styled.div`
-//   position: relative;
-//   bottom: 120px;
-//   display: flex;
-//   justify-content: space-between;
-//   width: 75%;
-// `;
-
-// const MovieButton = styled.span`
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   padding: 0.8rem 2rem;
-//   border-radius: 20px;
-//   cursor: pointer;
-//   width: 150px;
-//   color: black;
-//   font-weight: bold;
-// `;
-
-// const MovieProduction = styled.div`
-//   width: 85%;
-//   display: flex;
-//   justify-content: center;
-//   align-items: flex-end;
-//   margin-bottom: 4rem;
-// `;
-
-// const ProductionCompany = styled.span`
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   justify-content: center;
-// `;
-
 const MovieDetail = styled.div`
   text-shadow: 0px 0px 5px #000000;
 `;
@@ -661,7 +582,6 @@ const CommentsDiv = styled.div`
 `;
 
 const ScrollingDiv = styled.div`
-  /* width: 1400px; */
   width: 75vw;
   height: 350px;
   display: flex;
@@ -673,8 +593,6 @@ const ScrollingDiv = styled.div`
 
   &::-webkit-scrollbar-track {
     border-radius: 8px;
-    /* background-color: #95a5a6; */
-    /* border: 1px solid #cacaca; */
   }
 
   &::-webkit-scrollbar-thumb {
@@ -703,9 +621,6 @@ const DivError = styled.div`
   align-items: center;
   margin: auto;
   padding-top: 70px;
-  /* position: relative; */
-  /* left: 300px;
-  top: 130px; */
 `;
 
 const ErrorMsgOne = styled.div`
@@ -728,6 +643,4 @@ const MainDivError = styled.div`
   background-size: cover;
   background-size: 1200px;
   padding-top: 70px;
-
-  /* filter: brightness(0.5); */
 `;

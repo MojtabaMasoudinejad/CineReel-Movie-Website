@@ -1,9 +1,7 @@
 import styled from "styled-components";
 import CommentForm from "./CommentForm";
-// import { deleteComment } from "../../../server/handlers";
 import Avatar from "@mui/material/Avatar";
 
-import { VscReply } from "react-icons/vsc";
 import { BsReplyAll } from "react-icons/bs";
 import { CiEdit } from "react-icons/ci";
 import { AiOutlineDelete } from "react-icons/ai";
@@ -39,7 +37,6 @@ const Comment = ({
   return (
     <div key={comment._id} style={{ display: "flex", marginBottom: "28px" }}>
       <div style={{ marginRight: "12px" }}>
-        {/* <img src="/user-icon.png" /> */}
         <Avatar src="/broken-image.jpg" sx={{ width: 24, height: 24 }} />
       </div>
       <div style={{ width: "100%" }}>
@@ -74,14 +71,7 @@ const Comment = ({
               }
             >
               <BsReplyAll size={20} />
-              <CommentAction
-                style={{ marginLeft: "5px" }}
-                // onClick={() =>
-                //   setActiveComment({ id: comment._id, type: "replying" })
-                // }
-              >
-                Reply
-              </CommentAction>
+              <CommentAction style={{ marginLeft: "5px" }}>Reply</CommentAction>
             </div>
           )}
           {canEdit && (
@@ -96,14 +86,7 @@ const Comment = ({
               }
             >
               <CiEdit size={20} />
-              <CommentAction
-                style={{ marginLeft: "5px" }}
-                // onClick={() =>
-                //   setActiveComment({ id: comment._id, type: "editing" })
-                // }
-              >
-                Edit
-              </CommentAction>
+              <CommentAction style={{ marginLeft: "5px" }}>Edit</CommentAction>
             </div>
           )}
           {canDelete && (
@@ -116,10 +99,7 @@ const Comment = ({
               onClick={() => deleteComment(comment._id)}
             >
               <AiOutlineDelete size={20} />
-              <CommentAction
-                style={{ marginLeft: "5px" }}
-                // onClick={() => deleteComment(comment._id)}
-              >
+              <CommentAction style={{ marginLeft: "5px" }}>
                 Delete
               </CommentAction>
             </div>
@@ -164,7 +144,6 @@ const CommentAuthor = styled.div`
 
 const CommentActions = styled.div`
   display: flex;
-  /* justify-content:center; */
   align-items: center;
   font-size: 12px;
   color: rgb(51, 51, 51);

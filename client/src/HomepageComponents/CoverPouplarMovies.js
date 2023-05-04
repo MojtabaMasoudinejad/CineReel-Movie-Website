@@ -56,7 +56,6 @@ const CoverPouplarMovies = () => {
 export default CoverPouplarMovies;
 
 const MainDiv = styled.div`
-  /* height: 800px; */
   background-color: rgba(6, 4, 26, 1);
   display: flex;
   position: relative;
@@ -66,15 +65,12 @@ const ContainerDiv = styled.div`
   width: 300px;
   height: 300px;
   margin: 50px 30px;
-  /* border: solid red 2px; */
   position: relative;
 `;
 
 const Title = styled.p`
-  /* font-family: "Montserrat", "Open Sans", sans-serif; */
   color: white;
   font-size: 35px;
-  /* font-weight: bold; */
   text-align: left;
   width: 200px;
   margin: 60px 20px;

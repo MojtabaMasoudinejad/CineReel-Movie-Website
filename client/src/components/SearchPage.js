@@ -19,7 +19,6 @@ const SearchPage = () => {
   const [isMovies, setIsMovies] = useState(true);
   const [isTvs, setIsTvs] = useState(false);
   const [isPerson, setIsPerson] = useState(false);
-  // const [isCompanies, setIsCompanies] = useState(false);
 
   return (
     <MainDiv>
@@ -29,7 +28,6 @@ const SearchPage = () => {
             setIsMovies(true);
             setIsTvs(false);
             setIsPerson(false);
-            // setIsCompanies(false);
           }}
         >
           <Item
@@ -46,7 +44,6 @@ const SearchPage = () => {
             setIsMovies(false);
             setIsTvs(true);
             setIsPerson(false);
-            // setIsCompanies(false);
           }}
         >
           <Item
@@ -63,7 +60,6 @@ const SearchPage = () => {
             setIsMovies(false);
             setIsTvs(false);
             setIsPerson(true);
-            // setIsCompanies(false);
           }}
         >
           <Item
@@ -75,24 +71,6 @@ const SearchPage = () => {
             People{" "}
           </Item>
         </ItemMainDiv>
-
-        {/* <ItemMainDiv
-          onClick={() => {
-            setIsMovies(false);
-            setIsTvs(false);
-            setIsPerson(false);
-            setIsCompanies(true);
-          }}
-        >
-          <Item
-            style={{
-              color: isCompanies ? "black" : "",
-              fontWeight: isCompanies ? "800" : "",
-            }}
-          >
-            Companies
-          </Item>
-        </ItemMainDiv> */}
       </SideBar>
 
       <div style={{ width: "90vw" }}>
@@ -176,7 +154,6 @@ const Item = styled.div`
 `;
 
 const TextDiv = styled.div`
-  /* margin: auto; */
   font-size: 30px;
   font-weight: bold;
   margin-left: 20vw;

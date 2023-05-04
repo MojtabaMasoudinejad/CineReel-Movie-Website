@@ -1,41 +1,27 @@
 import React, { useState, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { UserContext } from "../UserContext";
-// import MovieCardWithId from "./MovieCardWithId";
-// import PeopleCard from "./PeopleCard";
 import styled from "styled-components";
 
-import img from "../Assets/search-icon.webp";
 const SearchBar = () => {
   const {
     searchItemsMovies,
     setSearchItemsMovies,
-    searchItemsTv,
     setSearchItemsTv,
-    searchItemsPerson,
     setSearchItemsPerson,
-    searchItemsCompanies,
     setSearchItemsCompanies,
   } = useContext(UserContext);
 
   const [searchTerm, setSearchTerm] = useState("");
-  //   const [searchItemsMovies, setsearchItemsMovies] = useState();
   const API_KEY = process.env.REACT_APP_API_KEY;
 
   const navigate = useNavigate();
 
-  //   console.log("searchTerm", searchTerm);
   console.log(searchItemsMovies);
 
   const searchQuery = async (searchValue) => {
     if (searchValue !== "") {
-      // const response = await fetch(
-      //   `https://api.themoviedb.org/3/search/multi?api_key=${API_KEY}&language=en-US&query=${searchValue}&page=1&include_adult=false`
-      // );
-      // const jsonData = await response.json();
-      // setSearchItemsMovies(jsonData.results);
-
       Promise.all([
         fetch(
           `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=en-US&query=${searchValue}&page=1&include_adult=false`
@@ -90,9 +76,6 @@ const SearchBar = () => {
           }}
           onKeyDown={handleKeyDown}
         />
-        {/* <Link to={`/search`}>
-          <button disabled={searchTerm.length < 2 ? true : ""}>Search </button>
-        </Link> */}
       </div>
     </MainDiv>
   );
@@ -103,27 +86,12 @@ export default SearchBar;
 const MainDiv = styled.div`
   width: 430px;
   margin: 0 auto;
-  /* background-color: #f7cac9; */
   font-family: "Raleway", sans-serif;
-  /* padding-top: 64px; */
-
-  /* display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 90vw;
-  background-color: #74b9ff;
-  height: 200px; */
 `;
 
 const Input = styled.input`
-  /* width: 80vw;
-  margin-left: 20px;
-  height: 20px; */
-
   width: 100%;
   padding: 12px 24px;
-
-  /* background-color: transparent; */
   transition: transform 250ms ease-in-out;
   font-size: 14px;
   line-height: 18px;

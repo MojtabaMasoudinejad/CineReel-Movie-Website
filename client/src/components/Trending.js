@@ -54,7 +54,6 @@ export default Trending;
 const ButtonBox = styled.div`
   display: flex;
   width: 220px;
-  /* margin: 35px auto; */
   margin: 20px 0;
   position: relative;
   border-radius: 30px;
@@ -80,9 +79,4 @@ const Button = styled.button`
   outline: none;
   position: relative;
   text-align: center;
-`;
-
-const DivScrollHor = styled.div`
-  overflow: auto;
-  white-space: nowrap;
 `;

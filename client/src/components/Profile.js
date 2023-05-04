@@ -1,5 +1,4 @@
 import React, { useState, useContext } from "react";
-// import { useContext } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import styled from "styled-components";
 import Avatar from "@mui/material/Avatar";
@@ -14,17 +13,13 @@ import { BsBookmark } from "react-icons/bs";
 import { IoIosLogOut } from "react-icons/io";
 import { IoHeartCircleSharp } from "react-icons/io5";
 
-const API_KEY = process.env.REACT_APP_API_KEY;
-
 const Profile = () => {
   const { usersMongoDb } = useContext(UserContext);
   const [isWatchList, setIsWatchList] = useState(true);
   const [isFavorites, setIsFavorites] = useState(false);
   const [isFavoritesPerson, setIsFavoritesPerson] = useState(false);
 
-  const { user, isAuthenticated, isLoading, logout } = useAuth0();
-  // console.log(usersMongoDb);
-  // console.log(user);
+  const { user, isLoading, logout } = useAuth0();
 
   if (isLoading) {
     return <LoadingState />;
@@ -42,7 +37,7 @@ const Profile = () => {
             <Avatar src="/broken-image.jpg" />
             <span style={{ fontWeight: "800", marginLeft: "10px" }}>
               {user.given_name} !
-            </span>{" "}
+            </span>
           </Item>
         </div>
 
@@ -165,8 +160,4 @@ const Item = styled.div`
   align-items: center;
   color: white;
   margin: 20px 10px;
-  /* cursor: pointer; */
-  /* &:hover {
-    color: black;
-  } */
 `;

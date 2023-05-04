@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-// import { PricingTable, PricingSlot, PricingDetail } from "react-pricing-table";
 
 const Pricing = () => {
   return (

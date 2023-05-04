@@ -32,23 +32,10 @@ const createCommentApi = async (
   };
 };
 
-// const element = document.getElementById("container");
-// console.log("element", element);
-
-// const scrollToBtm = () => {
-//   element.scrollIntoView({
-//     behavior: "smooth",
-//     block: "end",
-//     inline: "end",
-//   });
-// };
-
 const CommentsNew = ({ movie_id }) => {
-  const { user, isAuthenticated, loginWithRedirect } = useContext(UserContext);
+  const { user, loginWithRedirect } = useContext(UserContext);
   const [backendComments, setBackendComments] = useState([]);
   const [activeComment, setActiveComment] = useState(null);
-  const [messages, setMessages] = useState([]);
-  const scollToRef = useRef();
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -70,21 +57,8 @@ const CommentsNew = ({ movie_id }) => {
           new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
       );
 
-  // useEffect(() => {
-  //   // 👇️ simulate chat messages flowing in
-  //   setInterval(
-  //     () =>
-  //       setMessages((current) => [
-  //         ...current,
-  //         "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Porro, quaerat eum id obcaecati, magnam voluptatum dolorem sunt, omnis sed consectetur necessitatibus blanditiis ipsa? Cumque architecto, doloribus mollitia velit non sint!",
-  //       ]),
-  //     600
-  //   );
-  // }, []);
-
   const addComment = (text, parentId, filmId, userId, username) => {
     if (user) {
-      // scrollToBtm();
       createCommentApi(
         text,
         parentId,
@@ -115,7 +89,6 @@ const CommentsNew = ({ movie_id }) => {
           });
       });
     } else {
-      // window.alert("You Should Ligin First.");
       handleClickOpen();
     }
   };
@@ -259,7 +232,6 @@ const CommentsFormTitle = styled.div`
 
 const CommentsContainer = styled.div`
   margin: 40px 0;
-  /* border: solid 1px black; */
   padding: 20px;
   border-radius: 2%;
 `;

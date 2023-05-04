@@ -10,7 +10,7 @@ import LoadingState from "./LoadingState";
 const API_KEY = process.env.REACT_APP_API_KEY;
 
 const MovieCardWithId = ({ movie_id }) => {
-  const { onClickId, setOnClickId } = useContext(UserContext);
+  const { setOnClickId } = useContext(UserContext);
 
   const [isLoading, setIsLoading] = useState(true);
   const [currentMovie, setCurrentMovie] = useState();
@@ -76,26 +76,6 @@ const MovieCardWithId = ({ movie_id }) => {
               <CardTitle>
                 {currentMovie.title ? currentMovie.title : currentMovie.name}
               </CardTitle>
-              {/* <div
-                style={{
-                  fontSize: "0.75rem",
-                  marginBottom: "0.25rem",
-                  color: "white",
-                }}
-              >
-                {currentMovie.release_date
-                  ? currentMovie.release_date
-                  : currentMovie.first_air_date}
-                <span style={{ float: "right", color: "white" }}>
-                  {currentMovie ? currentMovie.vote_average : ""}
-                  <i />
-                </span>
-              </div> */}
-              {/* <CardDescription>
-                {currentMovie
-                  ? currentMovie.overview.slice(0, 118) + "..."
-                  : ""}
-              </CardDescription> */}
             </DivMovie>
           </MainDiv>
         </Link>
@@ -151,11 +131,4 @@ const CardTitle = styled.div`
   font-weight: 700;
   font-size: 1rem;
   margin-bottom: 0.4rem;
-`;
-
-const CardDescription = styled.div`
-  color: white;
-  font-style: italic;
-  font-size: 0.75rem;
-  margin-bottom: 0.25rem;
 `;

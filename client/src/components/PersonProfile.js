@@ -43,7 +43,6 @@ const PersonProfile = () => {
   const { people_id } = useParams();
 
   console.log("currentPersonImgs", currentPersonImgs);
-  // console.log("liked", liked);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -52,18 +51,6 @@ const PersonProfile = () => {
   const handleClose = () => {
     setOpen(false);
   };
-
-  //   console.log(currentPersonTvCredit);
-
-  // Fetch Data for specific Person
-  //   const fetchData = async () => {
-  //     const response = await fetch(
-  //       `https://api.themoviedb.org/3/person/${people_id}?api_key=${API_KEY}&language=en-US`
-  //     );
-  //     const jsonData = await response.json();
-
-  //     setCurrentPerson(jsonData);
-  //   };
 
   const fetchData = () => {
     Promise.all([
@@ -192,14 +179,6 @@ const PersonProfile = () => {
     return <LoadingState />;
   }
 
-  // if (!currentPersonMovieCredit) {
-  //   return <LoadingState />;
-  // }
-
-  // if (!currentPersonTvCredit) {
-  //   return <LoadingState />;
-  // }
-
   return (
     <MainDiv>
       <Dialog
@@ -239,15 +218,10 @@ const PersonProfile = () => {
           <MovieDetail>
             <div style={{ fontWeight: "600", fontSize: "3rem" }}>
               {currentPerson.name && currentPerson.name}
-              {/* {currentPerson.original_name &&
-            currentPerson.original_name} */}
             </div>
             <div style={{ margin: "30px 0" }}>
               Popularity: {currentPerson.popularity}
               <i />
-              {/* <span style={{ marginLeft: "1rem" }}>
-            {"(" + currentPerson.vote_count + ") votes"}
-          </span> */}
             </div>
 
             {currentPerson.birthday && (
@@ -332,10 +306,8 @@ const PersonProfile = () => {
                   margin: "60px 0",
                   marginBottom: "20px",
 
-                  // marginLeft: "-250px",
                   width: "60vw",
                   color: "red",
-                  // border: "solid 50px red",
                 }}
               />
               <h2> TV Credit:</h2>
@@ -361,10 +333,8 @@ const PersonProfile = () => {
                   margin: "60px 0",
                   marginBottom: "20px",
 
-                  // marginLeft: "-250px",
                   width: "60vw",
                   color: "red",
-                  // border: "solid 50px red",
                 }}
               />
               <h2> Images:</h2>

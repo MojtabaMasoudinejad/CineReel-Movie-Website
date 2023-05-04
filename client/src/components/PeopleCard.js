@@ -31,8 +31,6 @@ const PeopleCard = ({ people_id }) => {
     return <div>Loading ...</div>;
   }
 
-  // console.log("currentPerson", currentPerson);
-
   return (
     <>
       {isLoading ? (
@@ -64,11 +62,6 @@ const PeopleCard = ({ people_id }) => {
                 }}
               >
                 {currentPerson.birthday ? currentPerson.birthday : null}
-                {/* {currentPerson.deathday ? currentPerson.deathday : null} */}
-                {/* <span style={{ float: "right", color: "white" }}>
-                  {currentPerson ? currentPerson.vote_average : ""}
-                  <i />
-                </span> */}
               </div>
               <CardDescription>
                 {currentPerson

@@ -1,5 +1,5 @@
-import { useContext, useState, useRef } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 import { UserContext } from "../UserContext";
@@ -21,25 +21,6 @@ const CoverTrendings = () => {
   const [trDay, setTrDay] = useState(true);
   const [trWeek, setTrWeek] = useState(false);
   const [leftActive, setLeftActive] = useState(true);
-  // const [arrowDisable, setArrowDisable] = useState(true);
-
-  // const elementRef = useRef(null);
-
-  // const handleHorizantalScroll = (element, speed, distance, step) => {
-  //   let scrollAmount = 0;
-  //   const slideTimer = setInterval(() => {
-  //     element.scrollLeft += step;
-  //     scrollAmount += Math.abs(step);
-  //     if (scrollAmount >= distance) {
-  //       clearInterval(slideTimer);
-  //     }
-  //     if (element.scrollLeft === 0) {
-  //       setArrowDisable(true);
-  //     } else {
-  //       setArrowDisable(false);
-  //     }
-  //   }, speed);
-  // };
 
   const slideLeft = () => {
     let slider = document.getElementById("slider");
@@ -55,7 +36,6 @@ const CoverTrendings = () => {
   return (
     <MainDiv>
       <ButtonBox style={{ marginTop: "20px" }}>
-        {/* <BtnDiv style={{ left: leftActive ? "0" : "110px" }}></BtnDiv> */}
         <Button
           style={{
             color: leftActive ? "#74b9ff" : "",
@@ -212,7 +192,6 @@ const ViewallDiv = styled.div`
 `;
 
 const Title = styled.p`
-  /* font-family: "Montserrat", "Open Sans", sans-serif; */
   font-size: 35px;
   text-align: left;
   width: 200px;

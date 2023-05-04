@@ -9,7 +9,6 @@ const CommentForm = ({
   initialText = "",
 }) => {
   const [text, setText] = useState(initialText);
-  // const [filmId, setFilmId] = useState("filmId");
   const isTextareaDisabled = text.length === 0;
   const onSubmit = (event) => {
     event.preventDefault();

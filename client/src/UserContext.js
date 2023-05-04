@@ -3,8 +3,6 @@ import { useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 
 import LoadingState from "./components/LoadingState";
-// import MovieCard from "./components/MovieCard";
-// import MovieCardWithId from "./components/MovieCardWithId";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
@@ -20,7 +18,6 @@ export const UserProvider = ({ children }) => {
   const [searchItemsMovies, setSearchItemsMovies] = useState(null);
   const [searchItemsTv, setSearchItemsTv] = useState(null);
   const [searchItemsPerson, setSearchItemsPerson] = useState(null);
-  const [searchItemsCompanies, setSearchItemsCompanies] = useState(null);
   const [upcomingMovies, setUpcomingMovies] = useState(null);
   const [onClickId, setOnClickId] = useState(null);
   const [allIsTopRated, setAllIsTopRated] = useState(true);
@@ -31,26 +28,7 @@ export const UserProvider = ({ children }) => {
   const { user, isAuthenticated, loginWithRedirect } = useAuth0();
   const [usersMongoDb, setUsersMongoDb] = useState();
 
-  //   console.log("PPeople", popularPeople);
-  // console.log("latestPeople:", latestPeople);
-
-  // console.log("userMongoDb", usersMongoDb);
-  // console.log("userAuth0", user);
-  // console.log("userWatchList", userWatchList);
-
   const userContextData = () => {
-    // fetch(`/api/users`)
-    //   .then((res) => {
-    //     res.json();
-    //   })
-    //   .then((data) => {
-    //     setUsersMongoDb(data.data);
-    //   })
-    //   .catch((err) => {
-    //     console.log("Error", err);
-    //   });
-
-    const genre = "Action";
     Promise.all([
       fetch(`https://api.themoviedb.org/3/trending/all/day?api_key=${API_KEY}`),
       fetch(
@@ -146,8 +124,6 @@ export const UserProvider = ({ children }) => {
     setSearchItemsTv,
     searchItemsPerson,
     setSearchItemsPerson,
-    searchItemsCompanies,
-    setSearchItemsCompanies,
     allIsTopRated,
     setAllIsTopRated,
     allIsDayTr,

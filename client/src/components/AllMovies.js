@@ -3,7 +3,6 @@ import { useAuth0 } from "@auth0/auth0-react";
 import styled from "styled-components";
 
 import { UserContext } from "../UserContext";
-import LoadingState from "./LoadingState";
 
 import MovieCard from "./MovieCard";
 
@@ -20,16 +19,12 @@ const AllMovies = () => {
     allIsWeekTr,
     allIsUpcoming,
   } = useContext(UserContext);
-  const { isLoading } = useAuth0();
 
   const [isTopRated, setIsTopRated] = useState(allIsTopRated);
   const [isWeek, setIsWeek] = useState(allIsWeekTr);
   const [isDay, setIsDay] = useState(allIsDayTr);
   const [isUpComing, setIsUpComing] = useState(allIsUpcoming);
 
-  // if (isLoading) {
-  //   return <LoadingState />;
-  // }
   window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
 
   return (

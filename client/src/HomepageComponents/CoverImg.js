@@ -15,11 +15,9 @@ const CoverImg = () => {
 export default CoverImg;
 
 const Cover = styled.div`
-  /* position: absolute; */
   top: 0;
   background-image: url(${img});
-  min-height: 100vh;
-  /* width: 100%; */
+  height: 100vh;
   background-size: "cover";
   background-position: "top";
   display: "grid";
@@ -30,11 +28,9 @@ const H1 = styled.div`
   width: 800px;
   color: white;
   position: absolute;
-  top: 300px;
-  left: 100px;
+  top: 35vh;
+  left: 10vw;
   font-size: 70px;
   font-weight: bold;
-  /* text-align: justify;
-  text-justify: auto; */
   line-height: 1.6;
 `;

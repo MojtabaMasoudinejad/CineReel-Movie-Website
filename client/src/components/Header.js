@@ -2,12 +2,7 @@ import styled from "styled-components";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-import { FaUser } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
-
-import LogInButton from "./LogInButton";
-import LogOutButton from "./LogOutButton";
 
 import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
@@ -44,24 +39,11 @@ const Header = () => {
       <NavContainer>
         <StyledNav to={"/"}>CineReel! </StyledNav>
         <StyledNav to={"/allMovies"}>All Movies</StyledNav>
-        {/* <StyledNav to={"/trending"}>Trending</StyledNav>
-        <StyledNav to={"/top-rated"}>Top Rated</StyledNav> */}
+
         <StyledNav to={"/people"}> People</StyledNav>
         <StyledNav to={"/pricing"}> Pricing</StyledNav>
       </NavContainer>
       <SearchBar />
-
-      {/* <UserContainer>
-        {isAuthenticated ? (
-          <StyledNav to={"/profile"}>
-            <FaUser size={35} />
-          </StyledNav>
-        ) : (
-          ""
-        )}
-        <LogInButton />
-        <LogOutButton />
-      </UserContainer> */}
       <UserContainer>
         {!isAuthenticated && (
           <Signin onClick={() => loginWithRedirect()}>Sign in</Signin>
@@ -123,13 +105,6 @@ const Header = () => {
               transformOrigin={{ horizontal: "right", vertical: "top" }}
               anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             >
-              {/* {!isAuthenticated ? (
-                <MenuItem onClick={() => loginWithRedirect()}>
-                  <Avatar /> Login
-                </MenuItem>
-              ) : (
-                ""
-              )} */}
               {isAuthenticated ? (
                 <MenuItem onClick={() => navigateProfile()}>
                   <Avatar /> Profile
@@ -170,7 +145,6 @@ const MainDIv = styled.div`
   height: 70px;
   z-index: 2;
   color: white;
-  /* top: 0; */
 `;
 const NavContainer = styled.div`
   margin: 0px 2%;
