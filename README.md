@@ -25,7 +25,7 @@
 <img src="client\src\Assets\02.png" alt="Auth0">
 
 <h2>Home Page</h2>
-<h3> In "Home Page" the user have access to different categories of provided movies. The user can see some information about each movie by hovering. For each category, the user can click on "VIEW ALL' to link to that category page </h3>
+ In "Home Page" the user have access to different categories of provided movies. The user can see some information about each movie by hovering. Also, for each category, the user can click on "VIEW ALL' to link to that category page
 
 <video width="320" height="240" autoplay>
   <source src="client\src\Assets\01.mp4" type="video/mp4">
