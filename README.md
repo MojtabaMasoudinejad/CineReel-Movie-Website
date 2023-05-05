@@ -28,4 +28,12 @@
  In "Home Page" the user have access to different categories of provided movies. The user can see some information about each movie by hovering. Also, for each category, the user can click on "VIEW ALL' to link to that category page
 
 ![Home Page](<client/src/Assets/01 (1).gif>)
+
+<h2> All Movie Page</h2>
+
 ![All Movies](client/src/Assets/02.gif)
+
+<h2>Movie Details Page</h2>
+In this page all information about each movie is shown.
+
+![Movie Details](client/src/Assets/03.gif)
