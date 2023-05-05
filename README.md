@@ -26,5 +26,6 @@
 
 <h2>Home Page</h2>
  In "Home Page" the user have access to different categories of provided movies. The user can see some information about each movie by hovering. Also, for each category, the user can click on "VIEW ALL' to link to that category page
-
-![Search Results](<client/src/Assets/01%20(1).gif>)
+<hr/>
+![Home Page](<client/src/Assets/01 (1).gif>)
+![All Movies](<client/src/Assets/02.gif>)
