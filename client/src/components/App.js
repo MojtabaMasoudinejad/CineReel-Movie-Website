@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 import { UserProvider } from "../UserContext";
 import GlobalStyles from "../GlobalStyles";
@@ -17,6 +18,10 @@ const App = () => {
   return (
     <BrowserRouter>
       <GlobalStyles />
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Movie Website</title>
+      </Helmet>
       <UserProvider>
         <Header />
         <Routes>

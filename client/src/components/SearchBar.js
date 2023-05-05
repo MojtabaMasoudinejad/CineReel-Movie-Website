@@ -6,19 +6,15 @@ import styled from "styled-components";
 
 const SearchBar = () => {
   const {
-    searchItemsMovies,
     setSearchItemsMovies,
     setSearchItemsTv,
     setSearchItemsPerson,
     setSearchItemsCompanies,
   } = useContext(UserContext);
 
-  const [searchTerm, setSearchTerm] = useState("");
   const API_KEY = process.env.REACT_APP_API_KEY;
 
   const navigate = useNavigate();
-
-  console.log(searchItemsMovies);
 
   const searchQuery = async (searchValue) => {
     if (searchValue !== "") {
@@ -71,7 +67,6 @@ const SearchBar = () => {
           type="text"
           placeholder="Search here . . ."
           onChange={(e) => {
-            setSearchTerm(e.target.value);
             searchQuery(e.target.value);
           }}
           onKeyDown={handleKeyDown}

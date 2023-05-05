@@ -77,7 +77,7 @@ const MovieDetailsNewNew = () => {
         }
       }
     });
-  }, [user, movie_id]);
+  }, [user, movie_id, usersMongoDb]);
 
   // Fetch all Specific Movie Data
 
@@ -598,20 +598,6 @@ const ScrollingDiv = styled.div`
   &::-webkit-scrollbar-thumb {
     border-radius: 8px;
     background-color: #bdc3c7;
-  }
-`;
-
-const HomepageButton = styled.button`
-  background-color: transparent;
-  color: white;
-  margin-left: 10px;
-  border: solid 1px white;
-  border-radius: 5px;
-  padding: 5px;
-  font-size: 16px;
-  opacity: 0.7;
-  &:hover {
-    opacity: 1;
   }
 `;
 

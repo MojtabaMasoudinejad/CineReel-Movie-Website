@@ -1,12 +1,9 @@
 import React, { useState, useContext } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
 import styled from "styled-components";
 
 import { UserContext } from "../UserContext";
 
 import MovieCard from "./MovieCard";
-
-const API_KEY = process.env.REACT_APP_API_KEY;
 
 const AllMovies = () => {
   const {
