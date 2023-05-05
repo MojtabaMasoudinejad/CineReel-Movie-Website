@@ -44,8 +44,8 @@ express()
 
   // Users Endpoints
   .get("/api/users", getAllUsers)
-  .patch("/api/users/:email", updateWatchList)
-  .patch("/api/users-remove/:email", updateRemoveWatchList)
+  .patch("/api/users-add-watchlist/:email", updateWatchList)
+  .patch("/api/users-remove-watchlist/:email", updateRemoveWatchList)
   .patch("/api/users-add-like/:email", likedMovie)
   .patch("/api/users-remove-like/:email", unlikedMovie)
   .patch("/api/users-add-person-like/:email", likedPerson)

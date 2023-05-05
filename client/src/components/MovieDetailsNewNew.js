@@ -140,7 +140,7 @@ const MovieDetailsNewNew = () => {
       }
 
       if (!addedWatchList) {
-        fetch(`/api/users/${user.email}`, {
+        fetch(`/api/users-add-watchlist/${user.email}`, {
           method: "PATCH",
           body: JSON.stringify({ newWatchList: movie_id }),
           headers: {
@@ -161,7 +161,7 @@ const MovieDetailsNewNew = () => {
             console.log("Error: ", e);
           });
       } else {
-        fetch(`/api/users-remove/${user.email}`, {
+        fetch(`/api/users-remove-watchlist/${user.email}`, {
           method: "PATCH",
           body: JSON.stringify({ newWatchList: movie_id }),
           headers: {
