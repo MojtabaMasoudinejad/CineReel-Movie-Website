@@ -2,7 +2,7 @@
 
 <img src="client\src\Assets\01.png" alt="HomePage">
 
-<h3>This is full stack movie website called "CineReel" which provides a lot of information about movies, TV shoes, and actors.</h3>
+<h3>This is full stack movie website called "CineReel" which provides a lot of information about movies, TV shows, and actors.</h3>
 
 <h2> Front End </h2>
 
