@@ -34,6 +34,12 @@
 ![All Movies](client/src/Assets/02.gif)
 
 <h2>Movie Details Page</h2>
-In this page all information about each movie is shown.
+In this page all information about each movie is shown. The user can see some statistic data about movie as well as the recommneded movie, recommended TV shoes, and Movie casts. Also, the user can add comment or reply other users' comments about this movie.
 
 ![Movie Details](client/src/Assets/03.gif)
+
+<h2>Person Details Page</h2>
+
+The person details page is achievable through movie casts or search part of the website. The user can find some information about that actor/actress in this page.
+
+![Person Details](client/src/Assets/04.gif)
