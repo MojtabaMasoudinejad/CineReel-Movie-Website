@@ -52,6 +52,6 @@ The user can add movie, TV shows, and actor/actress to their profile.
 
 <h2>Search bar</h2>
 
-By using search bar, the user can find specific movie, TV shoes, or person.
+By using search bar, the user can find specific movie, TV shows, or person.
 
 ![Search bar](client/src/Assets/06.gif)
