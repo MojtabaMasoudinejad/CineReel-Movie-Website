@@ -7,7 +7,7 @@ const CoverImg = () => {
   return (
     <>
       <Cover></Cover>
-      <H1> Ultimated Movies, Shows, and more in CineReel ! </H1>
+      <H1> Unlimited Movies, Shows, and more in CineReel ! </H1>
     </>
   );
 };
