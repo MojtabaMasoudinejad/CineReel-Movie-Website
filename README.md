@@ -4,6 +4,8 @@
 
 <h3>This is full stack movie website called "CineReel" which provides a lot of information about movies, TV shows, and actors.</h3>
 
+-Link to video presentation : [Video Presentation](https://youtu.be/yNknC1bBvnc)
+
 <h2> Front End </h2>
 
 - React
